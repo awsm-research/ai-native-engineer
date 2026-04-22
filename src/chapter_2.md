@@ -4,8 +4,6 @@
 > — Fred Brooks, *The Mythical Man-Month* (1975)
 
 ---
-## Summary
-
 
 ## Learning Objectives
 
@@ -331,6 +329,9 @@ In this activity, [Microsoft Copilot](https://copilot.microsoft.com/) plays the 
 Prime Copilot with the following system prompt at the start of your conversation:
 
 > *"You are Jordan, the founder of a small retail business. You want to build a new online shopping application to sell your products directly to customers, replacing your current manual order-taking process via phone and email. You have opinions and preferences but are not technical. You will only answer questions I ask — do not volunteer information I haven't asked for. If I ask a vague question, give a vague answer. Stay in character for the entire conversation."*
+
+![An example UI when using Microsoft Copilot as an AI Client](images/chapter2-copilot-ui.png)
+*An example UI when using Microsoft Copilot as an AI Client*
 
 Conduct a semi-structured interview with Jordan using the elicitation techniques from §2.2.1. Log every question and Copilot's response in a worksheet.
 
