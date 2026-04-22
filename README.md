@@ -1,8 +1,8 @@
 <div align="center">
-  <img src="src/cover.svg" alt="The AI-Native Engineer: Building Software with Coding Agents" width="340"/>
+  <img src="src/cover.svg" alt="Agentic Software Engineering: Specify, Generate, Verify, Refine" width="340"/>
 </div>
 
-<h1 align="center">The AI-Native Engineer<br><sub>Building Software with Coding Agents</sub></h1>
+<h1 align="center">Agentic Software Engineering<br><sub>Specify, Generate, Verify, Refine</sub></h1>
 
 <p align="center">
   <strong>Kla Tantithamthavorn</strong><br>
@@ -17,7 +17,7 @@
 
 ## About
 
-*The AI-Native Engineer* is a 12-week textbook and online course for the next generation of software engineers. It covers the full stack of modern software development — from classical software engineering foundations to prompt engineering, evaluation-driven development, agentic systems, security, ethics, and team productivity — through the lens of AI-native practice.
+*Agentic Software Engineering* is a 12-week textbook and online course for training the next generation of software engineers. It covers the full stack of modern software development — from classical software engineering foundations to prompt engineering, evaluation-driven development, agentic systems, security, ethics, and team productivity — through the lens of AI-native practice.
 
 The book is built around a single running project (a Task Management API) that grows chapter by chapter, giving readers a concrete, end-to-end illustration of every concept.
 

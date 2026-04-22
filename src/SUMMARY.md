@@ -1,8 +1,7 @@
 # Summary
 
-[Cover](./cover.md)
 [Preface](./preface.md)
-
+[About the Author](./about.md)
 ---
 
 # Part I: SE Foundations
@@ -35,4 +34,4 @@
 - [Appendix C: Applying These Practices in Other Languages](./appendix_c.md)
 - [Appendix D: Prompt Pattern Reference](./appendix_d.md)
 - [Project Milestones](./project_milestones.md)
-- [About the Author](./about.md)
+

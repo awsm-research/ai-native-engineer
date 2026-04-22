@@ -1,14 +1,38 @@
+<div style="display:flex; justify-content:center; padding: 2rem 0;">
+  <img src="cover.svg" alt="Book cover — AI-Native Engineer" style="max-width:480px; width:100%; border-radius:6px; box-shadow: 0 8px 32px rgba(0,0,0,0.4);" />
+</div>
+
 # Preface
 
 ## About This Book
 
-This book is about a shift in what software engineers actually do.
+This book is about a fundamental shift in what software engineers actually do.
 
-For most of the history of the profession, the primary bottleneck in software development was *writing code*: turning a clear understanding of the problem into a working implementation. Tools, languages, and processes were all designed to help engineers write code faster, more reliably, and with fewer defects.
+For most of the history of the profession, the primary bottleneck in software development was *writing code*: turning a clear understanding of the problem into a working implementation. Tools, languages, and frameworks were all designed to help engineers write code faster, more reliably, and with fewer defects. Being a great engineer meant, in large part, being a great coder.
 
-That bottleneck is moving. AI coding systems — capable assistants that generate syntactically correct, contextually relevant code from natural language descriptions — are now widely available, fast, and good enough to handle a substantial fraction of routine implementation work. The bottleneck is shifting to the activities that surround implementation: **defining problems precisely, specifying intent clearly, and evaluating whether what was generated is actually correct, secure, and appropriate.**
+That bottleneck is moving — fast.
 
-This book teaches those surrounding activities. It is not a book about which tools to use or how to write clever prompts. It is a book about how to engineer software in an environment where AI is a first-class teammate — and what that demands of the AI-native engineer.
+AI agents can now write syntactically correct, contextually relevant code from a natural language description. They can scaffold entire systems, generate test suites, refactor legacy code, and explain unfamiliar codebases in seconds. The implementation layer — once the core of the engineer's craft — is increasingly automated.
+
+What remains irreducibly human is everything that surrounds implementation: **understanding the problem deeply, specifying intent precisely, verifying that what was produced is actually correct, and refining until it is truly right.**
+
+This is the new loop of software engineering in the agentic era:
+
+```
+SPECIFY → GENERATE → VERIFY → REFINE
+```
+
+**Specify** — Define the problem with precision. Decompose ambiguous requirements into clear, agent-sized tasks. Write specifications that leave no room for misinterpretation.
+
+**Generate** — Delegate to AI agents with confidence. Provide the right context, constraints, and success criteria. Let agents handle the implementation.
+
+**Verify** — Review outputs critically and systematically. Test assumptions. Catch hallucinations, edge cases, and silent failures before they reach production.
+
+**Refine** — Iterate. Improve your specifications, your prompts, your verification strategies. Each cycle makes the next one faster and more accurate.
+
+This loop replaces the old SDLC — not by discarding its principles, but by redistributing where human intelligence is most needed. The engineer moves up the abstraction stack: from implementer to architect, from coder to critic, from builder to director.
+
+This book teaches that move. It is not a book about which AI tools to use or how to write clever prompts. It is a book about the new skills that matter when coding is automated: problem decomposition, system thinking, critical verification, and judgment under uncertainty. Skills that compound. Skills that do not expire when the next model is released.
 
 ---
 
@@ -21,7 +45,7 @@ This book teaches those surrounding activities. It is not a book about which too
 
 **Secondary readers:**
 - Engineering managers redefining development processes
-- Researchers in software engineering and AI engineering
+- Researchers in software engineering
 
 **What you need to bring:**
 - Comfort with at least one programming language (examples are in Python)
@@ -33,15 +57,11 @@ This book teaches those surrounding activities. It is not a book about which too
 - A background in machine learning or deep learning
 - Advanced knowledge of Python — the examples use standard library features and widely-adopted packages
 
-**Where prior knowledge matters more:**
-- Chapter 3 (Design, Architecture, Patterns) assumes familiarity with object-oriented programming. If you are coming from a procedural or functional background, the OOP sections may require extra time.
-- Chapter 9 (Security) assumes familiarity with HTTP and basic web concepts. If you are new to backend development, consider reading an introductory web security primer first.
-
 ---
 
 ## How to Use This Book
 
-This book is written for a 12-week university course, but it is structured so that it can be used in several ways.
+This book is written for a 12-week university course at Monash University, but it is structured so that it can be used in several ways.
 
 ### Path A: 12-Week Course (Recommended)
 
@@ -76,19 +96,15 @@ If your team is adopting AI tools and you want to use this as a shared reference
 
 ---
 
-## A Note on Tools and Vendors
+## Disclaimers
 
-All code examples in this book use Python and the [Anthropic API](https://docs.anthropic.com/) with Claude models. This choice is deliberate and transparent, not an endorsement.
+All code examples in this book use Python. This choice is deliberate and transparent, not an endorsement.
 
-**Why Anthropic/Claude:**
-- Claude has a generous context window (up to 200K tokens) that supports the long specification prompts developed in Chapter 6
-- The Anthropic API's explicit `system` / `user` / `assistant` message structure maps directly to the role-prompting patterns in Chapter 6
-- The tool use API (Chapter 8) has a clean, explicit schema that makes agent mechanics easy to teach
-- All examples are testable with a free or low-cost API tier
+**This is not a sponsored book.** No commercial relationship exists between the author or any other AI provider mentioned.
 
-**This is not a sponsored book.** No commercial relationship exists between the author and Anthropic or any other AI provider mentioned.
+**This book does not represent the views of Monash University.** It is written in a personal capacity and is not endorsed by, affiliated with, or produced on behalf of Monash University or any other institution. Readers are responsible for applying the concepts and techniques described here thoughtfully and at their own discretion. The author accepts no liability for decisions or outcomes arising from the use of this material.
 
-**These principles apply to any LLM provider.** Every concept in this book — the AI-native SDLC, specification design, evaluation-driven development, agentic orchestration — applies equally to OpenAI GPT models, Google Gemini, Meta Llama, Mistral, and future models not yet released. The Anthropic API is the *implementation vehicle*, not the *subject*. Where examples use Anthropic-specific classes (`anthropic.Anthropic()`, `client.messages.create()`), the equivalent calls for other providers are:
+<!-- **These principles apply to any LLM provider.** Every concept in this book — the AI-native SDLC, specification design, evaluation-driven development, agentic orchestration — applies equally to OpenAI GPT models, Google Gemini, Meta Llama, Mistral, and future models not yet released. The Anthropic API is the *implementation vehicle*, not the *subject*. Where examples use Anthropic-specific classes (`anthropic.Anthropic()`, `client.messages.create()`), the equivalent calls for other providers are:
 
 | Concept | Anthropic (this book) | OpenAI equivalent | Generic pattern |
 |---|---|---|---|
@@ -111,7 +127,7 @@ By the end of Chapter 12, you will have:
 - A requirements specification and design document
 - A Python REST API with full test coverage
 - A CI/CD pipeline with automated quality gates
-- AI-generated features developed using the Spec → Generate → Evaluate → Refine cycle
+- AI-generated features developed using the Specify → Generate → Verify → Refine cycle
 - An agentic workflow that automates a development task
 - Security review, licence audit, and responsible AI assessment
 
@@ -121,12 +137,26 @@ The project is intentionally modest in scope so that the *process* — not the p
 
 ## Companion Resources
 
-All code examples are available at: [github.com/awsm-research/ai-native-engineer](https://github.com/awsm-research/ai-native-engineer)
+All code examples are available at: [github.com/awsm-research/agentic-swe-book](https://github.com/awsm-research/agentic-swe-book)
 
-For updates on regulatory changes (EU AI Act, etc.) and new tool guidance, check the repository's `UPDATES.md` file. The landscape changes faster than print allows.
+For updates on regulatory changes (EU AI Act, etc.) and new tool guidance, check the repository's `UPDATES.md` file. The landscape changes faster than print allows. -->
 
 ---
 
-*Associate Professor Kla Tantithamthavorn*
-*Monash University*
+## Contributions and Feedback
+
+This book is a living document. Errors, outdated examples, and gaps in explanation are inevitable — and fixable.
+
+If you spot a mistake, have a suggestion, or want to contribute an example, case study, or exercise, you are warmly welcome to do so. The source is open and maintained at [github.com/awsm-research/agentic-swe-book](https://github.com/awsm-research/agentic-swe-book).
+
+- **Report issues** — open a GitHub issue with the chapter and page reference
+- **Suggest improvements** — submit a pull request with a clear description of the change and why it helps readers
+- **Share your project** — if you build something interesting using the techniques in this book, open a discussion thread; the best examples may be featured in future editions
+
+All contributions are credited. No contribution is too small.
+
+---
+
+*Associate Professor Kla Tantithamthavorn,*
+*Monash University, Australis*
 *2026*

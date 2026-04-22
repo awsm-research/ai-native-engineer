@@ -1,6 +1,7 @@
 [book]
-title = "The AI-Native Engineer: Building Software with Coding Agents"
-description = "A 12-week online course and textbook on AI-native software engineering"
+title = "Agentic Software Engineering: Specify, Generate, Verify, Refine"
+
+description = "The best engineers of the next decade won't be the fastest coders — they'll be the clearest thinkers. This Agentic SWE Handbook is a 12-week guide to the new SDLC: specify what to build, generate with AI agents, verify what was built, and refine until it's right. Built for everyone who builds software and wants to stay ahead of the Agentic AI era."
 authors = ["Kla Tantithamthavorn"]
 language = "en"
 
