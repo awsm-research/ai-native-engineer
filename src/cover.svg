@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#58a6ff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#58a6ff" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="accentGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f78166"/>
+      <stop offset="100%" stop-color="#ffa657"/>
+    </linearGradient>
+
+    <linearGradient id="titleGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e6edf3"/>
+      <stop offset="100%" stop-color="#8b949e"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="900" fill="url(#bgGrad)"/>
+
+  <!-- Subtle grid -->
+  <g stroke="#21262d" stroke-width="1" opacity="0.6">
+    <line x1="0" y1="150" x2="600" y2="150"/>
+    <line x1="0" y1="300" x2="600" y2="300"/>
+    <line x1="0" y1="450" x2="600" y2="450"/>
+    <line x1="0" y1="600" x2="600" y2="600"/>
+    <line x1="0" y1="750" x2="600" y2="750"/>
+    <line x1="150" y1="0" x2="150" y2="900"/>
+    <line x1="300" y1="0" x2="300" y2="900"/>
+    <line x1="450" y1="0" x2="450" y2="900"/>
+  </g>
+
+  <!-- ── Neural / agent network diagram (centred at 300, 320) ── -->
+  <!-- Connecting lines -->
+  <g stroke="#1f6feb" stroke-width="1.5" opacity="0.5" filter="url(#glow)">
+    <line x1="300" y1="320" x2="180" y2="210"/>
+    <line x1="300" y1="320" x2="300" y2="180"/>
+    <line x1="300" y1="320" x2="420" y2="210"/>
+    <line x1="300" y1="320" x2="450" y2="320"/>
+    <line x1="300" y1="320" x2="420" y2="430"/>
+    <line x1="300" y1="320" x2="300" y2="460"/>
+    <line x1="300" y1="320" x2="180" y2="430"/>
+    <line x1="300" y1="320" x2="150" y2="320"/>
+    <!-- Outer ring -->
+    <line x1="180" y1="210" x2="300" y2="180"/>
+    <line x1="300" y1="180" x2="420" y2="210"/>
+    <line x1="420" y1="210" x2="450" y2="320"/>
+    <line x1="450" y1="320" x2="420" y2="430"/>
+    <line x1="420" y1="430" x2="300" y2="460"/>
+    <line x1="300" y1="460" x2="180" y2="430"/>
+    <line x1="180" y1="430" x2="150" y2="320"/>
+    <line x1="150" y1="320" x2="180" y2="210"/>
+  </g>
+
+  <!-- Orange dashed accent lines -->
+  <g stroke="url(#accentGrad)" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7">
+    <line x1="300" y1="320" x2="370" y2="250"/>
+    <line x1="300" y1="320" x2="370" y2="390"/>
+    <line x1="300" y1="320" x2="230" y2="250"/>
+    <line x1="300" y1="320" x2="230" y2="390"/>
+  </g>
+
+  <!-- Central node glow halo -->
+  <circle cx="300" cy="320" r="60" fill="url(#nodeGlow)"/>
+
+  <!-- Outer ring nodes -->
+  <g fill="#161b22" stroke="#1f6feb" stroke-width="1.5">
+    <circle cx="180" cy="210" r="14"/>
+    <circle cx="300" cy="180" r="14"/>
+    <circle cx="420" cy="210" r="14"/>
+    <circle cx="450" cy="320" r="14"/>
+    <circle cx="420" cy="430" r="14"/>
+    <circle cx="300" cy="460" r="14"/>
+    <circle cx="180" cy="430" r="14"/>
+    <circle cx="150" cy="320" r="14"/>
+  </g>
+
+  <!-- Outer ring node fills -->
+  <g fill="#1f6feb" opacity="0.8">
+    <circle cx="180" cy="210" r="6"/>
+    <circle cx="300" cy="180" r="6"/>
+    <circle cx="420" cy="210" r="6"/>
+    <circle cx="450" cy="320" r="6"/>
+    <circle cx="420" cy="430" r="6"/>
+    <circle cx="300" cy="460" r="6"/>
+    <circle cx="180" cy="430" r="6"/>
+    <circle cx="150" cy="320" r="6"/>
+  </g>
+
+  <!-- Orange diamond nodes -->
+  <g fill="#ffa657" opacity="0.9">
+    <polygon points="370,242 378,250 370,258 362,250"/>
+    <polygon points="370,382 378,390 370,398 362,390"/>
+    <polygon points="230,242 238,250 230,258 222,250"/>
+    <polygon points="230,382 238,390 230,398 222,390"/>
+  </g>
+
+  <!-- Central node -->
+  <circle cx="300" cy="320" r="30" fill="#161b22" stroke="#58a6ff" stroke-width="2.5"/>
+  <circle cx="300" cy="320" r="18" fill="#1f6feb" opacity="0.9"/>
+
+  <!-- Cycle labels — larger, lighter -->
+  <g fill="#adbac7" font-size="11" font-weight="600" letter-spacing="0.8">
+    <text x="300" y="148" text-anchor="middle">SPECIFY</text>
+    <text x="487" y="326" text-anchor="start">GENERATE</text>
+    <text x="300" y="498" text-anchor="middle">EVALUATE</text>
+    <text x="68" y="326" text-anchor="end">REFINE</text>
+  </g>
+
+  <!-- Directional arrows -->
+  <g fill="#adbac7" opacity="0.7">
+    <polygon points="408,188 420,184 416,196"/>
+    <polygon points="458,406 462,418 450,414"/>
+    <polygon points="192,452 180,456 184,444"/>
+    <polygon points="142,234 138,222 150,226"/>
+  </g>
+
+  <!-- ── Top accent bar ── -->
+  <rect x="0" y="0" width="600" height="4" fill="url(#accentGrad)"/>
+
+  <!-- ── Soft separator between diagram and text zones ── -->
+  <line x1="50" y1="540" x2="550" y2="540" stroke="#21262d" stroke-width="1" opacity="0.8"/>
+
+  <!-- ── Title block ── -->
+  <text x="50" y="585" fill="url(#titleGrad)" font-size="33" font-weight="800" letter-spacing="-0.5">The AI-Native Engineer</text>
+  <text x="50" y="622" fill="#8b949e" font-size="14" font-weight="400">Building Software with Coding Agents</text>
+
+  <!-- ── Author block with orange left accent ── -->
+  <rect x="50" y="690" width="3" height="46" fill="url(#accentGrad)" rx="1"/>
+  <text x="62" y="710" fill="#e6edf3" font-size="14" font-weight="600">Kla Tantithamthavorn</text>
+  <text x="62" y="730" fill="#8b949e" font-size="12">Associate Professor · Monash University</text>
+
+  <!-- Bottom accent bar -->
+  <rect x="0" y="896" width="600" height="4" fill="url(#accentGrad)"/>
+</svg>

@@ -1,4 +1,9 @@
 [book]
-title = "AI-Native Software Engineering: From Ideation to Production in Mins"
+title = "The AI-Native Engineer: Building Software with Coding Agents"
+description = "A 12-week online course and textbook on AI-native software engineering"
 authors = ["Kla Tantithamthavorn"]
 language = "en"
+
+[output.html]
+default-theme = "light"
+preferred-dark-theme = "navy"
