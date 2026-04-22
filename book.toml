@@ -7,3 +7,4 @@ language = "en"
 [output.html]
 default-theme = "light"
 preferred-dark-theme = "navy"
+site-url = "/ai-native-engineer/"
