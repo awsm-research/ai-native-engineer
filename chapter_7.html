@@ -1,0 +1,842 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 7: Evaluation-Driven Development - The AI-Native Engineer: Building Software with Coding Agents</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A 12-week online course and textbook on AI-native software engineering">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-cfb8c40f.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-b311743f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The AI-Native Engineer: Building Software with Coding Agents</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="chapter-7-evaluation-driven-development"><a class="header" href="#chapter-7-evaluation-driven-development">Chapter 7: Evaluation-Driven Development</a></h1>
+<blockquote>
+<p><em>“Testing shows the presence of bugs, not their absence — but not testing shows the absence of rigour.”</em></p>
+</blockquote>
+<hr>
+<h2 id="learning-objectives"><a class="header" href="#learning-objectives">Learning Objectives</a></h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Articulate why AI-generated code must be treated as a hypothesis rather than a solution.</li>
+<li>Design evaluation criteria before generating code.</li>
+<li>Apply multiple evaluation strategies: automated tests, static analysis, LLM-as-judge, and human review.</li>
+<li>Build a basic evaluation harness for AI-generated code.</li>
+<li>Measure and interpret hallucination in code generation outputs.</li>
+<li>Apply evaluation-driven development as an end-to-end workflow.</li>
+</ol>
+<hr>
+<h2 id="71-the-hypothesis-framing"><a class="header" href="#71-the-hypothesis-framing">7.1 The Hypothesis Framing</a></h2>
+<p>In scientific research, a hypothesis is a proposed explanation that must be tested against evidence before it is accepted. In AI-native engineering, a similar discipline applies to AI-generated code: it is a <em>hypothesis about what the correct implementation looks like</em>, not a verified solution.</p>
+<p>This framing is not semantic — it has practical consequences:</p>
+<ul>
+<li>A hypothesis requires testing before it is trusted</li>
+<li>The tests must be designed before (or independently of) generating the hypothesis</li>
+<li>A hypothesis that passes all tests is <em>supported</em>, not <em>proven</em></li>
+<li>A hypothesis that fails any test must be investigated, not blindly regenerated</li>
+</ul>
+<p>The failure mode of treating AI-generated code as a solution is well-documented. GitHub’s own research found that roughly 40% of Copilot-generated code suggestions contained bugs when evaluated against the intent of the surrounding code (<a href="https://arxiv.org/abs/2108.09293">Pearce et al., 2021</a>). A more targeted study of security-relevant code found that AI assistants generated insecure code in 25–40% of cases (<a href="https://arxiv.org/abs/2211.03622">Perry et al., 2022</a>).</p>
+<p>These numbers are not arguments against using AI — they are arguments for evaluation.</p>
+<hr>
+<h2 id="72-evaluation-driven-development-edd"><a class="header" href="#72-evaluation-driven-development-edd">7.2 Evaluation-Driven Development (EDD)</a></h2>
+<p>Evaluation-Driven Development (EDD) is a workflow that makes evaluation the primary activity, with generation as a means to an end.</p>
+<p>The EDD workflow:</p>
+<pre><code>1. Define what correct looks like (evaluation criteria)
+   ↓
+2. Write evaluation artefacts (tests, specifications, rubrics)
+   ↓
+3. Generate candidate implementation
+   ↓
+4. Evaluate candidate against criteria
+   ↓
+5. If evaluation passes → accept
+   If evaluation fails → diagnose, refine specification, repeat from 3
+</code></pre>
+<p>The critical principle: <strong>evaluation criteria must be defined before generation begins</strong>. If you define your criteria after seeing the generated output, you are at risk of unconsciously adjusting them to accept whatever was produced.</p>
+<p>This is analogous to test-driven development (TDD) in traditional engineering (<a href="https://www.oreilly.com/library/view/test-driven-development/0321146530/">Beck, 2002</a>): write the test first, then write the code that makes it pass. EDD extends this to AI-native workflows where the “code” is generated rather than hand-written.</p>
+<hr>
+<h2 id="73-evaluation-strategies"><a class="header" href="#73-evaluation-strategies">7.3 Evaluation Strategies</a></h2>
+<p>Evaluation is not a single activity — it is a portfolio of complementary techniques, each catching different classes of defects.</p>
+<h3 id="731-automated-tests-functional-evaluation"><a class="header" href="#731-automated-tests-functional-evaluation">7.3.1 Automated Tests (Functional Evaluation)</a></h3>
+<p>Automated tests are the first line of evaluation for AI-generated code. If you followed the specification template from Chapter 6, you have already defined the expected input-output pairs — these become your test cases directly.</p>
+<pre><code class="language-python"># Evaluation via test suite
+import pytest
+from decimal import Decimal
+from datetime import date
+from src.task_service import calculate_overdue_penalty
+
+
+class TestCalculateOverduePenalty:
+    """Evaluation suite derived directly from the specification examples."""
+
+    def test_completed_on_time_returns_zero(self) -&gt; None:
+        result = calculate_overdue_penalty(
+            due_date=date(2024, 1, 5),
+            completion_date=date(2024, 1, 5),
+            daily_rate=Decimal("10"),
+        )
+        assert result == Decimal("0.00")
+
+    def test_completed_before_due_returns_zero(self) -&gt; None:
+        result = calculate_overdue_penalty(
+            due_date=date(2024, 1, 5),
+            completion_date=date(2024, 1, 3),
+            daily_rate=Decimal("10"),
+        )
+        assert result == Decimal("0.00")
+
+    def test_completed_one_day_late(self) -&gt; None:
+        result = calculate_overdue_penalty(
+            due_date=date(2024, 1, 1),
+            completion_date=date(2024, 1, 2),
+            daily_rate=Decimal("10"),
+        )
+        assert result == Decimal("10.00")
+
+    def test_completed_four_days_late(self) -&gt; None:
+        result = calculate_overdue_penalty(
+            due_date=date(2024, 1, 1),
+            completion_date=date(2024, 1, 5),
+            daily_rate=Decimal("10"),
+        )
+        assert result == Decimal("40.00")
+
+    def test_uses_today_when_no_completion_date(self) -&gt; None:
+        result = calculate_overdue_penalty(
+            due_date=date(2024, 1, 1),
+            completion_date=None,
+            daily_rate=Decimal("10"),
+            today=date(2024, 1, 3),
+        )
+        assert result == Decimal("20.00")
+
+    def test_raises_for_negative_daily_rate(self) -&gt; None:
+        with pytest.raises(ValueError):
+            calculate_overdue_penalty(
+                due_date=date(2024, 1, 1),
+                completion_date=None,
+                daily_rate=Decimal("-1"),
+            )
+
+    def test_result_uses_decimal_not_float(self) -&gt; None:
+        result = calculate_overdue_penalty(
+            due_date=date(2024, 1, 1),
+            completion_date=date(2024, 1, 5),
+            daily_rate=Decimal("10"),
+        )
+        assert isinstance(result, Decimal), "Result must be Decimal, not float"
+</code></pre>
+<p><strong>Write tests before generating.</strong> If you write your tests after seeing the generated code, you risk writing tests that are shaped by the implementation rather than the specification.</p>
+<h3 id="732-static-analysis-structural-evaluation"><a class="header" href="#732-static-analysis-structural-evaluation">7.3.2 Static Analysis (Structural Evaluation)</a></h3>
+<p>Static analysis evaluates the generated code’s structure without executing it. It catches a different class of defect from functional tests.</p>
+<pre><code class="language-bash"># Run the full static analysis suite on generated code
+ruff check src/generated_function.py      # Style and common errors
+mypy src/generated_function.py --strict   # Type correctness
+bandit src/generated_function.py          # Security vulnerabilities
+</code></pre>
+<p>Static analysis is particularly important for AI-generated code because:</p>
+<ul>
+<li>AI models can generate code with correct runtime behaviour but incorrect type annotations</li>
+<li>AI models occasionally generate insecure patterns (SQL concatenation, shell injection, hardcoded credentials)</li>
+<li>AI models sometimes generate dead code or unreachable branches</li>
+</ul>
+<h3 id="733-llm-as-judge-semantic-evaluation"><a class="header" href="#733-llm-as-judge-semantic-evaluation">7.3.3 LLM-as-Judge (Semantic Evaluation)</a></h3>
+<p>LLM-as-judge uses a second language model to evaluate the output of the first. It is useful for capturing semantic properties that are difficult to express as automated tests: correctness of approach, adherence to conventions, readability, and potential edge cases the tester missed.</p>
+<pre><code class="language-python">import anthropic
+
+client = anthropic.Anthropic()
+
+
+def llm_evaluate_code(specification: str, generated_code: str) -&gt; dict[str, str]:
+    """
+    Use an LLM to evaluate generated code against its specification.
+    Returns a dict with 'verdict', 'issues', and 'suggestions'.
+    """
+    response = client.messages.create(
+        model="claude-opus-4-7",
+        max_tokens=1024,
+        system="You are a senior software engineer conducting a code review. "
+               "Be specific and critical. Do not give generic praise.",
+        messages=[
+            {
+                "role": "user",
+                "content": f"""Review the following generated code against its specification.
+
+SPECIFICATION:
+{specification}
+
+GENERATED CODE:
+{generated_code}
+
+Evaluate:
+1. Does the code correctly implement all specified behaviour?
+2. Does it handle all specified error cases?
+3. Does it satisfy all specified constraints?
+4. Are there any edge cases in the specification that the code mishandles?
+5. Are there any security issues?
+
+Format your response as:
+VERDICT: [PASS / FAIL / NEEDS_REVIEW]
+ISSUES: [Specific issues found, or "None"]
+SUGGESTIONS: [Specific improvements, or "None"]""",
+            }
+        ],
+    )
+
+    text = response.content[0].text
+    result: dict[str, str] = {}
+    for line in text.strip().split("\n"):
+        for key in ("VERDICT", "ISSUES", "SUGGESTIONS"):
+            if line.startswith(f"{key}:"):
+                result[key.lower()] = line[len(key) + 1 :].strip()
+    return result
+</code></pre>
+<p><strong>Important caveats for LLM-as-judge:</strong></p>
+<ul>
+<li>A second LLM can miss the same systematic errors as the first</li>
+<li>LLM judges tend to be lenient — they favour approving plausible-looking code</li>
+<li>LLM evaluation is not a substitute for automated tests; it is a complement</li>
+<li>Use the same model family with a different configuration (e.g., system prompt with stricter review instructions) for best results</li>
+</ul>
+<p>Research on LLM-as-judge for code (<a href="https://arxiv.org/abs/2306.05685">Zheng et al., 2023</a>) confirms both its utility and its tendency toward false positives — it is best used as a screening step before human review, not as a final verdict.</p>
+<h3 id="734-human-review-expert-evaluation"><a class="header" href="#734-human-review-expert-evaluation">7.3.4 Human Review (Expert Evaluation)</a></h3>
+<p>For any code that will reach production, human code review remains essential. The chapter on code review in Chapter 4 applies fully to AI-generated code — in fact, AI-generated code warrants <em>more</em> scrutiny, not less, because:</p>
+<ul>
+<li>It may look superficially correct while containing subtle logic errors</li>
+<li>It may have been generated from a training distribution that does not match your domain</li>
+<li>It may follow common patterns that are correct in general but wrong for your specific context</li>
+</ul>
+<p>When reviewing AI-generated code, pay particular attention to:</p>
+<ul>
+<li>Boundary conditions (what happens at the edges of input ranges?)</li>
+<li>Error handling (are all error cases handled, or just the ones in the specification?)</li>
+<li>Security (does the code handle untrusted input safely?)</li>
+<li>Resource management (are files closed? Are database connections released?)</li>
+</ul>
+<hr>
+<h2 id="74-measuring-hallucination-in-code"><a class="header" href="#74-measuring-hallucination-in-code">7.4 Measuring Hallucination in Code</a></h2>
+<p>In the context of code generation, <em>hallucination</em> refers to the model generating plausible-looking code that is factually incorrect: calling non-existent functions, using incorrect API signatures, or inventing business rules that were not specified.</p>
+<h3 id="741-types-of-hallucination"><a class="header" href="#741-types-of-hallucination">7.4.1 Types of Hallucination</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Type</th><th>Example</th><th>Detection</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>API hallucination</strong></td><td>Calls <code>tasks.filter_by_status()</code> which doesn’t exist</td><td>Import error at runtime; static analysis</td></tr>
+<tr><td><strong>Logic hallucination</strong></td><td>Invents a penalty calculation formula not in the spec</td><td>Failing test cases</td></tr>
+<tr><td><strong>Constraint violation</strong></td><td>Uses string concatenation instead of parameterised queries</td><td>Static analysis; security review</td></tr>
+<tr><td><strong>Type hallucination</strong></td><td>Returns <code>None</code> instead of raising <code>ValueError</code></td><td>Type checker; test assertions</td></tr>
+<tr><td><strong>Factual hallucination</strong></td><td>Assumes Python 3.9 syntax in a Python 3.11 codebase</td><td>Runtime error; version check</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="742-measuring-hallucination-rate"><a class="header" href="#742-measuring-hallucination-rate">7.4.2 Measuring Hallucination Rate</a></h3>
+<p>For evaluating AI tools in your specific codebase, you can measure hallucination rate systematically:</p>
+<pre><code class="language-python">from dataclasses import dataclass, field
+
+
+@dataclass
+class EvaluationResult:
+    specification: str
+    generated_code: str
+    tests_passed: int
+    tests_total: int
+    static_analysis_issues: list[str] = field(default_factory=list)
+    hallucinations: list[str] = field(default_factory=list)
+
+    @property
+    def pass_rate(self) -&gt; float:
+        if self.tests_total == 0:
+            return 0.0
+        return self.tests_passed / self.tests_total
+
+    @property
+    def hallucination_count(self) -&gt; int:
+        return len(self.hallucinations)
+
+
+def evaluate_generation(
+    specification: str, generated_code: str, test_results: dict
+) -&gt; EvaluationResult:
+    """Combine test results and static analysis into a single evaluation record."""
+    return EvaluationResult(
+        specification=specification,
+        generated_code=generated_code,
+        tests_passed=test_results["passed"],
+        tests_total=test_results["total"],
+        static_analysis_issues=test_results.get("static_issues", []),
+        hallucinations=test_results.get("hallucinations", []),
+    )
+</code></pre>
+<p>Over multiple evaluations, tracking these metrics tells you:</p>
+<ul>
+<li>Which types of functions AI generates reliably vs. unreliably</li>
+<li>Whether a particular model or prompt pattern reduces hallucination</li>
+<li>Where in your codebase AI assistance is highest-value vs. highest-risk</li>
+</ul>
+<hr>
+<h2 id="75-building-an-evaluation-harness"><a class="header" href="#75-building-an-evaluation-harness">7.5 Building an Evaluation Harness</a></h2>
+<p>An <em>evaluation harness</em> is a system that automates the full evaluation pipeline: specification in, verdict out.</p>
+<pre><code class="language-python"># eval_harness.py
+import subprocess
+import tempfile
+import os
+from dataclasses import dataclass
+import anthropic
+
+client = anthropic.Anthropic()
+
+
+@dataclass
+class HarnessResult:
+    specification: str
+    generated_code: str
+    syntax_valid: bool
+    type_check_passed: bool
+    tests_passed: bool
+    llm_verdict: str
+    llm_issues: str
+
+
+def generate_code(specification: str) -&gt; str:
+    """Generate code from a specification."""
+    response = client.messages.create(
+        model="claude-opus-4-7",
+        max_tokens=2048,
+        system="You are a senior Python engineer. Output ONLY the function implementation, "
+               "no explanation, no markdown fences.",
+        messages=[{"role": "user", "content": specification}],
+    )
+    return response.content[0].text.strip()
+
+
+def check_syntax(code: str) -&gt; bool:
+    """Check that the generated code is syntactically valid Python."""
+    try:
+        compile(code, "&lt;generated&gt;", "exec")
+        return True
+    except SyntaxError:
+        return False
+
+
+def run_type_check(code: str) -&gt; bool:
+    """Run mypy on the generated code."""
+    with tempfile.NamedTemporaryFile(
+        mode="w", suffix=".py", delete=False
+    ) as tmp:
+        tmp.write(code)
+        tmp_path = tmp.name
+
+    try:
+        result = subprocess.run(
+            ["mypy", tmp_path, "--strict", "--no-error-summary"],
+            capture_output=True,
+            text=True,
+        )
+        return result.returncode == 0
+    finally:
+        os.unlink(tmp_path)
+
+
+def run_tests(code: str, test_code: str) -&gt; bool:
+    """Run a test suite against the generated code."""
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        # Write generated code
+        impl_path = os.path.join(tmp_dir, "impl.py")
+        with open(impl_path, "w") as f:
+            f.write(code)
+
+        # Write tests (importing from impl)
+        test_path = os.path.join(tmp_dir, "test_impl.py")
+        with open(test_path, "w") as f:
+            f.write(f"from impl import *\n\n{test_code}")
+
+        result = subprocess.run(
+            ["pytest", test_path, "-q"],
+            capture_output=True,
+            text=True,
+            cwd=tmp_dir,
+        )
+        return result.returncode == 0
+
+
+def run_evaluation(
+    specification: str, test_code: str
+) -&gt; HarnessResult:
+    """Run the full evaluation pipeline."""
+    print("Generating code...")
+    generated = generate_code(specification)
+
+    print("Checking syntax...")
+    syntax_ok = check_syntax(generated)
+
+    print("Running type check...")
+    type_ok = run_type_check(generated) if syntax_ok else False
+
+    print("Running tests...")
+    tests_ok = run_tests(generated, test_code) if syntax_ok else False
+
+    print("Running LLM evaluation...")
+    llm_result = llm_evaluate_code(specification, generated)
+
+    return HarnessResult(
+        specification=specification,
+        generated_code=generated,
+        syntax_valid=syntax_ok,
+        type_check_passed=type_ok,
+        tests_passed=tests_ok,
+        llm_verdict=llm_result.get("verdict", "UNKNOWN"),
+        llm_issues=llm_result.get("issues", ""),
+    )
+
+
+def llm_evaluate_code(specification: str, code: str) -&gt; dict[str, str]:
+    response = client.messages.create(
+        model="claude-opus-4-7",
+        max_tokens=512,
+        messages=[
+            {
+                "role": "user",
+                "content": f"Review this code against the specification. "
+                           f"Be critical.\n\nSPEC:\n{specification}\n\nCODE:\n{code}\n\n"
+                           f"Format: VERDICT: [PASS/FAIL]\nISSUES: [list or None]",
+            }
+        ],
+    )
+    text = response.content[0].text
+    result: dict[str, str] = {}
+    for line in text.strip().split("\n"):
+        for key in ("VERDICT", "ISSUES"):
+            if line.startswith(f"{key}:"):
+                result[key.lower()] = line[len(key) + 1 :].strip()
+    return result
+</code></pre>
+<hr>
+<h2 id="76-tutorial-evaluation-harness-for-the-course-project"><a class="header" href="#76-tutorial-evaluation-harness-for-the-course-project">7.6 Tutorial: Evaluation Harness for the Course Project</a></h2>
+<h3 id="setup"><a class="header" href="#setup">Setup</a></h3>
+<pre><code class="language-bash">pip install anthropic pytest mypy ruff
+</code></pre>
+<h3 id="running-an-evaluation"><a class="header" href="#running-an-evaluation">Running an Evaluation</a></h3>
+<pre><code class="language-python"># example_evaluation.py
+from eval_harness import run_evaluation
+
+specification = """
+Implement filter_tasks(tasks, *, status=None, priority=None, assignee=None) -&gt; list[Task]
+[... full specification from Chapter 6 ...]
+"""
+
+test_code = """
+from datetime import date
+from uuid import uuid4
+from decimal import Decimal
+import pytest
+
+def make_task(status="open", priority=2, assignee=None):
+    return Task(id=uuid4(), title="T", priority=priority,
+                status=status, assignee=assignee)
+
+def test_no_filter_returns_all():
+    tasks = [make_task(), make_task(status="completed")]
+    assert len(filter_tasks(tasks)) == 2
+
+def test_filter_by_status():
+    tasks = [make_task(status="open"), make_task(status="completed")]
+    result = filter_tasks(tasks, status="open")
+    assert len(result) == 1 and result[0].status == "open"
+
+def test_filter_by_priority():
+    tasks = [make_task(priority=1), make_task(priority=3)]
+    result = filter_tasks(tasks, priority=1)
+    assert len(result) == 1 and result[0].priority == 1
+
+def test_invalid_priority_raises():
+    with pytest.raises(ValueError):
+        filter_tasks([], priority=0)
+
+def test_not_a_list_raises():
+    with pytest.raises(TypeError):
+        filter_tasks("not a list")
+"""
+
+result = run_evaluation(specification, test_code)
+print(f"Syntax valid:     {result.syntax_valid}")
+print(f"Type check:       {result.type_check_passed}")
+print(f"Tests passed:     {result.tests_passed}")
+print(f"LLM verdict:      {result.llm_verdict}")
+print(f"LLM issues:       {result.llm_issues}")
+</code></pre>
+<hr>
+<h2 id="77-debugging-ai-generated-code"><a class="header" href="#77-debugging-ai-generated-code">7.7 Debugging AI-Generated Code</a></h2>
+<p>Evaluation tells you <em>whether</em> the generated code is wrong. Debugging tells you <em>why</em> and <em>how to fix it</em>. Debugging code you did not write — and may not have fully read — requires a different approach from debugging code you authored.</p>
+<h3 id="771-the-core-challenge"><a class="header" href="#771-the-core-challenge">7.7.1 The Core Challenge</a></h3>
+<p>When you write a function yourself, you carry a mental model of its design. When a bug surfaces, you can often reason directly: “I remember that edge case — I handled it in the wrong branch.” With AI-generated code, you start without that model. You must <em>reconstruct</em> the logic from the code before you can identify where it diverges from the specification.</p>
+<p>This is not a weakness of AI-generated code specifically — it is the same challenge faced when debugging any unfamiliar code. The difference is frequency: in an AI-native workflow, “unfamiliar code” describes a much larger fraction of the codebase.</p>
+<h3 id="772-debugging-workflow"><a class="header" href="#772-debugging-workflow">7.7.2 Debugging Workflow</a></h3>
+<p><strong>Step 1: Reproduce the failure with a minimal test</strong></p>
+<p>Before reading the code at all, write a test that reproduces the failure. A minimal failing test is more valuable than reading the code because it precisely defines the gap between actual and expected behaviour.</p>
+<pre><code class="language-python"># You observe: get_overdue_tasks returns t2 (a completed task) as overdue
+# Write the failing test first:
+def test_completed_task_not_returned_as_overdue() -&gt; None:
+    t2 = Task(id=uuid4(), title="T2", priority=1, status="completed",
+              due_date=date(2024, 1, 1), assignee=None)
+    result = get_overdue_tasks([t2], today=date(2024, 6, 1))
+    assert result == [], f"Expected [], got {result}"
+</code></pre>
+<p>If the test passes, the bug is elsewhere. If it fails, you have precisely identified the defect.</p>
+<p><strong>Step 2: Map the code to the specification</strong></p>
+<p>Read the generated code section by section, checking each behaviour claim in the specification against the implementation. Mark which claims are satisfied and which are not.</p>
+<pre><code class="language-python"># Generated code under review:
+def get_overdue_tasks(tasks: list[Task], today: date | None = None) -&gt; list[Task]:
+    if today is None:
+        today = date.today()
+    # BUG: missing status filter — returns completed tasks too
+    return sorted(
+        [t for t in tasks if t.due_date and t.due_date &lt; today],
+        key=lambda t: t.due_date,
+    )
+</code></pre>
+<p>The specification said: <em>“status not in (‘completed’, ‘cancelled’)”</em>. The implementation omits that condition. The bug is a missing constraint, not a logic error.</p>
+<p><strong>Step 3: Categorise the bug</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Category</th><th>Description</th><th>Fix approach</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Missing constraint</strong></td><td>Spec had a rule; implementation ignored it</td><td>Add the missing condition</td></tr>
+<tr><td><strong>Wrong interpretation</strong></td><td>Implementation chose one meaning of an ambiguous spec</td><td>Clarify the spec; regenerate</td></tr>
+<tr><td><strong>Hallucinated behaviour</strong></td><td>Implementation does something not in the spec</td><td>Remove the extra behaviour</td></tr>
+<tr><td><strong>Edge case gap</strong></td><td>Spec didn’t cover this case; implementation guessed wrong</td><td>Add the case to the spec; regenerate or patch</td></tr>
+<tr><td><strong>API misuse</strong></td><td>Implementation calls a function with wrong arguments</td><td>Provide correct signatures in spec; patch</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Step 4: Decide: patch or regenerate</strong></p>
+<p>For a missing constraint (Step 3 category): patch the specific line. The fix is mechanical.</p>
+<p>For a wrong interpretation: the specification was ambiguous. Update the specification with the clarification, regenerate the function, and re-run the full evaluation suite. A patched-ambiguous-spec function will likely re-exhibit the same bug when the code is next modified.</p>
+<p><strong>Step 5: Add the failing case to the specification</strong></p>
+<p>Regardless of which fix path you take, add the failing case as an explicit example in the specification. This prevents the same bug from appearing in future regenerations.</p>
+<pre><code class="language-python"># Add to spec Examples section:
+# t_completed: completed task with past due date — must NOT be returned
+# get_overdue_tasks([t_completed], today=date(2024, 6, 1)) == []
+</code></pre>
+<h3 id="773-using-ai-to-assist-debugging"><a class="header" href="#773-using-ai-to-assist-debugging">7.7.3 Using AI to Assist Debugging</a></h3>
+<p>You can use AI to help diagnose a bug — with the appropriate critical eye:</p>
+<pre><code class="language-python">import anthropic
+
+client = anthropic.Anthropic()
+
+
+def ai_debug_assist(specification: str, code: str, failing_test: str) -&gt; str:
+    """Ask the model to identify why the code fails the test."""
+    response = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=1024,
+        system="You are a senior engineer debugging a function. "
+               "Be specific about which line is wrong and why. "
+               "Do not rewrite the whole function — identify the minimal fix.",
+        messages=[
+            {
+                "role": "user",
+                "content": f"""This function fails the test below.
+Identify the exact bug (line number and reason) and suggest the minimal fix.
+
+SPECIFICATION:
+{specification}
+
+CODE:
+{code}
+
+FAILING TEST:
+{failing_test}""",
+            }
+        ],
+    )
+    return response.content[0].text
+</code></pre>
+<p>The model is often effective at identifying missing conditions and off-by-one errors. It is less reliable at bugs that require understanding the broader system context. Always verify its diagnosis against the failing test before applying the fix.</p>
+<hr>
+<h2 id="78-project-milestone-evaluation-suite"><a class="header" href="#78-project-milestone-evaluation-suite">7.8 Project Milestone: Evaluation Suite</a></h2>
+<h3 id="this-weeks-deliverables"><a class="header" href="#this-weeks-deliverables">This Week’s Deliverables</a></h3>
+<ol>
+<li>
+<p><strong>Evaluation criteria</strong>: For one complete feature of your Task Management API (e.g., the task assignment flow), define evaluation criteria across all four strategies: automated tests, static analysis, LLM-as-judge rubric, and a human review checklist.</p>
+</li>
+<li>
+<p><strong>Evaluation harness</strong>: Implement and run the evaluation harness from Section 7.5 on at least one AI-generated function from Week 6.</p>
+</li>
+<li>
+<p><strong>Evaluation report</strong>: Document:</p>
+<ul>
+<li>Which evaluation strategy caught which issues</li>
+<li>The hallucination types (if any) you observed</li>
+<li>How you refined the specification in response to evaluation failures</li>
+<li>Your final pass/fail verdict for each generated function</li>
+</ul>
+</li>
+<li>
+<p><strong>Reflection</strong>: In 200–300 words, compare EDD to TDD. What are the similarities? What is unique to the AI-generated code context?</p>
+</li>
+</ol>
+<hr>
+<blockquote>
+<p><strong>Common Mistakes</strong></p>
+<p><strong>Writing evaluation criteria after seeing the output.</strong> If you write tests after the AI generates code, you are unconsciously testing what the code <em>does</em>, not what it <em>should do</em>. Define acceptance criteria before generation — even a two-line description of expected behaviour counts.</p>
+<p><strong>Stopping at the happy path.</strong> AI-generated code frequently handles the common case correctly while failing on empty collections, zero values, concurrent access, or boundary inputs. An evaluation that only tests the happy path is not an evaluation.</p>
+<p><strong>Accepting coverage as correctness.</strong> 100% line coverage does not mean the code is correct. It means every line executed during testing. A function that returns the wrong result for every input has 100% line coverage if those lines run.</p>
+<p><strong>Debugging by re-generating.</strong> When generated code fails, the instinct is to regenerate with a slightly different prompt. Use the 5-step debugging workflow (Section 7.7) first: reproduce with a minimal test, map code to spec, categorise the bug, then decide whether to patch or regenerate.</p>
+</blockquote>
+<hr>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>Evaluation-Driven Development treats AI-generated code as a hypothesis that must be tested before it is trusted. Key takeaways:</p>
+<ul>
+<li>AI-generated code contains defects at a non-trivial rate — evaluation is not optional.</li>
+<li>Evaluation criteria must be defined <em>before</em> generation, not after seeing the output.</li>
+<li>The four evaluation strategies — automated tests, static analysis, LLM-as-judge, and human review — are complementary; each catches different classes of defects.</li>
+<li>Hallucination in code generation manifests as API hallucination, logic hallucination, constraint violation, type hallucination, and factual hallucination.</li>
+<li>An evaluation harness automates the evaluation pipeline, enabling rapid iteration and systematic measurement.</li>
+<li>EDD is the AI-native equivalent of TDD: write the evaluation before you generate the implementation.</li>
+</ul>
+<hr>
+<h2 id="review-questions"><a class="header" href="#review-questions">Review Questions</a></h2>
+<ol>
+<li>Why must evaluation criteria be defined before generating code, rather than after seeing the output? What bias risk does post-hoc evaluation introduce?</li>
+<li>What are the four evaluation strategies described in this chapter? Give one type of defect that each strategy is best at catching.</li>
+<li>Explain two limitations of using LLM-as-judge for evaluating AI-generated code.</li>
+<li>What is “hallucination” in the context of code generation? Give a concrete example of API hallucination and explain how it would be detected.</li>
+<li>You ask an AI to generate a password hashing function. The function passes all your functional tests and type checks, but you have a nagging concern. Which evaluation strategy should you apply next, and what specifically should you check?</li>
+<li>How does Evaluation-Driven Development relate to Test-Driven Development? What is the same, and what is fundamentally different?</li>
+</ol>
+<hr>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li>Beck, K. (2002). <em>Test-Driven Development: By Example</em>. Addison-Wesley. <a href="https://www.oreilly.com/library/view/test-driven-development/0321146530/">https://www.oreilly.com/library/view/test-driven-development/0321146530/</a></li>
+<li>Pearce, H., et al. (2021). Asleep at the Keyboard? Assessing the Security of GitHub Copilot’s Code Contributions. <em>arXiv</em>. <a href="https://arxiv.org/abs/2108.09293">https://arxiv.org/abs/2108.09293</a></li>
+<li>Perry, N., et al. (2022). Do Users Write More Insecure Code with AI Assistants? <em>arXiv</em>. <a href="https://arxiv.org/abs/2211.03622">https://arxiv.org/abs/2211.03622</a></li>
+<li>Zheng, L., et al. (2023). Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena. <em>arXiv</em>. <a href="https://arxiv.org/abs/2306.05685">https://arxiv.org/abs/2306.05685</a></li>
+<li>Chen, M., et al. (2021). Evaluating Large Language Models Trained on Code. <em>arXiv</em>. <a href="https://arxiv.org/abs/2107.03374">https://arxiv.org/abs/2107.03374</a></li>
+<li>Liu, J., et al. (2023). Is Your Code Generated by ChatGPT Really Correct? <em>arXiv</em>. <a href="https://arxiv.org/abs/2305.01210">https://arxiv.org/abs/2305.01210</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_6.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="chapter_8.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_6.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="chapter_8.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

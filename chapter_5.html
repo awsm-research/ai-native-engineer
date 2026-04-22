@@ -1,0 +1,653 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 5: The AI-Native Development Paradigm - The AI-Native Engineer: Building Software with Coding Agents</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A 12-week online course and textbook on AI-native software engineering">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-cfb8c40f.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-b311743f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The AI-Native Engineer: Building Software with Coding Agents</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="chapter-5-the-ai-native-development-paradigm"><a class="header" href="#chapter-5-the-ai-native-development-paradigm">Chapter 5: The AI-Native Development Paradigm</a></h1>
+<blockquote>
+<p><em>“The question is not whether AI will change software engineering. It already has. The question is whether you are shaping that change or being shaped by it.”</em></p>
+</blockquote>
+<hr>
+<h2 id="learning-objectives"><a class="header" href="#learning-objectives">Learning Objectives</a></h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Distinguish AI-native engineering from AI-assisted development.</li>
+<li>Describe the AI-Native SDLC and each of its four phases: Spec, Generate, Evaluate, Refine.</li>
+<li>Explain how AI coding agents differ from copilots and what capabilities agents introduce.</li>
+<li>Identify the key components of an agent: tool use, planning, and memory.</li>
+<li>Explain the purpose of protocols like MCP and A2A in multi-agent systems.</li>
+<li>Select an appropriate model size and estimate cost for a given engineering task.</li>
+<li>Apply the AI-native lens to re-examine your course project specification.</li>
+</ol>
+<hr>
+<h2 id="51-two-ways-of-working-with-ai"><a class="header" href="#51-two-ways-of-working-with-ai">5.1 Two Ways of Working with AI</a></h2>
+<p>Before 2021, AI’s role in software development was largely confined to autocomplete suggestions, simple code search, and static analysis. The release of GitHub Copilot changed this: for the first time, AI could generate contextually relevant code at the function level from a comment or function signature.</p>
+<p>Most developers initially used these tools as <em>accelerators</em> — they wrote the specification, the design, the tests, and then used AI to fill in boilerplate or suggest implementations for functions they already had in mind. This is <em>AI-assisted development</em>: the engineer’s workflow is unchanged, but AI speeds up some steps.</p>
+<p><em>AI-native engineering</em> is a different posture. It recognises that AI has changed not just the speed of some steps, but the nature of the engineer’s job itself. In AI-native engineering:</p>
+<ul>
+<li><strong>Specifications become the primary engineering artefact</strong> — what you write for the AI is as important as what the AI writes back</li>
+<li><strong>Generation is a commodity</strong> — producing code is no longer the bottleneck</li>
+<li><strong>Evaluation becomes the critical skill</strong> — determining whether generated code is correct, secure, and appropriate requires deep engineering judgment</li>
+<li><strong>The SDLC is restructured</strong> around the capabilities and failure modes of AI systems</li>
+</ul>
+<p>This is not a prediction about some future state. It is a description of how leading software teams are working today (<a href="https://arxiv.org/abs/2212.09251">Khlaaf et al., 2022</a>).</p>
+<hr>
+<h2 id="52-the-evolution-of-ai-coding-tools"><a class="header" href="#52-the-evolution-of-ai-coding-tools">5.2 The Evolution of AI Coding Tools</a></h2>
+<p>Understanding where current tools came from helps calibrate what they can and cannot do.</p>
+<h3 id="521-copilots-2021present"><a class="header" href="#521-copilots-2021present">5.2.1 Copilots (2021–present)</a></h3>
+<p>GitHub Copilot, powered by OpenAI Codex (<a href="https://arxiv.org/abs/2107.03374">Chen et al., 2021</a>), was the first widely deployed AI coding tool. It operates in-editor, completing code as the developer types. It works well for:</p>
+<ul>
+<li>Boilerplate and repetitive patterns</li>
+<li>Simple algorithms with clear names</li>
+<li>Common library API usage</li>
+<li>Translating between languages</li>
+</ul>
+<p>It works poorly for:</p>
+<ul>
+<li>Multi-file context</li>
+<li>Long-range dependencies</li>
+<li>System-level design</li>
+<li>Novel or domain-specific logic</li>
+</ul>
+<h3 id="522-chat-based-assistants-2022present"><a class="header" href="#522-chat-based-assistants-2022present">5.2.2 Chat-Based Assistants (2022–present)</a></h3>
+<p>ChatGPT, Claude, and Gemini introduced multi-turn conversation with AI. Engineers could now describe a problem in natural language, receive an explanation or solution, and iterate through dialogue. Chat interfaces handle more context than inline completion and support discussion of design decisions.</p>
+<h3 id="523-ai-coding-agents-2024present"><a class="header" href="#523-ai-coding-agents-2024present">5.2.3 AI Coding Agents (2024–present)</a></h3>
+<p>AI coding agents — such as Claude Code, Devin (<a href="https://cognition.ai/blog/introducing-devin">Cognition, 2024</a>), and Cursor in agent mode — represent the next step. An agent is not just responding to prompts; it is <em>acting in the world</em>:</p>
+<ul>
+<li>It can read and write files</li>
+<li>It can run code and tests</li>
+<li>It can browse the web and read documentation</li>
+<li>It can use APIs and external tools</li>
+<li>It can plan a multi-step task and execute each step autonomously</li>
+</ul>
+<p>This changes the nature of human-AI collaboration significantly. Rather than the engineer making every decision and using AI to execute individual steps, the engineer can delegate a whole task to an agent, monitor its progress, and intervene when it goes wrong.</p>
+<hr>
+<h2 id="53-the-ai-native-sdlc"><a class="header" href="#53-the-ai-native-sdlc">5.3 The AI-Native SDLC</a></h2>
+<p>The traditional SDLC (Requirements → Design → Implementation → Testing → Deployment) maps awkwardly onto AI-native workflows. A more useful model for AI-native development is:</p>
+<pre><code>Spec → Generate → Evaluate → Refine
+  ↑                              │
+  └──────────────────────────────┘
+</code></pre>
+<p>This cycle is iterative and fast — a single round can take minutes rather than days.</p>
+<h3 id="531-spec"><a class="header" href="#531-spec">5.3.1 Spec</a></h3>
+<p><em>Specification</em> is the act of describing, precisely and completely, what you want the AI to produce. In AI-native engineering, specification is the primary engineering activity — not implementation.</p>
+<p>A good specification for AI includes:</p>
+<ul>
+<li><strong>Context</strong>: What is the purpose of this component? What does it fit into?</li>
+<li><strong>Inputs and outputs</strong>: What does the function receive? What should it return?</li>
+<li><strong>Constraints</strong>: What invariants must hold? What should the function explicitly NOT do?</li>
+<li><strong>Examples</strong>: What are the expected input-output pairs for key cases?</li>
+<li><strong>Quality attributes</strong>: What performance, security, or style requirements apply?</li>
+</ul>
+<p>The quality of your specification directly determines the quality of what is generated. Vague inputs produce vague outputs. This is the central insight of prompt engineering, covered in depth in Chapter 6.</p>
+<h3 id="532-generate"><a class="header" href="#532-generate">5.3.2 Generate</a></h3>
+<p>Generation is the act of invoking the AI with your specification to produce code, tests, documentation, or other artefacts. In the AI-native paradigm, this step is largely mechanical — the creative and intellectual work is in the specification and evaluation phases.</p>
+<p>Key decisions at the generate step:</p>
+<ul>
+<li><strong>Which model to use</strong>: Different models have different strengths, costs, and context windows</li>
+<li><strong>Temperature and sampling</strong>: Lower temperatures produce more deterministic output; higher temperatures produce more varied output</li>
+<li><strong>Context to include</strong>: What files, documentation, or examples should accompany the specification?</li>
+</ul>
+<h3 id="533-evaluate"><a class="header" href="#533-evaluate">5.3.3 Evaluate</a></h3>
+<p>Evaluation is the act of determining whether the generated output meets the specification. This is where most of the engineering judgment in AI-native development lives.</p>
+<p>Evaluation is covered in depth in Chapter 7. At a high level, it involves:</p>
+<ul>
+<li>Running automated tests</li>
+<li>Static analysis and type checking</li>
+<li>Manual code review</li>
+<li>Behavioural testing against real or synthetic data</li>
+<li>Security review</li>
+</ul>
+<p>Crucially, evaluation must happen <em>before</em> the generated code is trusted. AI-generated code can pass visual inspection while containing subtle bugs, security vulnerabilities, or logical errors that only surface under specific conditions.</p>
+<h3 id="534-refine"><a class="header" href="#534-refine">5.3.4 Refine</a></h3>
+<p>If evaluation reveals problems, refinement involves returning to the specification (to add constraints or correct misunderstandings) and regenerating. Refinement may involve:</p>
+<ul>
+<li>Adding failing test cases to the specification (“the function should return X when given Y”)</li>
+<li>Adding explicit constraints that the AI violated (“do not use X, use Y instead”)</li>
+<li>Breaking the specification into smaller, more tractable pieces</li>
+<li>Changing the approach entirely</li>
+</ul>
+<p>The Spec → Generate → Evaluate → Refine loop typically runs multiple times before a satisfactory result is reached. The discipline is in specification quality and evaluation rigour, not in generating more.</p>
+<hr>
+<h2 id="54-what-is-an-ai-coding-agent"><a class="header" href="#54-what-is-an-ai-coding-agent">5.4 What Is an AI Coding Agent?</a></h2>
+<p>An AI coding agent is a system in which a large language model can not only generate text, but also take <em>actions</em> in the world — reading and writing files, executing code, calling APIs, and browsing the web — in service of a multi-step goal.</p>
+<p>The term “agent” comes from AI research (<a href="https://aima.cs.berkeley.edu/">Russell &amp; Norvig, 2020</a>), where an agent is any system that perceives its environment and takes actions to achieve goals. In the context of AI coding, the environment is the software development environment (the codebase, the terminal, the browser).</p>
+<h3 id="541-tool-use"><a class="header" href="#541-tool-use">5.4.1 Tool Use</a></h3>
+<p>The most fundamental capability that distinguishes an agent from a chatbot is <em>tool use</em> — the ability to invoke external functions and incorporate their results into the agent’s reasoning.</p>
+<p>Common tools available to coding agents:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Tool</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>read_file(path)</code></td><td>Read the contents of a file</td></tr>
+<tr><td><code>write_file(path, content)</code></td><td>Write content to a file</td></tr>
+<tr><td><code>run_command(cmd)</code></td><td>Execute a shell command and return the output</td></tr>
+<tr><td><code>search_web(query)</code></td><td>Search the web and return results</td></tr>
+<tr><td><code>fetch_url(url)</code></td><td>Fetch the contents of a URL</td></tr>
+<tr><td><code>call_api(endpoint, params)</code></td><td>Make an HTTP API call</td></tr>
+</tbody>
+</table>
+</div>
+<p>When an agent has access to these tools, it can autonomously investigate a codebase, identify a bug, write a fix, run the tests to verify it, and commit the change — all without human intervention at each step.</p>
+<h3 id="542-planning"><a class="header" href="#542-planning">5.4.2 Planning</a></h3>
+<p>Planning is the ability to break a high-level goal into a sequence of sub-tasks and execute them in order, adapting the plan as new information is discovered.</p>
+<p>A naive agent executes tasks sequentially without reflection. A more sophisticated agent uses a <em>plan-execute-observe</em> loop:</p>
+<pre><code>Goal: "Add input validation to the task creation endpoint"
+
+Plan:
+  1. Read the current task creation endpoint code
+  2. Read the existing tests for this endpoint
+  3. Identify which input fields currently lack validation
+  4. Write validation logic for each field
+  5. Write tests for the new validation
+  6. Run the tests to verify
+
+Execute step 1 → Observe result → Update plan if needed → Execute step 2 → ...
+</code></pre>
+<p>Modern agents use techniques like ReAct (Reason + Act) (<a href="https://arxiv.org/abs/2210.03629">Yao et al., 2022</a>) to interleave reasoning and action, producing more reliable multi-step behaviour.</p>
+<h3 id="543-memory"><a class="header" href="#543-memory">5.4.3 Memory</a></h3>
+<p>Agents need different types of memory to function effectively across long tasks:</p>
+<ul>
+<li><strong>In-context memory</strong>: The current conversation history and tool results — limited by the model’s context window</li>
+<li><strong>External memory</strong>: Files, databases, or vector stores that the agent can read and write — persistent across sessions</li>
+<li><strong>Semantic memory</strong>: Compressed summaries of past interactions — allows the agent to operate over longer time horizons than the context window permits</li>
+</ul>
+<p>Managing what information to put in context (and what to leave out) is a significant challenge in building effective agents. Too much context causes the model to “lose focus”; too little context causes it to make decisions without relevant information.</p>
+<hr>
+<h2 id="55-agentic-protocols-mcp-and-a2a"><a class="header" href="#55-agentic-protocols-mcp-and-a2a">5.5 Agentic Protocols: MCP and A2A</a></h2>
+<p>As agents have proliferated, the need for standard protocols for connecting them to tools and to each other has emerged.</p>
+<h3 id="551-model-context-protocol-mcp"><a class="header" href="#551-model-context-protocol-mcp">5.5.1 Model Context Protocol (MCP)</a></h3>
+<p>The Model Context Protocol (<a href="https://modelcontextprotocol.io/">Anthropic, 2024</a>) is an open standard for connecting AI models to external tools, data sources, and services. It defines a standard interface so that any MCP-compatible tool can be used by any MCP-compatible agent without custom integration code.</p>
+<p>MCP defines three types of capabilities that a server can expose to an agent:</p>
+<ul>
+<li><strong>Tools</strong>: Functions the agent can invoke (e.g., search a database, read a file)</li>
+<li><strong>Resources</strong>: Data sources the agent can read (e.g., a file, a database record)</li>
+<li><strong>Prompts</strong>: Pre-defined prompt templates for common tasks</li>
+</ul>
+<p>With MCP, a developer can write a single MCP server for their GitHub repository, and any agent that supports MCP can read issues, create pull requests, and search code — without either the agent developer or the repository owner needing to write custom integration code.</p>
+<h3 id="552-agent-to-agent-protocol-a2a"><a class="header" href="#552-agent-to-agent-protocol-a2a">5.5.2 Agent-to-Agent Protocol (A2A)</a></h3>
+<p>The Agent-to-Agent protocol (<a href="https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/">Google, 2025</a>) is an open standard for agents to discover and communicate with each other. It enables multi-agent systems where a <em>coordinator agent</em> delegates sub-tasks to <em>worker agents</em>, each specialised for a particular domain.</p>
+<p>In a multi-agent software development system, for example:</p>
+<ul>
+<li>A <strong>coordinator agent</strong> receives a feature request and breaks it into sub-tasks</li>
+<li>A <strong>requirements agent</strong> refines the specification</li>
+<li>A <strong>coding agent</strong> implements the feature</li>
+<li>A <strong>testing agent</strong> writes and runs tests</li>
+<li>A <strong>review agent</strong> checks the code for security and style issues</li>
+</ul>
+<p>These agents communicate via A2A, passing task descriptions, results, and feedback in a standardised format. Multi-agent architectures are covered in depth in Chapter 8.</p>
+<hr>
+<h2 id="56-choosing-the-right-model"><a class="header" href="#56-choosing-the-right-model">5.6 Choosing the Right Model</a></h2>
+<p>Not all AI models are equally suited to every task. Selecting the right model for a given purpose is an engineering decision with real consequences for quality, speed, and cost.</p>
+<h3 id="561-the-model-capability-spectrum"><a class="header" href="#561-the-model-capability-spectrum">5.6.1 The Model Capability Spectrum</a></h3>
+<p>Modern AI providers offer models across a spectrum from small/fast/cheap to large/slow/capable. The Anthropic model family as of 2025:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Model</th><th>Strengths</th><th>Context Window</th><th>Relative Cost</th><th>Best For</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Claude Haiku</strong></td><td>Speed, low latency</td><td>200K tokens</td><td>Low</td><td>High-volume, simple tasks: docstring generation, lint fixes, short completions</td></tr>
+<tr><td><strong>Claude Sonnet</strong></td><td>Balanced capability and speed</td><td>200K tokens</td><td>Medium</td><td>Most engineering tasks: feature implementation, code review, test generation</td></tr>
+<tr><td><strong>Claude Opus</strong></td><td>Maximum capability, complex reasoning</td><td>200K tokens</td><td>High</td><td>Difficult tasks: architectural decisions, complex debugging, security analysis</td></tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><strong>Check the current model list.</strong> Model families evolve rapidly. Always verify available models and their capabilities at <a href="https://docs.anthropic.com/en/docs/about-claude/models">https://docs.anthropic.com/en/docs/about-claude/models</a> before selecting a model for production use.</p>
+</blockquote>
+<p>For OpenAI, the equivalent spectrum is GPT-4o-mini (fast/cheap) → GPT-4o (balanced) → o1/o3 (reasoning-heavy). For Google: Gemini Flash → Gemini Pro → Gemini Ultra. The selection principle is the same regardless of provider.</p>
+<h3 id="562-matching-model-to-task"><a class="header" href="#562-matching-model-to-task">5.6.2 Matching Model to Task</a></h3>
+<pre><code class="language-python">import anthropic
+
+client = anthropic.Anthropic()
+
+# Use a smaller, faster model for high-volume, simple tasks
+def generate_docstring(function_code: str) -&gt; str:
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",  # Fast, cheap — appropriate for docstrings
+        max_tokens=256,
+        messages=[{"role": "user", "content": f"Write a one-line docstring for:\n{function_code}"}],
+    )
+    return response.content[0].text
+
+
+# Use a capable model for complex reasoning tasks
+def security_review(code: str) -&gt; str:
+    response = client.messages.create(
+        model="claude-opus-4-7",  # Full capability — security analysis needs it
+        max_tokens=2048,
+        messages=[{"role": "user", "content": f"Security review:\n{code}"}],
+    )
+    return response.content[0].text
+
+
+# Use a balanced model for most feature development
+def implement_feature(specification: str) -&gt; str:
+    response = client.messages.create(
+        model="claude-sonnet-4-6",  # Balanced — good quality at reasonable cost
+        max_tokens=4096,
+        messages=[{"role": "user", "content": specification}],
+    )
+    return response.content[0].text
+</code></pre>
+<h3 id="563-context-window-considerations"><a class="header" href="#563-context-window-considerations">5.6.3 Context Window Considerations</a></h3>
+<p>Context window size — the maximum amount of text a model can process in a single call — directly affects specification design. All current Claude models support 200K tokens (roughly 150,000 words), which is sufficient for most codebases. However, larger contexts:</p>
+<ul>
+<li>Cost more (most providers charge per token)</li>
+<li>Are processed more slowly</li>
+<li>May cause the model to “lose focus” on specific instructions buried in long context (<a href="https://arxiv.org/abs/2307.03172">Liu et al., 2023</a>)</li>
+</ul>
+<p><strong>Practical guideline</strong>: Keep specification prompts under 2,000 tokens for most code generation. Reserve large context for tasks that genuinely need it — understanding an entire module before refactoring, for example.</p>
+<h3 id="564-cost-estimation"><a class="header" href="#564-cost-estimation">5.6.4 Cost Estimation</a></h3>
+<p>Rough cost estimation for common tasks (prices vary; check provider pricing pages for current rates):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Task</th><th>Typical tokens</th><th>Model tier</th><th>Approx. cost per 1,000 tasks</th></tr>
+</thead>
+<tbody>
+<tr><td>Docstring generation</td><td>~500 in + ~100 out</td><td>Small</td><td>&lt; $0.10</td></tr>
+<tr><td>Function implementation</td><td>~1,000 in + ~500 out</td><td>Medium</td><td>~$1–3</td></tr>
+<tr><td>Security review</td><td>~2,000 in + ~1,000 out</td><td>Large</td><td>~$15–30</td></tr>
+<tr><td>Agent task (10 steps)</td><td>~20,000 total</td><td>Medium</td><td>~$10–20</td></tr>
+</tbody>
+</table>
+</div>
+<p>For a 12-person team running 50 AI-assisted tasks per day, monthly API costs typically range from $50–500 depending on task mix and model selection — comparable to a single SaaS tool licence.</p>
+<hr>
+<h2 id="57-the-shifting-role-of-the-engineer"><a class="header" href="#57-the-shifting-role-of-the-engineer">5.7 The Shifting Role of the Engineer</a></h2>
+<p>The emergence of AI coding agents does not eliminate the need for software engineers — but it does fundamentally change what engineers spend their time on.</p>
+<h3 id="561-what-changes"><a class="header" href="#561-what-changes">5.6.1 What Changes</a></h3>
+<p><strong>Less time on</strong>: Implementing boilerplate, writing routine CRUD code, translating designs into code, looking up API documentation, writing test scaffolding.</p>
+<p><strong>More time on</strong>: Defining the problem clearly, writing precise specifications, evaluating generated outputs, architectural decisions, security review, stakeholder communication.</p>
+<h3 id="562-the-engineer-as-principal"><a class="header" href="#562-the-engineer-as-principal">5.6.2 The Engineer as Principal</a></h3>
+<p>In agentic systems, the human engineer acts as a <em>principal</em> — the authority that defines goals, sets constraints, and approves outcomes. The agent acts as an <em>executor</em> — planning and carrying out the steps needed to achieve the goal.</p>
+<p>This relationship requires a new set of skills:</p>
+<ul>
+<li><strong>Goal decomposition</strong>: Breaking a complex goal into tasks small enough for an agent to handle reliably</li>
+<li><strong>Constraint specification</strong>: Defining what the agent must NOT do, not just what it should do</li>
+<li><strong>Output evaluation</strong>: Assessing whether the agent’s output is correct, secure, and appropriate</li>
+<li><strong>Failure diagnosis</strong>: Understanding why an agent went wrong and how to prevent recurrence</li>
+</ul>
+<h3 id="563-skills-that-endure"><a class="header" href="#563-skills-that-endure">5.6.3 Skills That Endure</a></h3>
+<p>The foundational skills of software engineering — understanding algorithms, system design, testing, security, and communication — become <em>more</em> valuable in the AI-native era, not less. They are the skills needed to write good specifications, evaluate AI outputs, and diagnose agent failures.</p>
+<p>Engineers who treat AI tools as magic boxes that produce correct code will be frustrated and vulnerable. Engineers who understand the capabilities and failure modes of AI systems will be significantly more productive.</p>
+<hr>
+<h2 id="58-tutorial-working-with-an-ai-coding-agent-end-to-end"><a class="header" href="#58-tutorial-working-with-an-ai-coding-agent-end-to-end">5.8 Tutorial: Working with an AI Coding Agent End-to-End</a></h2>
+<p>This tutorial demonstrates the AI-Native SDLC cycle using the Anthropic API to implement a feature for the course project.</p>
+<h3 id="the-task"><a class="header" href="#the-task">The Task</a></h3>
+<p>Add a <code>filter_tasks</code> function to the task service that filters tasks by status, priority, and assignee.</p>
+<h3 id="step-1-write-the-specification"><a class="header" href="#step-1-write-the-specification">Step 1: Write the Specification</a></h3>
+<pre><code class="language-python"># spec: filter_tasks function
+# 
+# Context: Part of a task management API backend (Python 3.11, no framework)
+# 
+# Function signature:
+#   filter_tasks(tasks, status=None, priority=None, assignee=None) -&gt; list[Task]
+#
+# Behaviour:
+# - Returns all tasks if no filters are provided
+# - Filters by status if status is provided (exact match)
+# - Filters by priority if priority is provided (exact match, integer 1-4)
+# - Filters by assignee if assignee is provided (exact match on assignee email)
+# - Multiple filters are ANDed (all must match)
+# - Returns an empty list (not None) if no tasks match
+# - Does NOT modify the input list
+# - Raises TypeError if tasks is not a list
+# - Raises ValueError if priority is provided but not in range 1-4
+#
+# Examples:
+# filter_tasks([task1, task2], status="open") -&gt; [task1] (if task1.status=="open")
+# filter_tasks([task1], status="open", priority=2) -&gt; [] (if task1.priority!=2)
+# filter_tasks([]) -&gt; []
+</code></pre>
+<h3 id="step-2-generate-an-implementation"><a class="header" href="#step-2-generate-an-implementation">Step 2: Generate an Implementation</a></h3>
+<pre><code class="language-python">import anthropic
+
+client = anthropic.Anthropic()
+
+specification = """
+Implement a Python function `filter_tasks` with the following specification:
+
+Function signature:
+  filter_tasks(tasks: list[Task], status: str | None = None,
+               priority: int | None = None,
+               assignee: str | None = None) -&gt; list[Task]
+
+Where Task is a dataclass with fields: id (UUID), title (str),
+priority (int, 1-4), status (str), assignee (str | None).
+
+Behaviour:
+- Returns all tasks if no filters are provided
+- Multiple filters are ANDed (all must match)
+- Returns an empty list if no tasks match
+- Does NOT modify the input list
+- Raises TypeError if tasks is not a list
+- Raises ValueError if priority is provided but not in range 1-4
+
+Use Python 3.11 type hints throughout. No comments needed unless
+a line would confuse an experienced Python developer.
+"""
+
+response = client.messages.create(
+    model="claude-opus-4-7",
+    max_tokens=1024,
+    messages=[{"role": "user", "content": specification}],
+)
+
+print(response.content[0].text)
+</code></pre>
+<h3 id="step-3-evaluate-the-output"><a class="header" href="#step-3-evaluate-the-output">Step 3: Evaluate the Output</a></h3>
+<p>Review the generated code for:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Correct type hints on function signature and return type</li>
+<li><input disabled="" type="checkbox"> Does not modify the input list (uses a new list or generator)</li>
+<li><input disabled="" type="checkbox"> TypeError raised when tasks is not a list</li>
+<li><input disabled="" type="checkbox"> ValueError raised when priority is out of range</li>
+<li><input disabled="" type="checkbox"> Empty list returned (not None) when no matches</li>
+<li><input disabled="" type="checkbox"> All filter conditions ANDed correctly</li>
+</ul>
+<p>Write tests to verify each behaviour before accepting the code.</p>
+<h3 id="step-4-refine"><a class="header" href="#step-4-refine">Step 4: Refine</a></h3>
+<p>If the generated code is missing the <code>TypeError</code> check, add this constraint to the specification:</p>
+<pre><code class="language-python"># Add to specification:
+# - MUST raise TypeError (not just return []) if tasks is not a list
+#   This is important because silent failures mask programmer errors
+</code></pre>
+<p>Regenerate and re-evaluate.</p>
+<hr>
+<h2 id="59-project-milestone-re-examine-through-the-ai-native-lens"><a class="header" href="#59-project-milestone-re-examine-through-the-ai-native-lens">5.9 Project Milestone: Re-Examine Through the AI-Native Lens</a></h2>
+<h3 id="this-weeks-deliverables"><a class="header" href="#this-weeks-deliverables">This Week’s Deliverables</a></h3>
+<p>Return to your course project specification from Weeks 1–2 and produce:</p>
+<ol>
+<li>
+<p><strong>AI-native specification rewrite</strong>: Rewrite the acceptance criteria for 3 of your user stories in the “AI-native” format — context, inputs/outputs, constraints, and examples — suitable for use as a generation specification.</p>
+</li>
+<li>
+<p><strong>Generate-evaluate log</strong>: For one of your rewritten specifications, run the Spec → Generate → Evaluate → Refine cycle. Document:</p>
+<ul>
+<li>The specification you used</li>
+<li>The generated output (or a summary)</li>
+<li>Your evaluation findings (what was correct, what was wrong)</li>
+<li>What you changed in the specification and why</li>
+<li>The final output after refinement</li>
+</ul>
+</li>
+<li>
+<p><strong>Reflection</strong>: In 200–300 words, reflect on how the AI-native SDLC differs from the traditional SDLC. What required more effort than you expected? What required less?</p>
+</li>
+</ol>
+<hr>
+<blockquote>
+<p><strong>Common Mistakes</strong></p>
+<p><strong>Treating generation as the goal.</strong> Engineers new to the AI-native workflow spend disproportionate effort getting the AI to produce <em>any</em> plausible output, then accept it. The goal is a <em>correct</em> output. If you cannot evaluate it, you have not finished the task.</p>
+<p><strong>Skipping the specification when the task “seems obvious.”</strong> Simple functions produce the most under-specified prompts. The AI’s output looks reasonable, review is skipped, and the subtle edge case surfaces in production. Write a specification even for three-line functions.</p>
+<p><strong>Using the most capable model for every task.</strong> Routing all requests to the most powerful (and expensive) model is common when starting out. Section 5.6 describes a cost/capability matrix — apply it. Haiku for docstrings, Sonnet for features, Opus for architectural review.</p>
+<p><strong>Treating a passing test suite as proof of correctness.</strong> Tests verify specific cases. AI-generated code may be incorrect for cases your tests do not cover. Evaluation (Chapter 7) is broader than test execution.</p>
+</blockquote>
+<hr>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>AI-native engineering is not just using AI tools faster — it is a fundamental restructuring of the software development process. Key takeaways:</p>
+<ul>
+<li>AI-assisted development uses AI to accelerate existing workflows; AI-native engineering restructures the workflow around AI capabilities.</li>
+<li>The AI-Native SDLC — Spec → Generate → Evaluate → Refine — repositions specification and evaluation as the primary engineering activities.</li>
+<li>AI coding agents go beyond text generation: they can plan, use tools, and take actions in the development environment.</li>
+<li>Tool use, planning, and memory are the three key capabilities that distinguish agents from simple chatbots.</li>
+<li>MCP and A2A are emerging protocols for connecting agents to tools and to each other, enabling multi-agent workflows.</li>
+<li>The engineer’s role shifts from coder to principal: defining goals, specifying constraints, and evaluating outcomes.</li>
+<li>Foundational SE skills become <em>more</em> valuable in the AI-native era, not less — they are the skills needed to write good specifications and evaluate AI outputs.</li>
+</ul>
+<hr>
+<h2 id="review-questions"><a class="header" href="#review-questions">Review Questions</a></h2>
+<ol>
+<li>What is the difference between AI-assisted development and AI-native engineering? Give a concrete example of each approach applied to the same task.</li>
+<li>Describe the four phases of the AI-Native SDLC. Which phase do you think requires the most engineering skill? Justify your answer.</li>
+<li>What is an AI coding agent? How does it differ from a chat-based assistant like ChatGPT?</li>
+<li>Explain the role of “tool use” in AI agents. Give three examples of tools that would be useful for a coding agent.</li>
+<li>What is the Model Context Protocol (MCP)? What problem does it solve?</li>
+<li>A junior developer argues: “AI agents will automate away software engineering jobs within 5 years.” What is the strongest argument for this position, and what is the strongest argument against it?</li>
+</ol>
+<hr>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li>Chen, M., et al. (2021). Evaluating Large Language Models Trained on Code. <em>arXiv</em>. <a href="https://arxiv.org/abs/2107.03374">https://arxiv.org/abs/2107.03374</a></li>
+<li>Cognition. (2024). Introducing Devin, the first AI software engineer. <a href="https://cognition.ai/blog/introducing-devin">https://cognition.ai/blog/introducing-devin</a></li>
+<li>Google. (2025). A2A: A new era of agent interoperability. <a href="https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/">https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/</a></li>
+<li>Khlaaf, H., et al. (2022). A Hazard Analysis Framework for Code Synthesis Large Language Models. <em>arXiv</em>. <a href="https://arxiv.org/abs/2212.09251">https://arxiv.org/abs/2212.09251</a></li>
+<li>Anthropic. (2024). Model Context Protocol. <a href="https://modelcontextprotocol.io/">https://modelcontextprotocol.io/</a></li>
+<li>Russell, S., &amp; Norvig, P. (2020). <em>Artificial Intelligence: A Modern Approach</em> (4th ed.). Pearson. <a href="https://aima.cs.berkeley.edu/">https://aima.cs.berkeley.edu/</a></li>
+<li>Yao, S., et al. (2022). ReAct: Synergizing Reasoning and Acting in Language Models. <em>arXiv</em>. <a href="https://arxiv.org/abs/2210.03629">https://arxiv.org/abs/2210.03629</a></li>
+<li>Peng, S., et al. (2023). The Impact of AI on Developer Productivity: Evidence from GitHub Copilot. <em>arXiv</em>. <a href="https://arxiv.org/abs/2302.06590">https://arxiv.org/abs/2302.06590</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_4.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="chapter_6.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_4.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="chapter_6.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

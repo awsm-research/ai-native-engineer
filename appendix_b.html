@@ -1,0 +1,663 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Appendix B: Design Pattern Reference - The AI-Native Engineer: Building Software with Coding Agents</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A 12-week online course and textbook on AI-native software engineering">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-cfb8c40f.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-b311743f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The AI-Native Engineer: Building Software with Coding Agents</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="appendix-b-design-pattern-reference"><a class="header" href="#appendix-b-design-pattern-reference">Appendix B: Design Pattern Reference</a></h1>
+<p>This appendix provides a quick-reference summary of design patterns mentioned in the book, including patterns from Chapter 3 and additional patterns encountered in AI-native codebases. For each pattern, the reference includes the problem it solves, the Python implementation sketch, and common use cases.</p>
+<p>For a comprehensive treatment, see Gamma et al. (1994), <em>Design Patterns: Elements of Reusable Object-Oriented Software</em> (<a href="https://www.amazon.com/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612">Amazon</a>) and Fowler (2002), <em>Patterns of Enterprise Application Architecture</em> (<a href="https://martinfowler.com/eaaCatalog/">martinfowler.com</a>).</p>
+<hr>
+<h2 id="b1-creational-patterns"><a class="header" href="#b1-creational-patterns">B.1 Creational Patterns</a></h2>
+<h3 id="singleton"><a class="header" href="#singleton">Singleton</a></h3>
+<p><strong>Problem</strong>: Ensure a class has only one instance and provide global access to it.</p>
+<p><strong>When to use</strong>: Database connection pools, configuration objects, logging instances. Use sparingly — Singletons introduce global state that makes testing harder.</p>
+<pre><code class="language-python">class Config:
+    _instance: "Config | None" = None
+
+    def __new__(cls) -&gt; "Config":
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance._loaded = False
+        return cls._instance
+
+    def load(self, path: str) -&gt; None:
+        if not self._loaded:
+            # load configuration from file
+            self._loaded = True
+</code></pre>
+<p><strong>Preferred alternative in Python</strong>: Module-level instances. A module is loaded once; a module-level variable is effectively a singleton:</p>
+<pre><code class="language-python"># config.py
+import os
+DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///dev.db")
+</code></pre>
+<h3 id="factory-method"><a class="header" href="#factory-method">Factory Method</a></h3>
+<p><strong>Problem</strong>: Create objects without specifying the exact class, letting subclasses or configuration decide.</p>
+<p><strong>When to use</strong>: When the type of object to create depends on runtime information; when you want to decouple creation from use.</p>
+<pre><code class="language-python">from abc import ABC, abstractmethod
+
+
+class Notifier(ABC):
+    @abstractmethod
+    def send(self, recipient: str, message: str) -&gt; None: ...
+
+
+class EmailNotifier(Notifier):
+    def send(self, recipient: str, message: str) -&gt; None:
+        print(f"Sending email to {recipient}: {message}")
+
+
+class SMSNotifier(Notifier):
+    def send(self, recipient: str, message: str) -&gt; None:
+        print(f"Sending SMS to {recipient}: {message}")
+
+
+def create_notifier(channel: str) -&gt; Notifier:
+    match channel:
+        case "email":
+            return EmailNotifier()
+        case "sms":
+            return SMSNotifier()
+        case _:
+            raise ValueError(f"Unknown channel: {channel}")
+</code></pre>
+<h3 id="builder"><a class="header" href="#builder">Builder</a></h3>
+<p><strong>Problem</strong>: Construct a complex object step by step, separating construction from representation.</p>
+<p><strong>When to use</strong>: Objects with many optional parameters; when the construction process must allow different representations.</p>
+<pre><code class="language-python">from dataclasses import dataclass, field
+
+
+@dataclass
+class Query:
+    table: str
+    filters: list[str] = field(default_factory=list)
+    order_by: str | None = None
+    limit: int | None = None
+
+    def where(self, condition: str) -&gt; "Query":
+        return Query(self.table, self.filters + [condition], self.order_by, self.limit)
+
+    def order(self, column: str) -&gt; "Query":
+        return Query(self.table, self.filters, column, self.limit)
+
+    def take(self, n: int) -&gt; "Query":
+        return Query(self.table, self.filters, self.order_by, n)
+
+
+# Usage (fluent builder pattern)
+query = (
+    Query("tasks")
+    .where("status = 'open'")
+    .where("priority &gt;= 2")
+    .order("due_date")
+    .take(10)
+)
+</code></pre>
+<hr>
+<h2 id="b2-structural-patterns"><a class="header" href="#b2-structural-patterns">B.2 Structural Patterns</a></h2>
+<h3 id="repository"><a class="header" href="#repository">Repository</a></h3>
+<p><strong>Problem</strong>: Abstract the data access layer, presenting a collection-like interface to the domain model.</p>
+<p><strong>When to use</strong>: Any application with a persistence layer. Repository is one of the most important patterns for testable code — it allows tests to substitute in-memory storage for a real database.</p>
+<pre><code class="language-python">from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from datetime import date
+
+
+@dataclass
+class Task:
+    id: int
+    title: str
+    status: str
+    due_date: date | None = None
+
+
+class TaskRepository(ABC):
+    @abstractmethod
+    def get_by_id(self, task_id: int) -&gt; Task | None: ...
+
+    @abstractmethod
+    def list_all(self) -&gt; list[Task]: ...
+
+    @abstractmethod
+    def save(self, task: Task) -&gt; Task: ...
+
+    @abstractmethod
+    def delete(self, task_id: int) -&gt; None: ...
+
+
+class InMemoryTaskRepository(TaskRepository):
+    def __init__(self) -&gt; None:
+        self._store: dict[int, Task] = {}
+        self._next_id = 1
+
+    def get_by_id(self, task_id: int) -&gt; Task | None:
+        return self._store.get(task_id)
+
+    def list_all(self) -&gt; list[Task]:
+        return list(self._store.values())
+
+    def save(self, task: Task) -&gt; Task:
+        if task.id == 0:
+            task = Task(self._next_id, task.title, task.status, task.due_date)
+            self._next_id += 1
+        self._store[task.id] = task
+        return task
+
+    def delete(self, task_id: int) -&gt; None:
+        self._store.pop(task_id, None)
+</code></pre>
+<h3 id="adapter"><a class="header" href="#adapter">Adapter</a></h3>
+<p><strong>Problem</strong>: Convert the interface of a class into an interface that clients expect. Allows classes with incompatible interfaces to work together.</p>
+<p><strong>When to use</strong>: Integrating third-party libraries; wrapping legacy APIs; abstracting over multiple AI provider SDKs.</p>
+<pre><code class="language-python">from abc import ABC, abstractmethod
+
+
+class AIClient(ABC):
+    @abstractmethod
+    def complete(self, prompt: str, max_tokens: int = 1024) -&gt; str: ...
+
+
+class AnthropicAdapter(AIClient):
+    def __init__(self) -&gt; None:
+        import anthropic
+        self._client = anthropic.Anthropic()
+
+    def complete(self, prompt: str, max_tokens: int = 1024) -&gt; str:
+        response = self._client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return response.content[0].text
+
+
+class OpenAIAdapter(AIClient):
+    def __init__(self) -&gt; None:
+        from openai import OpenAI
+        self._client = OpenAI()
+
+    def complete(self, prompt: str, max_tokens: int = 1024) -&gt; str:
+        response = self._client.chat.completions.create(
+            model="gpt-4o",
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return response.choices[0].message.content or ""
+</code></pre>
+<h3 id="decorator"><a class="header" href="#decorator">Decorator</a></h3>
+<p><strong>Problem</strong>: Attach additional behaviour to an object dynamically, without modifying its class.</p>
+<p><strong>When to use</strong>: Cross-cutting concerns (logging, caching, rate limiting, retry); extending third-party classes without subclassing.</p>
+<pre><code class="language-python">import functools
+import time
+from typing import Callable, TypeVar
+
+F = TypeVar("F", bound=Callable)
+
+
+def retry(max_attempts: int = 3, delay: float = 1.0):
+    """Retry a function on exception."""
+    def decorator(fn: F) -&gt; F:
+        @functools.wraps(fn)
+        def wrapper(*args, **kwargs):
+            for attempt in range(max_attempts):
+                try:
+                    return fn(*args, **kwargs)
+                except Exception as e:
+                    if attempt == max_attempts - 1:
+                        raise
+                    time.sleep(delay * (attempt + 1))
+        return wrapper  # type: ignore[return-value]
+    return decorator
+
+
+def cached(fn: F) -&gt; F:
+    """Simple in-memory cache."""
+    cache: dict = {}
+    @functools.wraps(fn)
+    def wrapper(*args):
+        if args not in cache:
+            cache[args] = fn(*args)
+        return cache[args]
+    return wrapper  # type: ignore[return-value]
+</code></pre>
+<hr>
+<h2 id="b3-behavioural-patterns"><a class="header" href="#b3-behavioural-patterns">B.3 Behavioural Patterns</a></h2>
+<h3 id="observer"><a class="header" href="#observer">Observer</a></h3>
+<p><strong>Problem</strong>: Define a one-to-many dependency between objects so that when one object changes state, all its dependents are notified.</p>
+<p><strong>When to use</strong>: Event systems, UI data binding, audit logging, webhook dispatch.</p>
+<pre><code class="language-python">from abc import ABC, abstractmethod
+from dataclasses import dataclass
+
+
+class EventHandler(ABC):
+    @abstractmethod
+    def handle(self, event: dict) -&gt; None: ...
+
+
+class EventBus:
+    def __init__(self) -&gt; None:
+        self._handlers: dict[str, list[EventHandler]] = {}
+
+    def subscribe(self, event_type: str, handler: EventHandler) -&gt; None:
+        self._handlers.setdefault(event_type, []).append(handler)
+
+    def publish(self, event_type: str, payload: dict) -&gt; None:
+        for handler in self._handlers.get(event_type, []):
+            handler.handle({"type": event_type, **payload})
+
+
+class AuditLogger(EventHandler):
+    def handle(self, event: dict) -&gt; None:
+        print(f"[AUDIT] {event}")
+
+
+# Usage
+bus = EventBus()
+bus.subscribe("task.completed", AuditLogger())
+bus.publish("task.completed", {"task_id": 42, "user_id": 7})
+</code></pre>
+<h3 id="strategy"><a class="header" href="#strategy">Strategy</a></h3>
+<p><strong>Problem</strong>: Define a family of algorithms, encapsulate each one, and make them interchangeable.</p>
+<p><strong>When to use</strong>: Sorting algorithms, pricing strategies, authentication methods, AI model selection.</p>
+<pre><code class="language-python">from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from datetime import date
+
+
+@dataclass
+class Task:
+    id: int
+    title: str
+    priority: int
+    due_date: date | None
+
+
+class SortStrategy(ABC):
+    @abstractmethod
+    def sort(self, tasks: list[Task]) -&gt; list[Task]: ...
+
+
+class ByPriority(SortStrategy):
+    def sort(self, tasks: list[Task]) -&gt; list[Task]:
+        return sorted(tasks, key=lambda t: t.priority, reverse=True)
+
+
+class ByDueDate(SortStrategy):
+    def sort(self, tasks: list[Task]) -&gt; list[Task]:
+        return sorted(tasks, key=lambda t: (t.due_date is None, t.due_date))
+
+
+class TaskList:
+    def __init__(self, strategy: SortStrategy) -&gt; None:
+        self._strategy = strategy
+
+    def set_strategy(self, strategy: SortStrategy) -&gt; None:
+        self._strategy = strategy
+
+    def get_sorted(self, tasks: list[Task]) -&gt; list[Task]:
+        return self._strategy.sort(tasks)
+</code></pre>
+<h3 id="command"><a class="header" href="#command">Command</a></h3>
+<p><strong>Problem</strong>: Encapsulate a request as an object, allowing parameterisation, queuing, and undo operations.</p>
+<p><strong>When to use</strong>: Undo/redo functionality, task queues, audit trails, agent tool-use implementations.</p>
+<pre><code class="language-python">from abc import ABC, abstractmethod
+
+
+class Command(ABC):
+    @abstractmethod
+    def execute(self) -&gt; str: ...
+
+    @abstractmethod
+    def undo(self) -&gt; str: ...
+
+
+class CreateTaskCommand(Command):
+    def __init__(self, repo, title: str, priority: int) -&gt; None:
+        self._repo = repo
+        self._title = title
+        self._priority = priority
+        self._created_id: int | None = None
+
+    def execute(self) -&gt; str:
+        task = self._repo.create(self._title, self._priority)
+        self._created_id = task.id
+        return f"Created task {task.id}"
+
+    def undo(self) -&gt; str:
+        if self._created_id:
+            self._repo.delete(self._created_id)
+            return f"Deleted task {self._created_id}"
+        return "Nothing to undo"
+
+
+class CommandHistory:
+    def __init__(self) -&gt; None:
+        self._history: list[Command] = []
+
+    def execute(self, command: Command) -&gt; str:
+        result = command.execute()
+        self._history.append(command)
+        return result
+
+    def undo(self) -&gt; str:
+        if not self._history:
+            return "Nothing to undo"
+        return self._history.pop().undo()
+</code></pre>
+<hr>
+<h2 id="b4-ai-specific-patterns"><a class="header" href="#b4-ai-specific-patterns">B.4 AI-Specific Patterns</a></h2>
+<p>These patterns emerge specifically in AI-native systems and are not in the original GoF catalog.</p>
+<h3 id="prompt-template"><a class="header" href="#prompt-template">Prompt Template</a></h3>
+<p><strong>Problem</strong>: Construct prompts programmatically from variables while maintaining readability and testability.</p>
+<pre><code class="language-python">from string import Template
+
+
+REVIEW_TEMPLATE = Template("""
+You are a senior software engineer reviewing a pull request.
+
+## Context
+Project: $project_name
+Language: Python 3.11
+Style guide: PEP 8 with type hints
+
+## Code to review
+$code
+
+## Review focus
+$focus_areas
+
+Provide specific, actionable feedback. For each issue, provide:
+- The line or section with the problem
+- Why it is a problem
+- A concrete suggestion for improvement
+""")
+
+
+def create_review_prompt(
+    project_name: str, code: str, focus_areas: str
+) -&gt; str:
+    return REVIEW_TEMPLATE.substitute(
+        project_name=project_name,
+        code=code,
+        focus_areas=focus_areas,
+    )
+</code></pre>
+<h3 id="react-agent-loop"><a class="header" href="#react-agent-loop">ReAct Agent Loop</a></h3>
+<p><strong>Problem</strong>: Enable an AI model to interleave reasoning and tool use in an iterative loop until a task is complete.</p>
+<p>See Chapter 8 for the full implementation. The core pattern:</p>
+<pre><code class="language-python">def agent_loop(task: str, tools: dict, max_steps: int = 10) -&gt; str:
+    messages = [{"role": "user", "content": task}]
+
+    for _ in range(max_steps):
+        response = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=4096,
+            tools=list(tools.values()),
+            messages=messages,
+        )
+
+        if response.stop_reason == "end_turn":
+            return extract_text(response)
+
+        if response.stop_reason == "tool_use":
+            messages.append({"role": "assistant", "content": response.content})
+            tool_results = execute_tools(response.content, tools)
+            messages.append({"role": "user", "content": tool_results})
+
+    return "Max steps reached without completing task"
+</code></pre>
+<h3 id="evaluator-generator"><a class="header" href="#evaluator-generator">Evaluator-Generator</a></h3>
+<p><strong>Problem</strong>: Use a separate AI call to evaluate the output of a generation call, rather than trusting the generator to self-evaluate.</p>
+<pre><code class="language-python">def generate_and_evaluate(specification: str, code: str) -&gt; dict:
+    """Generate code, then evaluate it independently."""
+    eval_response = client.messages.create(
+        model="claude-opus-4-7",
+        max_tokens=1024,
+        messages=[{
+            "role": "user",
+            "content": f"""Evaluate whether this code correctly implements the specification.
+
+Specification:
+{specification}
+
+Code:
+{code}
+
+For each requirement in the specification, state: PASS or FAIL with brief justification.
+End with: OVERALL: PASS or OVERALL: FAIL"""
+        }],
+    )
+    result = eval_response.content[0].text
+    return {
+        "verdict": "PASS" if "OVERALL: PASS" in result else "FAIL",
+        "details": result,
+    }
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="appendix_a.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="appendix_c.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="appendix_a.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="appendix_c.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,651 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 1: Software Engineering in the Age of AI - The AI-Native Engineer: Building Software with Coding Agents</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A 12-week online course and textbook on AI-native software engineering">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-cfb8c40f.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-b311743f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The AI-Native Engineer: Building Software with Coding Agents</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="chapter-1-software-engineering-in-the-age-of-ai"><a class="header" href="#chapter-1-software-engineering-in-the-age-of-ai">Chapter 1: Software Engineering in the Age of AI</a></h1>
+<blockquote>
+<p><em>“The tools we use have a profound influence on our thinking habits, and therefore on our thinking abilities.”</em>
+— Edsger W. Dijkstra</p>
+</blockquote>
+<hr>
+<h2 id="learning-objectives"><a class="header" href="#learning-objectives">Learning Objectives</a></h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Describe the historical evolution of software engineering from its origins to the present day.</li>
+<li>Explain the key software development lifecycle (SDLC) models: Waterfall, Agile, Scrum, and Kanban.</li>
+<li>Apply the MoSCoW framework to prioritise requirements and manage scope.</li>
+<li>Write basic user stories with story point estimates.</li>
+<li>Articulate how AI is reshaping each phase of the SDLC and what this means for the role of the software engineer.</li>
+</ol>
+<hr>
+<h2 id="11-what-is-software-engineering"><a class="header" href="#11-what-is-software-engineering">1.1 What Is Software Engineering?</a></h2>
+<p>Software engineering is the disciplined application of engineering principles to the design, development, testing, and maintenance of software systems. Unlike informal programming, software engineering emphasises process, quality, collaboration, and long-term maintainability.</p>
+<p>The term was deliberately chosen. In 1968, NATO convened a conference in Garmisch, Germany, to address what organisers called the “software crisis” — a widespread recognition that software projects were routinely over budget, delivered late, and unreliable (<a href="http://homepages.cs.ncl.ac.uk/brian.randell/NATO/nato1968.PDF">Naur &amp; Randell, 1969</a>). The goal of using the word <em>engineering</em> was aspirational: to bring to software the same rigour, predictability, and professionalism that civil or mechanical engineers brought to bridges and engines.</p>
+<p>That aspiration has guided the field ever since — and it remains relevant today, even as the tools, languages, and collaborators (including AI systems) have changed dramatically.</p>
+<h3 id="why-software-engineering-matters"><a class="header" href="#why-software-engineering-matters">Why Software Engineering Matters</a></h3>
+<p>Consider two scenarios:</p>
+<ul>
+<li><strong>Scenario A</strong>: A solo developer writes a script to process CSV files for personal use. It works, mostly. When it breaks, they fix it themselves.</li>
+<li><strong>Scenario B</strong>: A team of 50 engineers builds a financial trading platform used by millions of customers. Bugs can cause financial losses. Downtime can trigger regulatory penalties.</li>
+</ul>
+<p>Software engineering is primarily concerned with Scenario B — or with preparing developers who will eventually work on systems of that scale and consequence. The principles covered in this book apply whether you are building a mobile app, a machine learning pipeline, or an AI-assisted development tool.</p>
+<hr>
+<h2 id="12-a-brief-history-of-software-engineering"><a class="header" href="#12-a-brief-history-of-software-engineering">1.2 A Brief History of Software Engineering</a></h2>
+<p>Understanding where software engineering came from helps explain why its practices exist and why they are changing again now.</p>
+<h3 id="121-the-early-years-1940s1960s"><a class="header" href="#121-the-early-years-1940s1960s">1.2.1 The Early Years (1940s–1960s)</a></h3>
+<p>The first programmers wrote machine code directly — sequences of binary instructions hand-crafted for specific hardware. Programming was considered a clerical task; the real intellectual work was thought to be mathematics and system design.</p>
+<p>As software grew more complex through the 1950s, assembly languages and early high-level languages like FORTRAN (1957) and COBOL (1959) emerged. Programs grew from hundreds of lines to hundreds of thousands. Managing this complexity became a serious problem.</p>
+<h3 id="122-the-software-crisis-and-structured-programming-19681980s"><a class="header" href="#122-the-software-crisis-and-structured-programming-19681980s">1.2.2 The Software Crisis and Structured Programming (1968–1980s)</a></h3>
+<p>The 1968 NATO conference crystallised the software crisis. Projects like the IBM OS/360 operating system — documented famously by Fred Brooks in <em>The Mythical Man-Month</em> (<a href="https://en.wikipedia.org/wiki/The_Mythical_Man-Month">Brooks, 1975</a>) — demonstrated that adding more programmers to a late project often made it later. Software complexity was not a resource problem; it was a conceptual one.</p>
+<p>The response was <em>structured programming</em>, championed by Dijkstra, Hoare, and Wirth. Programs should be built from clear, hierarchical control structures — sequences, selections, and iterations — rather than the chaos of <code>GOTO</code> statements. This was the beginning of thinking about software as something that could be reasoned about formally.</p>
+<h3 id="123-object-oriented-programming-and-software-patterns-1980s1990s"><a class="header" href="#123-object-oriented-programming-and-software-patterns-1980s1990s">1.2.3 Object-Oriented Programming and Software Patterns (1980s–1990s)</a></h3>
+<p>The 1980s and 1990s saw the rise of object-oriented programming (OOP) — a paradigm in which software is modelled as interacting objects with state and behaviour. Languages like C++, Smalltalk, and later Java brought OOP to mainstream development.</p>
+<p>In 1994, the “Gang of Four” — Gamma, Helm, Johnson, and Vlissides — published <em>Design Patterns: Elements of Reusable Object-Oriented Software</em> (<a href="https://en.wikipedia.org/wiki/Design_Patterns">Gamma et al., 1994</a>), cataloguing 23 reusable solutions to common software design problems. These patterns are covered in depth in Chapter 3.</p>
+<h3 id="124-the-internet-era-and-agile-methods-1990s2000s"><a class="header" href="#124-the-internet-era-and-agile-methods-1990s2000s">1.2.4 The Internet Era and Agile Methods (1990s–2000s)</a></h3>
+<p>The World Wide Web transformed software from shrink-wrapped products shipped on disks to continuously evolving services. Release cycles had to shrink from years to weeks. Traditional plan-driven methods struggled to keep pace.</p>
+<p>In 2001, seventeen software practitioners gathered in Snowbird, Utah, and published the <a href="https://agilemanifesto.org/">Agile Manifesto</a> — a short document that valued:</p>
+<blockquote>
+<p><em>Individuals and interactions over processes and tools</em>
+<em>Working software over comprehensive documentation</em>
+<em>Customer collaboration over contract negotiation</em>
+<em>Responding to change over following a plan</em></p>
+</blockquote>
+<p>Agile methods — including Scrum, Extreme Programming (XP), and Kanban — spread rapidly through the industry. They emphasised short iterations, continuous feedback, and adaptive planning rather than upfront specification.</p>
+<h3 id="125-devops-and-continuous-delivery-2010s"><a class="header" href="#125-devops-and-continuous-delivery-2010s">1.2.5 DevOps and Continuous Delivery (2010s)</a></h3>
+<p>As agile teams delivered software faster, operations teams struggled to deploy and maintain it. The DevOps movement (<a href="https://itrevolution.com/product/the-devops-handbook/">Kim et al., 2016</a>) broke down the wall between development and operations, promoting:</p>
+<ul>
+<li>Continuous integration (CI): merging code frequently, building and testing automatically</li>
+<li>Continuous delivery (CD): keeping software always in a deployable state</li>
+<li>Infrastructure as code: managing servers and environments through version-controlled scripts</li>
+</ul>
+<p>This shift made the pipeline from code commit to production deployment a first-class engineering concern — covered in depth in Chapter 4.</p>
+<h3 id="126-the-ai-era-2020spresent"><a class="header" href="#126-the-ai-era-2020spresent">1.2.6 The AI Era (2020s–Present)</a></h3>
+<p>In 2021, GitHub released Copilot, powered by OpenAI Codex — a large language model trained on billions of lines of public code. For the first time, AI could generate syntactically correct, contextually relevant code at the level of individual functions and files (<a href="https://arxiv.org/abs/2107.03374">Chen et al., 2021</a>).</p>
+<p>By 2023, models like GPT-4 and Claude could engage in multi-turn conversations about software design, debug complex issues, write test suites, and generate entire application scaffolds from natural language descriptions. By 2024–2025, <em>agentic</em> systems — AI that can plan, use tools, and execute code autonomously — began to handle multi-step engineering tasks with minimal human intervention.</p>
+<p>This is where this book begins.</p>
+<hr>
+<h2 id="13-the-software-development-lifecycle-sdlc"><a class="header" href="#13-the-software-development-lifecycle-sdlc">1.3 The Software Development Lifecycle (SDLC)</a></h2>
+<p>The Software Development Lifecycle (SDLC) is a structured process for planning, creating, testing, and deploying software. While specific SDLC models differ in their details, most share a common set of phases:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Phase</th><th>Key Activities</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Requirements</strong></td><td>Understand what the system should do</td></tr>
+<tr><td><strong>Design</strong></td><td>Decide how the system will be structured</td></tr>
+<tr><td><strong>Implementation</strong></td><td>Write the code</td></tr>
+<tr><td><strong>Testing</strong></td><td>Verify the system works correctly</td></tr>
+<tr><td><strong>Deployment</strong></td><td>Release the system to users</td></tr>
+<tr><td><strong>Maintenance</strong></td><td>Fix bugs, add features, keep the system running</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="131-waterfall"><a class="header" href="#131-waterfall">1.3.1 Waterfall</a></h3>
+<p>The Waterfall model, introduced by Winston Royce in 1970 (though Royce actually presented it as a flawed approach in the same paper), organises development as a strict sequence of phases (<a href="http://www-scf.usc.edu/~csci201/lectures/Lecture11/royce1970.pdf">Royce, 1970</a>):</p>
+<pre><code>Requirements → Design → Implementation → Testing → Deployment → Maintenance
+</code></pre>
+<p>Each phase must be completed before the next begins. The model assumes requirements can be fully and correctly specified at the start.</p>
+<p><strong>Strengths:</strong></p>
+<ul>
+<li>Clear milestones and deliverables</li>
+<li>Easy to manage and document</li>
+<li>Works well for projects with stable, well-understood requirements (e.g., certain embedded systems, government contracts)</li>
+</ul>
+<p><strong>Weaknesses:</strong></p>
+<ul>
+<li>Requirements almost never remain stable</li>
+<li>Errors discovered late are expensive to fix</li>
+<li>Users see no working software until the end</li>
+<li>Poor fit for projects with high uncertainty</li>
+</ul>
+<h3 id="132-agile-software-development"><a class="header" href="#132-agile-software-development">1.3.2 Agile Software Development</a></h3>
+<p>Agile is not a single methodology but a family of approaches united by the values in the <a href="https://agilemanifesto.org/">Agile Manifesto</a>. The core insight is that software requirements and solutions evolve through collaboration, and that the ability to respond to change is more valuable than adherence to a plan.</p>
+<p>Agile teams work in short cycles called <em>iterations</em> or <em>sprints</em>, typically 1–4 weeks long. Each iteration produces a working, tested increment of software. Stakeholders review the increment and provide feedback that informs the next iteration.</p>
+<p>Key Agile principles include:</p>
+<ul>
+<li>Deliver working software frequently (weeks, not months)</li>
+<li>Welcome changing requirements, even late in development</li>
+<li>Business people and developers work together daily</li>
+<li>Simplicity — the art of maximising the amount of work <em>not</em> done — is essential</li>
+</ul>
+<h3 id="133-scrum"><a class="header" href="#133-scrum">1.3.3 Scrum</a></h3>
+<p>Scrum is the most widely adopted Agile framework (<a href="https://scrumguides.org/scrum-guide.html">Schwaber &amp; Sutherland, 2020</a>). It defines specific roles, events, and artefacts:</p>
+<p><strong>Roles:</strong></p>
+<ul>
+<li><strong>Product Owner</strong>: Represents stakeholders; owns and prioritises the product backlog</li>
+<li><strong>Scrum Master</strong>: Facilitates the process; removes impediments; coaches the team</li>
+<li><strong>Development Team</strong>: Self-organising group that delivers the increment</li>
+</ul>
+<p><strong>Events:</strong></p>
+<ul>
+<li><strong>Sprint</strong>: A time-boxed iteration of 1–4 weeks</li>
+<li><strong>Sprint Planning</strong>: The team selects backlog items and plans the sprint</li>
+<li><strong>Daily Scrum</strong>: A 15-minute daily standup to synchronise and identify blockers</li>
+<li><strong>Sprint Review</strong>: The team demonstrates the increment to stakeholders</li>
+<li><strong>Sprint Retrospective</strong>: The team reflects on the process and identifies improvements</li>
+</ul>
+<p><strong>Artefacts:</strong></p>
+<ul>
+<li><strong>Product Backlog</strong>: An ordered list of everything that might be needed in the product</li>
+<li><strong>Sprint Backlog</strong>: The backlog items selected for the current sprint, plus the delivery plan</li>
+<li><strong>Increment</strong>: The sum of all completed backlog items at the end of a sprint</li>
+</ul>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│                    Product Backlog                       │
+│  (ordered list of features, bugs, improvements)         │
+└───────────────────────┬─────────────────────────────────┘
+                        │ Sprint Planning
+                        ▼
+┌─────────────────────────────────────────────────────────┐
+│                    Sprint (1–4 weeks)                    │
+│                                                          │
+│  Sprint Backlog → Daily Scrum → Working Increment        │
+└───────────────────────┬─────────────────────────────────┘
+                        │ Sprint Review + Retrospective
+                        ▼
+                  Next Sprint...
+</code></pre>
+<h3 id="134-kanban"><a class="header" href="#134-kanban">1.3.4 Kanban</a></h3>
+<p>Kanban, adapted from Toyota’s manufacturing system by David Anderson (<a href="https://kanbanbooks.com/">Anderson, 2010</a>), is a flow-based method that focuses on visualising work, limiting work in progress (WIP), and continuously improving flow.</p>
+<p>A Kanban board visualises work as cards moving through columns:</p>
+<pre><code>┌──────────┬──────────────┬──────────────┬──────────┐
+│ Backlog  │  In Progress │   In Review  │   Done   │
+│          │   (WIP: 3)   │   (WIP: 2)   │          │
+├──────────┼──────────────┼──────────────┼──────────┤
+│ Task E   │ Task B       │ Task A       │ Task D   │
+│ Task F   │ Task C       │              │          │
+│ Task G   │              │              │          │
+└──────────┴──────────────┴──────────────┴──────────┘
+</code></pre>
+<p><strong>Key Kanban practices:</strong></p>
+<ul>
+<li><strong>Visualise the workflow</strong>: Make all work and its status visible</li>
+<li><strong>Limit WIP</strong>: Prevent overloading; finish before starting more</li>
+<li><strong>Manage flow</strong>: Track cycle time and throughput; identify bottlenecks</li>
+<li><strong>Improve collaboratively</strong>: Use data to drive continuous improvement</li>
+</ul>
+<p>Kanban suits teams with highly variable incoming work (e.g., support and maintenance teams) or those who want a lighter-weight alternative to Scrum’s ceremonies.</p>
+<hr>
+<h2 id="14-scope-creep"><a class="header" href="#14-scope-creep">1.4 Scope Creep</a></h2>
+<p><em>Scope creep</em> refers to the gradual, uncontrolled expansion of a project’s scope beyond its original boundaries. It is one of the most common causes of project failure in software engineering (<a href="https://www.pmi.org/learning/library/scope-creep-causes-effects-solutions-6181">PMI, 2021</a>).</p>
+<p>Scope creep happens when:</p>
+<ul>
+<li>Stakeholders request new features after the project has started</li>
+<li>Requirements are poorly defined, leaving room for interpretation</li>
+<li>The team adds features without formal approval</li>
+<li>External factors force new work mid-project</li>
+</ul>
+<p><strong>Managing scope creep</strong> requires:</p>
+<ol>
+<li>Clear initial scope definition — document what is in scope and explicitly what is <em>out</em> of scope</li>
+<li>Formal change control processes — structured mechanisms for requesting, evaluating, and approving scope changes</li>
+<li>Prioritisation frameworks — structured approaches for deciding what gets built and when</li>
+<li>Regular backlog grooming — reviewing and re-prioritising as understanding evolves</li>
+</ol>
+<hr>
+<h2 id="15-user-stories-and-story-points"><a class="header" href="#15-user-stories-and-story-points">1.5 User Stories and Story Points</a></h2>
+<h3 id="151-user-stories"><a class="header" href="#151-user-stories">1.5.1 User Stories</a></h3>
+<p>A <em>user story</em> is a short, simple description of a feature told from the perspective of the person who wants it. The standard format is:</p>
+<blockquote>
+<p><strong>As a</strong> [type of user], <strong>I want</strong> [some goal] <strong>so that</strong> [some reason].</p>
+</blockquote>
+<p>User stories originated in Extreme Programming (<a href="https://www.oreilly.com/library/view/extreme-programming-explained/0201616416/">Beck, 1999</a>) and serve as placeholders for conversations rather than comprehensive specifications.</p>
+<p><strong>Examples:</strong></p>
+<blockquote>
+<p>As a <strong>registered user</strong>, I want to <strong>reset my password via email</strong> so that <strong>I can regain access to my account if I forget my password</strong>.</p>
+</blockquote>
+<blockquote>
+<p>As a <strong>project manager</strong>, I want to <strong>filter tasks by assignee</strong> so that <strong>I can quickly see the workload of individual team members</strong>.</p>
+</blockquote>
+<p>Good user stories follow the <strong>INVEST</strong> criteria (<a href="https://xp123.com/articles/invest-in-good-stories-and-smart-tasks/">Wake, 2003</a>):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Letter</th><th>Meaning</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>I</strong></td><td>Independent</td><td>Stories can be developed in any order</td></tr>
+<tr><td><strong>N</strong></td><td>Negotiable</td><td>Details are open to discussion</td></tr>
+<tr><td><strong>V</strong></td><td>Valuable</td><td>Delivers value to users or stakeholders</td></tr>
+<tr><td><strong>E</strong></td><td>Estimable</td><td>The team can estimate the effort</td></tr>
+<tr><td><strong>S</strong></td><td>Small</td><td>Completable within a single sprint</td></tr>
+<tr><td><strong>T</strong></td><td>Testable</td><td>Acceptance criteria can be verified</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="152-story-points"><a class="header" href="#152-story-points">1.5.2 Story Points</a></h3>
+<p><em>Story points</em> are a unit of measure for estimating the relative effort or complexity of user stories. They are intentionally abstract — they do not map directly to hours or days — encouraging teams to think about relative complexity rather than precise time estimates.</p>
+<p>Teams typically use a modified Fibonacci sequence: <strong>1, 2, 3, 5, 8, 13, 21</strong>. The increasing gaps reflect growing uncertainty in estimating large, complex work.</p>
+<p><strong>Planning Poker</strong> is a common estimation technique (<a href="https://wingman-sw.com/articles/planning-poker">Grenning, 2002</a>): each team member privately selects a card with their estimate; all cards are revealed simultaneously; significant discrepancies prompt discussion until the team reaches consensus.</p>
+<p>Story points enable <strong>velocity tracking</strong> — the total points completed per sprint gives the team’s <em>velocity</em>, which predicts future throughput and informs release planning.</p>
+<hr>
+<h2 id="16-prioritisation-the-moscow-framework"><a class="header" href="#16-prioritisation-the-moscow-framework">1.6 Prioritisation: The MoSCoW Framework</a></h2>
+<p>The <strong>MoSCoW framework</strong> (<a href="https://www.dsdm.org/">Clegg &amp; Barker, 1994</a>) provides a shared vocabulary for prioritisation:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Category</th><th>Meaning</th><th>Guideline</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>M</strong>ust Have</td><td>Non-negotiable; the system cannot launch without these</td><td>~60% of effort</td></tr>
+<tr><td><strong>S</strong>hould Have</td><td>Important but not vital; workarounds exist if omitted</td><td>~20% of effort</td></tr>
+<tr><td><strong>C</strong>ould Have</td><td>Nice to have; included only if time permits</td><td>~20% of effort</td></tr>
+<tr><td><strong>W</strong>on’t Have</td><td>Explicitly excluded from this release</td><td>Documented, not built</td></tr>
+</tbody>
+</table>
+</div>
+<p>The “Won’t Have” category is often the most valuable: it makes explicit what is being deliberately deferred, preventing scope creep through shared agreement.</p>
+<p><strong>Example — a task management application:</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Feature</th><th>MoSCoW</th></tr>
+</thead>
+<tbody>
+<tr><td>Create, read, update, delete tasks</td><td>Must Have</td></tr>
+<tr><td>Assign tasks to team members</td><td>Must Have</td></tr>
+<tr><td>Email notifications on task assignment</td><td>Should Have</td></tr>
+<tr><td>Drag-and-drop task reordering</td><td>Could Have</td></tr>
+<tr><td>Integration with Slack</td><td>Won’t Have (this release)</td></tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="17-how-ai-is-reshaping-the-sdlc"><a class="header" href="#17-how-ai-is-reshaping-the-sdlc">1.7 How AI Is Reshaping the SDLC</a></h2>
+<p>Each SDLC phase is being transformed by AI tools. This section introduces the high-level picture; subsequent chapters examine each transformation in depth.</p>
+<h3 id="requirements"><a class="header" href="#requirements">Requirements</a></h3>
+<p>AI can help elicit requirements by analysing stakeholder interview transcripts, extracting themes from large documents, and generating draft user stories from rough natural language descriptions. However, AI cannot replace the human judgment required to resolve conflicting stakeholder needs or understand organisational context (Chapter 2).</p>
+<h3 id="design"><a class="header" href="#design">Design</a></h3>
+<p>Large language models can generate architectural diagrams, suggest design patterns, and produce code scaffolds from specifications. Chapter 3 examines how to use these capabilities critically.</p>
+<h3 id="implementation"><a class="header" href="#implementation">Implementation</a></h3>
+<p>This is where AI’s current impact is most visible. AI coding assistants can complete functions, suggest API calls, translate between languages, and generate boilerplate. Studies suggest significant productivity gains for routine coding tasks (<a href="https://arxiv.org/abs/2302.06590">Peng et al., 2023</a>). But AI-generated code requires the same critical evaluation as any unreviewed code — it can be subtly wrong, insecure, or incompatible with the surrounding system.</p>
+<h3 id="testing"><a class="header" href="#testing">Testing</a></h3>
+<p>AI can generate test cases, identify edge cases, and suggest fixes for failing tests. Chapters 4 and 7 address the critical question of how to evaluate AI-generated tests themselves.</p>
+<h3 id="deployment-and-maintenance"><a class="header" href="#deployment-and-maintenance">Deployment and Maintenance</a></h3>
+<p>AI-powered tools are beginning to automate parts of deployment (intelligent rollouts, anomaly detection) and maintenance (automated bug triage, code smell detection). These capabilities are still maturing.</p>
+<h3 id="the-shifting-role-of-the-engineer"><a class="header" href="#the-shifting-role-of-the-engineer">The Shifting Role of the Engineer</a></h3>
+<p>The cumulative effect is a shift in what software engineers spend their time on. The bottleneck is moving from <em>writing code</em> to <em>defining problems, specifying intent, and evaluating outcomes</em>. This is the core claim of AI-native engineering — and the reason this book focuses on thinking and evaluation skills, not just tool usage.</p>
+<p>As Andrej Karpathy observed, we may be entering an era of <a href="https://karpathy.medium.com/software-2-0-a64152b37c35">“Software 2.0”</a> — where neural networks trained on data replace hand-written code for increasing classes of problems, and the engineer’s job shifts to curating data, defining objectives, and evaluating model behaviour.</p>
+<hr>
+<h2 id="18-tutorial-setting-up-your-ai-assisted-development-environment"><a class="header" href="#18-tutorial-setting-up-your-ai-assisted-development-environment">1.8 Tutorial: Setting Up Your AI-Assisted Development Environment</a></h2>
+<p>This tutorial walks through setting up a Python development environment with AI assistance integrated at key points.</p>
+<h3 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h3>
+<ul>
+<li>Python 3.11 or later (<a href="https://www.python.org/downloads/">python.org</a>)</li>
+<li>Git (<a href="https://git-scm.com/">git-scm.com</a>)</li>
+<li>VS Code (<a href="https://code.visualstudio.com/">code.visualstudio.com</a>)</li>
+<li>A GitHub account (<a href="https://github.com/">github.com</a>)</li>
+</ul>
+<h3 id="step-1-create-a-virtual-environment"><a class="header" href="#step-1-create-a-virtual-environment">Step 1: Create a Virtual Environment</a></h3>
+<pre><code class="language-bash">mkdir ai_native_project
+cd ai_native_project
+
+# Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate        # macOS/Linux
+# venv\Scripts\activate         # Windows
+
+python --version                # Confirm activation
+</code></pre>
+<h3 id="step-2-initialise-a-git-repository"><a class="header" href="#step-2-initialise-a-git-repository">Step 2: Initialise a Git Repository</a></h3>
+<pre><code class="language-bash">git init
+cat &gt; .gitignore &lt;&lt; 'EOF'
+venv/
+__pycache__/
+*.pyc
+.env
+EOF
+git add .gitignore
+git commit -m "Initial commit: add .gitignore"
+</code></pre>
+<h3 id="step-3-install-core-development-tools"><a class="header" href="#step-3-install-core-development-tools">Step 3: Install Core Development Tools</a></h3>
+<pre><code class="language-bash">pip install pytest ruff mypy pre-commit
+pip freeze &gt; requirements.txt
+</code></pre>
+<h3 id="step-4-configure-ruff-and-mypy"><a class="header" href="#step-4-configure-ruff-and-mypy">Step 4: Configure Ruff and Mypy</a></h3>
+<pre><code class="language-toml"># pyproject.toml
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+</code></pre>
+<h3 id="step-5-set-up-pre-commit-hooks"><a class="header" href="#step-5-set-up-pre-commit-hooks">Step 5: Set Up Pre-commit Hooks</a></h3>
+<pre><code class="language-yaml"># .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+</code></pre>
+<pre><code class="language-bash">pre-commit install
+</code></pre>
+<h3 id="step-6-verify-the-setup"><a class="header" href="#step-6-verify-the-setup">Step 6: Verify the Setup</a></h3>
+<pre><code class="language-python"># src/calculator.py
+def add(a: float, b: float) -&gt; float:
+    return a + b
+
+def divide(a: float, b: float) -&gt; float:
+    if b == 0:
+        raise ValueError("Cannot divide by zero")
+    return a / b
+</code></pre>
+<pre><code class="language-python"># tests/test_calculator.py
+import pytest
+from src.calculator import add, divide
+
+def test_add() -&gt; None:
+    assert add(2, 3) == 5
+    assert add(-1, 1) == 0
+
+def test_divide() -&gt; None:
+    assert divide(10, 2) == 5.0
+
+def test_divide_by_zero() -&gt; None:
+    with pytest.raises(ValueError):
+        divide(1, 0)
+</code></pre>
+<pre><code class="language-bash">pytest tests/ -v
+</code></pre>
+<p>Expected output:</p>
+<pre><code>tests/test_calculator.py::test_add PASSED
+tests/test_calculator.py::test_divide PASSED
+tests/test_calculator.py::test_divide_by_zero PASSED
+3 passed in 0.12s
+</code></pre>
+<p>This environment — version control, dependency isolation, linting, type checking, pre-commit hooks, and a test framework — is the foundation on which every subsequent chapter builds.</p>
+<hr>
+<h2 id="19-project-milestone-define-your-course-project"><a class="header" href="#19-project-milestone-define-your-course-project">1.9 Project Milestone: Define Your Course Project</a></h2>
+<h3 id="project-brief"><a class="header" href="#project-brief">Project Brief</a></h3>
+<p>Throughout this course you will build a <strong>Task Management API</strong> — a backend system that allows users to create projects, manage tasks, assign them to team members, and track progress. This is a deliberately familiar problem domain: the focus is on <em>how</em> you build it using AI-native practices, not on inventing a novel application.</p>
+<p>The project grows across 12 weeks:</p>
+<ul>
+<li><strong>Weeks 1–4</strong>: Requirements, design, tests, and CI/CD for the core API</li>
+<li><strong>Weeks 5–8</strong>: AI-native development of features using agents and evaluation</li>
+<li><strong>Weeks 9–12</strong>: Security hardening, ethics review, productivity analysis, and reflection</li>
+</ul>
+<h3 id="this-weeks-deliverables"><a class="header" href="#this-weeks-deliverables">This Week’s Deliverables</a></h3>
+<ol>
+<li><strong>Team charter</strong> (if in a team): Names, agreed roles, and working norms.</li>
+<li><strong>Scope statement</strong>: One paragraph describing what your system <em>will</em> do; one paragraph explicitly describing what it <em>will not</em> do.</li>
+<li><strong>MoSCoW list</strong>: At least 10 features categorised as Must/Should/Could/Won’t.</li>
+<li><strong>Development environment</strong>: A GitHub repository with virtual environment, linter, pre-commit hooks, and at least one passing test.</li>
+</ol>
+<p>Submit a <code>README.md</code> in the root of your repository containing the team charter, scope statement, and MoSCoW list.</p>
+<hr>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>This chapter traced software engineering from the 1968 NATO crisis through structured programming, object-oriented design, Agile, DevOps, and into the current AI era. Key takeaways:</p>
+<ul>
+<li>Software engineering applies disciplined processes to manage the complexity of building reliable, maintainable systems at scale.</li>
+<li>The SDLC provides a framework of phases that all development models address in different ways.</li>
+<li>Waterfall is plan-driven and sequential; Agile is iterative and adaptive. Scrum and Kanban are specific Agile frameworks with distinct practices.</li>
+<li>Scope creep is one of the most common causes of project failure; MoSCoW prioritisation is a practical tool for managing it.</li>
+<li>User stories and story points are Agile tools for capturing requirements from the user’s perspective and estimating relative effort.</li>
+<li>AI is reshaping every phase of the SDLC, shifting the engineer’s primary challenge from writing code to framing problems, specifying intent, and evaluating AI-generated outputs.</li>
+</ul>
+<hr>
+<h2 id="review-questions"><a class="header" href="#review-questions">Review Questions</a></h2>
+<ol>
+<li>What was the “software crisis” identified at the 1968 NATO conference, and what response did it prompt?</li>
+<li>Compare Waterfall and Agile: in what circumstances might each be more appropriate?</li>
+<li>What is the difference between Scrum and Kanban? Give an example of a team context that suits each.</li>
+<li>Write a user story for: <em>“Users should be able to export their task list as a PDF.”</em> Include acceptance criteria.</li>
+<li>Apply the MoSCoW framework to a simple e-commerce website. List at least 8 features across the four categories.</li>
+<li>In your own words, explain how AI is changing the role of the software engineer. What skills become more important? What becomes less important?</li>
+</ol>
+<hr>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li>Naur, P., &amp; Randell, B. (Eds.). (1969). <em>Software Engineering: Report on a conference sponsored by the NATO Science Committee</em>. <a href="http://homepages.cs.ncl.ac.uk/brian.randell/NATO/nato1968.PDF">http://homepages.cs.ncl.ac.uk/brian.randell/NATO/nato1968.PDF</a></li>
+<li>Brooks, F. P. (1975). <em>The Mythical Man-Month: Essays on Software Engineering</em>. Addison-Wesley. <a href="https://en.wikipedia.org/wiki/The_Mythical_Man-Month">https://en.wikipedia.org/wiki/The_Mythical_Man-Month</a></li>
+<li>Gamma, E., Helm, R., Johnson, R., &amp; Vlissides, J. (1994). <em>Design Patterns: Elements of Reusable Object-Oriented Software</em>. Addison-Wesley. <a href="https://en.wikipedia.org/wiki/Design_Patterns">https://en.wikipedia.org/wiki/Design_Patterns</a></li>
+<li>Beck, K. et al. (2001). <em>Manifesto for Agile Software Development</em>. <a href="https://agilemanifesto.org/">https://agilemanifesto.org/</a></li>
+<li>Schwaber, K., &amp; Sutherland, J. (2020). <em>The Scrum Guide</em>. <a href="https://scrumguides.org/scrum-guide.html">https://scrumguides.org/scrum-guide.html</a></li>
+<li>Anderson, D. J. (2010). <em>Kanban: Successful Evolutionary Change for Your Technology Business</em>. Blue Hole Press. <a href="https://kanbanbooks.com/">https://kanbanbooks.com/</a></li>
+<li>Royce, W. W. (1970). Managing the Development of Large Software Systems. <em>Proceedings of IEEE WESCON</em>. <a href="http://www-scf.usc.edu/~csci201/lectures/Lecture11/royce1970.pdf">http://www-scf.usc.edu/~csci201/lectures/Lecture11/royce1970.pdf</a></li>
+<li>Kim, G., Humble, J., Debois, P., &amp; Willis, J. (2016). <em>The DevOps Handbook</em>. IT Revolution Press. <a href="https://itrevolution.com/product/the-devops-handbook/">https://itrevolution.com/product/the-devops-handbook/</a></li>
+<li>Chen, M., et al. (2021). Evaluating Large Language Models Trained on Code. <em>arXiv</em>. <a href="https://arxiv.org/abs/2107.03374">https://arxiv.org/abs/2107.03374</a></li>
+<li>Peng, S., et al. (2023). The Impact of AI on Developer Productivity: Evidence from GitHub Copilot. <em>arXiv</em>. <a href="https://arxiv.org/abs/2302.06590">https://arxiv.org/abs/2302.06590</a></li>
+<li>Wake, B. (2003). INVEST in Good Stories, and SMART Tasks. <a href="https://xp123.com/articles/invest-in-good-stories-and-smart-tasks/">https://xp123.com/articles/invest-in-good-stories-and-smart-tasks/</a></li>
+<li>Karpathy, A. (2017). Software 2.0. <a href="https://karpathy.medium.com/software-2-0-a64152b37c35">https://karpathy.medium.com/software-2-0-a64152b37c35</a></li>
+<li>PMI. (2021). Scope Creep. Project Management Institute. <a href="https://www.pmi.org/learning/library/scope-creep-causes-effects-solutions-6181">https://www.pmi.org/learning/library/scope-creep-causes-effects-solutions-6181</a></li>
+<li>Grenning, J. (2002). Planning Poker or How to avoid analysis paralysis while release planning. <a href="https://wingman-sw.com/articles/planning-poker">https://wingman-sw.com/articles/planning-poker</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="preface.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="chapter_2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="preface.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="chapter_2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,575 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 12: The Future of AI-Native Engineering - The AI-Native Engineer: Building Software with Coding Agents</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A 12-week online course and textbook on AI-native software engineering">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-cfb8c40f.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-b311743f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The AI-Native Engineer: Building Software with Coding Agents</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="chapter-12-the-future-of-ai-native-engineering"><a class="header" href="#chapter-12-the-future-of-ai-native-engineering">Chapter 12: The Future of AI-Native Engineering</a></h1>
+<blockquote>
+<p><em>“We cannot predict the future of software engineering, but we can observe which skills are becoming more valuable and which are becoming less — and act accordingly.”</em></p>
+</blockquote>
+<hr>
+<h2 id="learning-objectives"><a class="header" href="#learning-objectives">Learning Objectives</a></h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Describe emerging paradigms in AI software engineering: autonomous agents, self-healing systems, and AI-driven design.</li>
+<li>Distinguish between skills that endure and skills that are being automated away.</li>
+<li>Articulate open research problems in AI software engineering.</li>
+<li>Identify a personal learning roadmap for a career in AI-native engineering.</li>
+<li>Reflect on the course project as a complete illustration of the AI-native SDLC.</li>
+</ol>
+<hr>
+<h2 id="121-where-we-are-now"><a class="header" href="#121-where-we-are-now">12.1 Where We Are Now</a></h2>
+<p>Over the past eleven chapters, we have traced software engineering from its 1968 origins through structured programming, object-oriented design, Agile, DevOps, and into the AI-native era. We have examined:</p>
+<ul>
+<li>How requirements, design, testing, and CI/CD form the foundation of quality software (Chapters 1–4)</li>
+<li>How the AI-native SDLC restructures development around specification and evaluation (Chapter 5)</li>
+<li>How to write specifications that produce reliable AI-generated code (Chapter 6)</li>
+<li>How to evaluate AI outputs with the same rigour applied to human-written code (Chapter 7)</li>
+<li>How agentic systems can autonomously plan, execute, and iterate on multi-step tasks (Chapter 8)</li>
+<li>How AI introduces new security threats alongside traditional vulnerabilities (Chapter 9)</li>
+<li>How IP, ethics, and responsible AI governance apply to AI-generated code (Chapter 10)</li>
+<li>How to measure and manage productivity in AI-native teams (Chapter 11)</li>
+</ul>
+<p>The picture that emerges is not one of AI replacing software engineers, but of AI fundamentally changing what software engineers spend their time on — and demanding new skills in areas that traditional engineering education has underemphasised.</p>
+<hr>
+<h2 id="122-emerging-paradigms"><a class="header" href="#122-emerging-paradigms">12.2 Emerging Paradigms</a></h2>
+<p>The trajectory of AI capabilities points toward several developments that will further reshape software engineering over the next 5–10 years.</p>
+<h3 id="1221-fully-autonomous-coding-agents"><a class="header" href="#1221-fully-autonomous-coding-agents">12.2.1 Fully Autonomous Coding Agents</a></h3>
+<p>Current AI coding agents handle well-scoped tasks with human oversight. The emerging frontier is agents that operate for extended periods — hours or days — on complex, multi-file features with minimal human intervention.</p>
+<p>SWE-bench (<a href="https://arxiv.org/abs/2310.06770">Jimenez et al., 2023</a>) is a benchmark that measures AI systems’ ability to resolve real GitHub issues from popular open-source repositories. As of mid-2024, the best systems resolved ~20% of issues autonomously. The trajectory suggests this number will increase significantly.</p>
+<p>The implication: engineers will increasingly act as task definers and output reviewers rather than implementers. The specification and evaluation skills developed in this course will be the primary human contribution.</p>
+<h3 id="1222-self-healing-systems"><a class="header" href="#1222-self-healing-systems">12.2.2 Self-Healing Systems</a></h3>
+<p>Self-healing systems use AI to detect, diagnose, and automatically remediate production issues without human intervention. Early examples include:</p>
+<ul>
+<li><strong>Auto-remediation</strong>: Systems that detect anomalous metrics and automatically roll back deployments, scale resources, or restart services</li>
+<li><strong>AI-assisted incident response</strong>: Systems that analyse logs, metrics, and traces during an incident and suggest root causes and remediations</li>
+<li><strong>Automated dependency updates</strong>: Tools that automatically update vulnerable dependencies, run tests, and create pull requests for human review</li>
+</ul>
+<p>Netflix’s Chaos Engineering practice (<a href="https://arxiv.org/abs/1702.05843">Basiri et al., 2016</a>) pioneered the idea of deliberately introducing failures to build resilient systems. AI-enhanced chaos engineering can generate and execute more sophisticated failure scenarios and automatically identify the weakest points in a system’s resilience.</p>
+<h3 id="1223-ai-driven-architecture-and-design"><a class="header" href="#1223-ai-driven-architecture-and-design">12.2.3 AI-Driven Architecture and Design</a></h3>
+<p>Current AI tools are effective at implementing architectural decisions made by humans. The frontier is AI that participates in architectural decision-making: analysing requirements, proposing architectures, and evaluating trade-offs.</p>
+<p>Research on AI-driven software design is emerging (<a href="https://arxiv.org/abs/2404.09488">Ahmed et al., 2024</a>), but the consensus is that architectural decisions — which involve long-term organisational, technical, and economic trade-offs — remain deeply human judgments. AI can surface options and evidence; the decision requires human wisdom.</p>
+<h3 id="1224-specification-languages-and-formal-verification"><a class="header" href="#1224-specification-languages-and-formal-verification">12.2.4 Specification Languages and Formal Verification</a></h3>
+<p>As AI becomes the primary implementer, the specification becomes the primary artefact. This is driving renewed interest in formal specification languages — precise mathematical descriptions of software behaviour that can be automatically verified (<a href="https://cacm.acm.org/magazines/2015/4/184701-how-amazon-web-services-uses-formal-methods/fulltext">Newcombe et al., 2015</a>).</p>
+<p>Tools like TLA+ (used by Amazon Web Services for verifying distributed systems protocols) and Lean (a formal proof assistant) represent one direction: formal methods that can be used to verify that AI-generated implementations are correct with mathematical certainty. This remains a research frontier for most software, but the growing importance of specifications makes it increasingly relevant.</p>
+<hr>
+<h2 id="123-open-research-problems"><a class="header" href="#123-open-research-problems">12.3 Open Research Problems</a></h2>
+<p>AI-native engineering is a young field with significant open research problems. Engineers who engage with these problems will shape the field’s direction.</p>
+<h3 id="1231-automated-evaluation"><a class="header" href="#1231-automated-evaluation">12.3.1 Automated Evaluation</a></h3>
+<p><strong>The problem</strong>: How do we know whether an AI-generated program is correct? Running tests is necessary but not sufficient — a program can pass all tests and still be subtly wrong. Current automated evaluation (Chapter 7) relies on human-written test suites, which may themselves be incomplete.</p>
+<p><strong>Why it matters in practice</strong>: As AI generates more code faster, the test-writing bottleneck shifts from “who writes the code?” to “who writes the tests?” If tests are also AI-generated, we need evaluation methods that do not rely on human-written oracle code.</p>
+<p><strong>Active research directions</strong>:</p>
+<ul>
+<li><strong>Property-based testing</strong> (<a href="https://hypothesis.readthedocs.io/">Hypothesis library</a>): automatically generate test inputs from formal properties of the specification, without writing individual test cases</li>
+<li><strong>Formal verification</strong>: tools like <a href="https://dafny.org/">Dafny</a> allow writing code alongside mathematical proofs of correctness that can be machine-checked</li>
+<li><strong>Mutation testing</strong>: evaluate test suite quality by introducing artificial bugs; if tests don’t catch the mutations, they’re insufficient (<a href="https://dl.acm.org/doi/10.1145/3361149">Papadakis et al., 2019</a>)</li>
+<li><strong>Differential testing</strong>: run two implementations of the same spec and compare outputs to detect divergence</li>
+</ul>
+<p><strong>Promising direction for practitioners</strong>: Combining LLM-generated tests with property-based testing harnesses. The LLM generates the test structure and edge-case categories; the property-based framework generates the concrete inputs. This hybrid approach has shown promise in early research (<a href="https://arxiv.org/abs/2302.04664">Schafer et al., 2023</a>).</p>
+<h3 id="1232-long-horizon-task-reliability"><a class="header" href="#1232-long-horizon-task-reliability">12.3.2 Long-Horizon Task Reliability</a></h3>
+<p><strong>The problem</strong>: Current AI agents are reliable for tasks spanning 5–20 steps. For longer tasks — hundreds of steps over hours or days — reliability degrades due to context accumulation, error compounding, and planning failures. SWE-bench results improve on self-contained issues but plateau on tasks requiring codebase-wide understanding.</p>
+<p><strong>Why it matters in practice</strong>: Real software features routinely require touching dozens of files, understanding months of commit history, and coordinating with external systems. Until agents handle this reliably, human oversight remains essential at each planning stage.</p>
+<p><strong>Key open questions</strong>:</p>
+<ul>
+<li>How should agents summarise and compress prior context without losing critical information? (Related to the “lost in the middle” problem from Chapter 6)</li>
+<li>How should agents detect that they’ve made an irrecoverable error and roll back to a checkpoint?</li>
+<li>What is the right granularity for human checkpoints in long-horizon tasks?</li>
+</ul>
+<p><strong>Research benchmark to watch</strong>: <a href="https://www.swebench.com/">SWE-bench Verified</a> tracks agent performance on real GitHub issues. Performance on the full benchmark (not the sampled subset) gives a realistic picture of long-horizon capability.</p>
+<h3 id="1233-multi-agent-coordination"><a class="header" href="#1233-multi-agent-coordination">12.3.3 Multi-Agent Coordination</a></h3>
+<p><strong>The problem</strong>: When multiple agents work on the same codebase simultaneously, they can produce conflicting changes. Designing multi-agent systems that collaborate correctly — with proper locking, communication, and conflict resolution — is an active research area (<a href="https://arxiv.org/abs/2308.00352">Hong et al., 2023</a>).</p>
+<p><strong>Why it matters in practice</strong>: The productivity argument for multi-agent systems assumes agents can work in parallel. But git merge conflicts, shared database schema changes, and API contract evolution create coordination challenges that human developers solve through communication — communication that agent frameworks are only beginning to model.</p>
+<p><strong>Research directions</strong>:</p>
+<ul>
+<li>Role-specialised agents (planner, implementer, reviewer, security auditor) with explicit handoff protocols</li>
+<li>Shared working memory systems where agents can read each other’s progress and decisions</li>
+<li>Conflict detection before code generation, not just at merge time</li>
+</ul>
+<h3 id="1234-specification-quality-measurement"><a class="header" href="#1234-specification-quality-measurement">12.3.4 Specification Quality Measurement</a></h3>
+<p><strong>The problem</strong>: We do not yet have a reliable way to measure the quality of a specification before generating code from it. A specification that seems complete may turn out to be ambiguous or under-constrained only after generation reveals the gap.</p>
+<p><strong>Why it matters in practice</strong>: Chapter 6 offered heuristics for good specifications. But heuristics are subjective and require experienced engineers to apply. A quantitative specification quality metric would allow automated checking before generation — catching “will produce ambiguous output” specifications the way a linter catches “will not compile” code.</p>
+<p><strong>Research directions</strong>:</p>
+<ul>
+<li>Formal specification quality metrics (completeness, unambiguity, consistency, testability)</li>
+<li>Automatic ambiguity detection: generate multiple implementations from the same spec and measure their divergence — high divergence indicates an under-specified spec</li>
+<li>Adversarial specification testing: generate a correct-but-wrong implementation that satisfies the spec’s letter but violates its intent</li>
+</ul>
+<h3 id="1235-ai-assisted-debugging"><a class="header" href="#1235-ai-assisted-debugging">12.3.5 AI-Assisted Debugging</a></h3>
+<p><strong>The problem</strong>: Debugging is one of the most time-consuming activities in software engineering. AI can suggest hypotheses, but current tools struggle with complex, multi-component failures where the root cause is several steps removed from the observable symptom.</p>
+<p><strong>Why it matters in practice</strong>: The debugging workflow in Chapter 7 (Section 7.7) relies on a human to reproduce the failure, isolate the component, and categorise the bug. As systems grow more complex and AI generates more of the code, the debugging surface area expands while human familiarity with the code decreases.</p>
+<p><strong>Research directions</strong>:</p>
+<ul>
+<li>Automated fault localisation: given a failing test, identify the most likely location of the bug in the codebase (<a href="https://ieeexplore.ieee.org/document/7476629">Kochhar et al., 2016</a>)</li>
+<li>AI-assisted root cause analysis for distributed system incidents: correlate logs, metrics, and traces across services to identify cascading failure root causes</li>
+<li>Specification-driven debugging: use the original AI spec to reason about whether observed behaviour was intended or a hallucination</li>
+</ul>
+<h3 id="1236-trust-calibration"><a class="header" href="#1236-trust-calibration">12.3.6 Trust Calibration</a></h3>
+<p><strong>The problem</strong>: How much should an engineer trust AI-generated code? Current practice is highly variable — some engineers accept AI output with minimal review; others review every line with the same scrutiny as human-written code. Neither extreme is optimal.</p>
+<p><strong>Why it matters in practice</strong>: Over-trust leads to unreviewed vulnerabilities reaching production. Under-trust negates AI’s productivity benefits and introduces review fatigue. Calibrated trust — accepting low-risk, well-specified outputs quickly while scrutinising high-risk or ambiguous outputs carefully — requires a model of AI failure modes that we do not yet have.</p>
+<p><strong>Research directions</strong>:</p>
+<ul>
+<li>Confidence estimation for AI code generation: can the model signal when it is unsure?</li>
+<li>Failure mode taxonomies: systematic catalogues of the types of errors AI coding tools make in specific contexts</li>
+<li>Human-AI collaboration models that adapt review intensity to estimated risk</li>
+</ul>
+<hr>
+<h2 id="124-skills-that-endure-vs-skills-that-automate-away"><a class="header" href="#124-skills-that-endure-vs-skills-that-automate-away">12.4 Skills That Endure vs. Skills That Automate Away</a></h2>
+<p>A common anxiety among software engineers is: “Will AI automate my job?” A more productive framing is: “Which aspects of my work are being automated, and what does that free me to do?”</p>
+<h3 id="1241-skills-likely-to-be-heavily-automated"><a class="header" href="#1241-skills-likely-to-be-heavily-automated">12.4.1 Skills Likely to Be Heavily Automated</a></h3>
+<ul>
+<li><strong>Boilerplate and CRUD code generation</strong>: Already heavily AI-assisted; will become nearly fully automated</li>
+<li><strong>Routine test writing</strong>: AI-generated tests for well-specified functions will become standard</li>
+<li><strong>Documentation generation</strong>: Docstrings, README files, changelog entries are already largely automatable</li>
+<li><strong>Syntax and style enforcement</strong>: Already fully automated by linters and formatters</li>
+<li><strong>Dependency version management</strong>: AI tools that automatically update, test, and create PRs are maturing</li>
+</ul>
+<h3 id="1242-skills-that-endure"><a class="header" href="#1242-skills-that-endure">12.4.2 Skills That Endure</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Skill</th><th>Why it endures</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Problem decomposition</strong></td><td>Breaking complex problems into AI-tractable sub-tasks requires domain knowledge and system understanding that AI does not have</td></tr>
+<tr><td><strong>Requirements judgment</strong></td><td>Resolving conflicting stakeholder needs requires social intelligence and organisational context</td></tr>
+<tr><td><strong>Architectural decision-making</strong></td><td>Long-term structural trade-offs involve organisational, economic, and technical factors AI cannot fully evaluate</td></tr>
+<tr><td><strong>Security and privacy judgment</strong></td><td>Context-specific security decisions require domain and legal knowledge</td></tr>
+<tr><td><strong>Evaluation and critique</strong></td><td>Determining whether AI outputs are correct, secure, and appropriate requires the same skills as any code review — and more</td></tr>
+<tr><td><strong>Stakeholder communication</strong></td><td>Building trust, managing expectations, and translating between business and technical concerns are irreducibly human</td></tr>
+<tr><td><strong>Novel algorithm design</strong></td><td>Creating new algorithms for new problem types remains a human intellectual activity</td></tr>
+<tr><td><strong>Ethical judgment</strong></td><td>Deciding what to build, for whom, and with what safeguards requires human moral reasoning</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="1243-the-t-shaped-engineer"><a class="header" href="#1243-the-t-shaped-engineer">12.4.3 The “T-shaped” Engineer</a></h3>
+<p>The AI-native era is producing a new model of the effective engineer: a “T-shaped” professional with:</p>
+<ul>
+<li><strong>Broad understanding</strong> of the AI-native toolchain (what tools exist, how they work, their failure modes)</li>
+<li><strong>Deep expertise</strong> in at least one of: system design, security, domain knowledge, evaluation methods, or stakeholder communication</li>
+</ul>
+<p>The breadth allows the engineer to work effectively across the AI-native workflow; the depth provides the judgment that AI cannot replace.</p>
+<hr>
+<h2 id="125-building-a-career-in-ai-native-engineering"><a class="header" href="#125-building-a-career-in-ai-native-engineering">12.5 Building a Career in AI-Native Engineering</a></h2>
+<h3 id="1251-role-trajectories"><a class="header" href="#1251-role-trajectories">12.5.1 Role Trajectories</a></h3>
+<p>The AI-native era is not eliminating software engineering roles — it is differentiating them. Understanding which roles are expanding versus contracting helps engineers make deliberate career choices.</p>
+<p><strong>Roles expanding in demand:</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Role</th><th>Why it is growing</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>AI Integration Engineer</strong></td><td>Organisations need engineers who can integrate AI APIs, evaluate model outputs, and build reliable AI-augmented products</td></tr>
+<tr><td><strong>Evaluation/Quality Engineer</strong></td><td>As AI generates more code, systematic evaluation expertise becomes a specialisation, not a shared responsibility</td></tr>
+<tr><td><strong>AI Security Engineer</strong></td><td>New attack surfaces (prompt injection, model inversion, training data poisoning) require specialised security expertise</td></tr>
+<tr><td><strong>Platform/Infrastructure Engineer</strong></td><td>AI inference, vector databases, embedding pipelines, and fine-tuning infrastructure require engineers who understand both ML and distributed systems</td></tr>
+<tr><td><strong>Technical Product Manager</strong></td><td>Writing AI-native specifications is a product skill as much as an engineering skill; PMs who can write precise specifications are increasingly valuable</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Roles contracting in scope (not eliminating, but narrowing):</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Role</th><th>What is contracting</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Junior/entry-level developer</strong></td><td>Boilerplate, CRUD, and routine feature work are becoming AI-assisted; the entry-level onramp is shrinking</td></tr>
+<tr><td><strong>Manual QA</strong></td><td>Test execution is automating; test design and evaluation remain human</td></tr>
+<tr><td><strong>Technical writer</strong></td><td>Documentation generation is automating; high-level architecture documentation and decision records remain human</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="1252-learning-roadmap"><a class="header" href="#1252-learning-roadmap">12.5.2 Learning Roadmap</a></h3>
+<p>For engineers who want to remain valuable as the field evolves:</p>
+<p><strong>Immediate (0–6 months) — Build the foundation</strong>:</p>
+<ul>
+<li>Master the AI-native SDLC workflow: Spec → Generate → Evaluate → Refine</li>
+<li>Write specifications for every non-trivial task, even when not using AI generation — the discipline of precise specification improves thinking</li>
+<li>Practise evaluating AI outputs rigorously; maintain a personal log of AI failure modes you encounter</li>
+<li>Complete at least one end-to-end project using the Anthropic (or equivalent) API directly — not just through a GUI</li>
+</ul>
+<p><strong>Medium-term (6–24 months) — Develop depth</strong>:</p>
+<ul>
+<li>Choose one deep specialisation: security, evaluation methodology, distributed systems, or domain expertise (healthcare, finance, legal, climate)</li>
+<li>Learn the internals of at least one AI framework (LangChain, LlamaIndex, smolagents, or AutoGen) by reading the source code, not just the tutorials</li>
+<li>Take on mentoring — teaching AI-native practices forces you to articulate tacit knowledge and builds your reputation as an expert</li>
+<li>Engage with primary research: read one AI engineering paper per week from arXiv cs.SE or cs.AI</li>
+</ul>
+<p><strong>Long-term (2–5 years) — Build impact</strong>:</p>
+<ul>
+<li>Contribute to the research conversation: run internal experiments on AI productivity, evaluation quality, or specification design and publish results (internal reports, blog posts, conference papers)</li>
+<li>Build organisational change experience — implementing AI-native practices at scale is a social and political challenge as much as a technical one; this experience becomes valuable leadership currency</li>
+<li>Position at the intersection — the highest-leverage roles will be held by engineers who understand AI capabilities AND a domain that organisations care about (security, compliance, reliability, cost)</li>
+</ul>
+<h3 id="1253-self-assessment-where-are-you-now"><a class="header" href="#1253-self-assessment-where-are-you-now">12.5.3 Self-Assessment: Where Are You Now?</a></h3>
+<p>Rate yourself honestly on these AI-native engineering competencies (1 = beginner, 5 = expert):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Competency</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+</thead>
+<tbody>
+<tr><td>Writing precise functional specifications</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Evaluating AI output for correctness</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Evaluating AI output for security</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Debugging AI-generated failures</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Designing multi-step AI agents</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Measuring and communicating AI productivity impact</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Understanding AI copyright and licensing obligations</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Applying STRIDE threat modelling to AI systems</td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+</div>
+<p>Competencies where you score 1–2 are learning priorities. Competencies where you score 4–5 are your differentiation — invest in making them visible.</p>
+<h3 id="1254-communities-and-resources"><a class="header" href="#1254-communities-and-resources">12.5.4 Communities and Resources</a></h3>
+<p><strong>Research</strong>:</p>
+<ul>
+<li>Follow <a href="https://arxiv.org/list/cs.SE/recent">arXiv cs.SE</a> and <a href="https://arxiv.org/list/cs.AI/recent">cs.AI</a> for new research</li>
+<li>Key conference venues: ICSE, FSE, ISSTA, ASE (software engineering); NeurIPS, ICLR, ICML (ML)</li>
+<li><a href="https://paperswithcode.com/">Papers With Code</a> tracks code implementations alongside research</li>
+</ul>
+<p><strong>Benchmarks</strong> (track these to understand the frontier):</p>
+<ul>
+<li><a href="https://www.swebench.com/">SWE-bench</a>: AI performance on real GitHub issues</li>
+<li><a href="https://github.com/openai/human-eval">HumanEval</a>: function-level code generation</li>
+<li><a href="https://bigcode-bench.github.io/">BigCodeBench</a>: complex programming tasks</li>
+</ul>
+<p><strong>Tooling</strong> (engage with source code, not just documentation):</p>
+<ul>
+<li><a href="https://github.com/huggingface/smolagents">smolagents</a>: Hugging Face’s minimal agent framework — under 1000 lines of core code, ideal for learning</li>
+<li><a href="https://github.com/langchain-ai/langgraph">LangGraph</a>: graph-based multi-agent orchestration</li>
+<li><a href="https://inspect.ai/">Inspect</a>: Anthropic/UK AI Safety Institute’s evaluation framework</li>
+</ul>
+<p><strong>Model providers</strong>:</p>
+<ul>
+<li><a href="https://www.anthropic.com/research">Anthropic Research</a>: blog posts from the team behind Claude</li>
+<li><a href="https://openai.com/research">OpenAI Research</a>: GPT-4 and o-series model research</li>
+<li><a href="https://deepmind.google/research/">Google DeepMind</a>: Gemini model family research</li>
+</ul>
+<hr>
+<h2 id="126-capstone-course-project-presentations"><a class="header" href="#126-capstone-course-project-presentations">12.6 Capstone: Course Project Presentations</a></h2>
+<h3 id="final-project-requirements"><a class="header" href="#final-project-requirements">Final Project Requirements</a></h3>
+<p>Your course project — the Task Management API — has grown over 12 weeks from a scope statement to a complete AI-native software system. The final capstone should demonstrate the full AI-native SDLC as practiced in this course.</p>
+<h3 id="presentation-structure-1520-minutes"><a class="header" href="#presentation-structure-1520-minutes">Presentation Structure (15–20 minutes)</a></h3>
+<p><strong>1. System Overview (3 min)</strong></p>
+<ul>
+<li>What does your Task Management API do?</li>
+<li>Architecture diagram and key design decisions</li>
+<li>Technology stack and major dependencies</li>
+</ul>
+<p><strong>2. Requirements to Implementation (4 min)</strong></p>
+<ul>
+<li>Walk through one complete user story: from initial requirement → AI-native specification → generated implementation → evaluation → final code</li>
+<li>Show the specification document, the evaluation results, and the final accepted code</li>
+<li>What surprised you about the AI’s output?</li>
+</ul>
+<p><strong>3. Evaluation and Quality (3 min)</strong></p>
+<ul>
+<li>Test coverage report</li>
+<li>CI/CD pipeline: what checks run on every commit?</li>
+<li>Security review findings (Bandit, GitLeaks) and how you addressed them</li>
+</ul>
+<p><strong>4. Agentic Development (3 min)</strong></p>
+<ul>
+<li>Demonstrate (or describe) the agentic workflow you built in Week 8</li>
+<li>How many steps did it take? What failure modes did you encounter?</li>
+</ul>
+<p><strong>5. Reflection (3 min)</strong></p>
+<ul>
+<li>What was most surprising about AI-native development?</li>
+<li>What did you have to learn to do differently?</li>
+<li>What foundational SE skill mattered more than you expected?</li>
+</ul>
+<h3 id="peer-review"><a class="header" href="#peer-review">Peer Review</a></h3>
+<p>Each team will review one other team’s presentation using the following rubric:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Criterion</th><th>Weight</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>Requirements quality</td><td>15%</td><td>Are requirements precise, measurable, and traceable?</td></tr>
+<tr><td>Specification quality</td><td>20%</td><td>Are AI specifications unambiguous and complete?</td></tr>
+<tr><td>Evaluation rigour</td><td>20%</td><td>Are evaluation criteria defined before generation?</td></tr>
+<tr><td>Code quality</td><td>20%</td><td>Does the code pass all automated quality checks?</td></tr>
+<tr><td>Security</td><td>10%</td><td>Have security risks been identified and addressed?</td></tr>
+<tr><td>Reflection depth</td><td>15%</td><td>Does the reflection show genuine learning and insight?</td></tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="127-what-it-means-to-engineer-in-the-age-of-agents"><a class="header" href="#127-what-it-means-to-engineer-in-the-age-of-agents">12.7 What It Means to Engineer in the Age of Agents</a></h2>
+<p>This book began with a claim: that the bottleneck in software engineering has shifted from writing code to defining problems, specifying intent, and evaluating outcomes.</p>
+<p>Over twelve chapters, we have examined what this shift means in practice:</p>
+<ul>
+<li><strong>Specifications are the primary engineering artefact</strong> — the quality of what you tell the AI determines the quality of what the AI produces</li>
+<li><strong>Evaluation is the primary engineering skill</strong> — determining whether AI outputs are correct, secure, and appropriate requires everything traditional code review requires, plus an understanding of AI failure modes</li>
+<li><strong>Foundational skills are the foundation</strong> — requirements, design, testing, security, and communication are the substrate on which AI-native engineering is built, not something to be replaced by it</li>
+<li><strong>Accountability does not transfer</strong> — you are responsible for the code you ship, regardless of how it was generated</li>
+</ul>
+<p>The engineers who thrive in this era will not be those who generate the most code with AI, but those who exercise the most rigorous judgment about whether that code is right. That judgment — precise, skeptical, domain-aware, security-conscious, and ethically grounded — is what this course has aimed to develop.</p>
+<p>Software engineering began as a response to a crisis: the recognition that building large software systems is harder than it looks, and that rigour, process, and discipline are necessary to do it reliably. The AI era does not diminish that lesson. It makes it more important.</p>
+<hr>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>This final chapter surveyed the emerging frontier of AI-native engineering and looked ahead to where the field is heading. Key takeaways:</p>
+<ul>
+<li>Autonomous agents, self-healing systems, and AI-assisted architecture are emerging paradigms that will further change what engineers do.</li>
+<li>Open research problems — automated evaluation, long-horizon task reliability, multi-agent coordination, specification quality measurement — represent high-value opportunities for engineers who engage with them.</li>
+<li>Skills that endure: problem decomposition, architectural decision-making, evaluation, security judgment, stakeholder communication. Skills being automated: boilerplate generation, routine testing, documentation, style enforcement.</li>
+<li>The AI-native era favours “T-shaped” engineers with broad AI toolchain understanding and deep expertise in at least one domain.</li>
+<li>Accountability does not transfer to AI tools — the engineer who ships AI-generated code is responsible for it.</li>
+</ul>
+<hr>
+<h2 id="review-questions"><a class="header" href="#review-questions">Review Questions</a></h2>
+<ol>
+<li>What is SWE-bench, and what does progress on it tell us about the trajectory of AI software engineering?</li>
+<li>Describe one open research problem in AI-native engineering and explain why it matters for practitioners.</li>
+<li>“Software engineers who use AI well will not be replaced by AI. Software engineers who refuse to adapt will be replaced by software engineers who use AI well.” Do you agree? What assumptions does this claim depend on?</li>
+<li>You are advising a computer science student who is one year from graduating. What three skills would you recommend they focus on developing for an AI-native engineering career? Justify each.</li>
+<li>A colleague claims: “Since AI writes the code now, I don’t need to be able to debug without AI assistance.” Evaluate this claim. What risks does this attitude create?</li>
+<li>Looking back at the 12 chapters of this course: which concept or technique has most changed how you think about software engineering? Why?</li>
+</ol>
+<hr>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li>Ahmed, I., et al. (2024). Towards AI-Driven Architecture Decision Making. <em>arXiv</em>. <a href="https://arxiv.org/abs/2404.09488">https://arxiv.org/abs/2404.09488</a></li>
+<li>Anthropic. (2024). Research. <a href="https://www.anthropic.com/research">https://www.anthropic.com/research</a></li>
+<li>Basiri, A., et al. (2016). Chaos Engineering. <em>IEEE Software</em>. <a href="https://arxiv.org/abs/1702.05843">https://arxiv.org/abs/1702.05843</a></li>
+<li>Hong, S., et al. (2023). MetaGPT: Meta Programming for a Multi-Agent Collaborative Framework. <em>arXiv</em>. <a href="https://arxiv.org/abs/2308.00352">https://arxiv.org/abs/2308.00352</a></li>
+<li>Jimenez, C., et al. (2023). SWE-bench: Can Language Models Resolve Real-World GitHub Issues? <em>arXiv</em>. <a href="https://arxiv.org/abs/2310.06770">https://arxiv.org/abs/2310.06770</a></li>
+<li>Newcombe, C., et al. (2015). How Amazon Web Services Uses Formal Methods. <em>Communications of the ACM</em>. <a href="https://cacm.acm.org/magazines/2015/4/184701-how-amazon-web-services-uses-formal-methods/fulltext">https://cacm.acm.org/magazines/2015/4/184701-how-amazon-web-services-uses-formal-methods/fulltext</a></li>
+<li>SWE-bench Leaderboard. <a href="https://www.swebench.com/">https://www.swebench.com/</a></li>
+<li>OpenAI. HumanEval benchmark. <a href="https://github.com/openai/human-eval">https://github.com/openai/human-eval</a></li>
+<li>Chen, M., et al. (2021). Evaluating Large Language Models Trained on Code. <em>arXiv</em>. <a href="https://arxiv.org/abs/2107.03374">https://arxiv.org/abs/2107.03374</a></li>
+<li>Hypothesis. Property-based testing for Python. <a href="https://hypothesis.readthedocs.io/">https://hypothesis.readthedocs.io/</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_11.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="appendix_a.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_11.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="appendix_a.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,706 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 2: Requirements Engineering and Specification - The AI-Native Engineer: Building Software with Coding Agents</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A 12-week online course and textbook on AI-native software engineering">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-cfb8c40f.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-b311743f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The AI-Native Engineer: Building Software with Coding Agents</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="chapter-2-requirements-engineering-and-specification"><a class="header" href="#chapter-2-requirements-engineering-and-specification">Chapter 2: Requirements Engineering and Specification</a></h1>
+<blockquote>
+<p><em>“The hardest single part of building a software system is deciding precisely what to build.”</em>
+— Fred Brooks, <em>The Mythical Man-Month</em> (1975)</p>
+</blockquote>
+<hr>
+<h2 id="learning-objectives"><a class="header" href="#learning-objectives">Learning Objectives</a></h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Explain the purpose and phases of requirements engineering.</li>
+<li>Apply multiple elicitation techniques to gather requirements from stakeholders.</li>
+<li>Distinguish between functional and non-functional requirements and write both clearly.</li>
+<li>Define epics, user stories, and acceptance criteria, and construct each for a realistic system.</li>
+<li>Write a Definition of Done for a software team.</li>
+<li>Use AI tools to assist with requirements generation and critique — and identify where AI assistance breaks down.</li>
+</ol>
+<hr>
+<h2 id="21-what-is-requirements-engineering"><a class="header" href="#21-what-is-requirements-engineering">2.1 What Is Requirements Engineering?</a></h2>
+<p>Requirements engineering (RE) is the process of defining, documenting, and maintaining the requirements for a software system. It sits at the beginning of every software project, and its quality has an outsized effect on everything that follows: design decisions, implementation choices, testing strategies, and ultimately whether the system delivers value to its users.</p>
+<p>The cost of fixing a requirements defect grows dramatically as development progresses. Research by Boehm and Papaccio (<a href="https://ieeexplore.ieee.org/document/12516">1988</a>) found that defects discovered during requirements cost roughly 1–2 units to fix; the same defect discovered during testing costs 10–100 units; discovered in production, it can cost 100–1000 units. Getting requirements right early is one of the highest-return investments in software engineering.</p>
+<p>Requirements engineering comprises four main activities:</p>
+<ol>
+<li><strong>Elicitation</strong>: Discovering what stakeholders need</li>
+<li><strong>Analysis</strong>: Resolving conflicts, prioritising, and checking feasibility</li>
+<li><strong>Specification</strong>: Documenting requirements in a clear, agreed form</li>
+<li><strong>Validation</strong>: Confirming that documented requirements reflect actual stakeholder needs</li>
+</ol>
+<p>These activities are not strictly sequential. In practice, they iterate: elicitation reveals conflicts that require analysis; analysis raises new questions that require further elicitation; validation reveals gaps that require re-specification.</p>
+<hr>
+<h2 id="22-eliciting-requirements"><a class="header" href="#22-eliciting-requirements">2.2 Eliciting Requirements</a></h2>
+<p>Elicitation is the most people-intensive phase of requirements engineering. Requirements do not simply exist waiting to be discovered — they must be actively constructed through dialogue between engineers and stakeholders.</p>
+<p>Stakeholders include anyone with a stake in the system:</p>
+<ul>
+<li><strong>Users</strong>: People who interact with the system directly</li>
+<li><strong>Clients / customers</strong>: People or organisations paying for or commissioning the system</li>
+<li><strong>Domain experts</strong>: People with specialist knowledge the system must encode</li>
+<li><strong>Regulators</strong>: Bodies whose rules constrain the system</li>
+<li><strong>Developers and operators</strong>: People who build and run the system</li>
+</ul>
+<h3 id="221-interviews"><a class="header" href="#221-interviews">2.2.1 Interviews</a></h3>
+<p>One-on-one or small group interviews are the most common elicitation technique. They allow engineers to explore individual stakeholders’ perspectives in depth, ask follow-up questions, and observe non-verbal cues.</p>
+<p><strong>Structured interviews</strong> use a fixed set of questions, making responses comparable across stakeholders. <strong>Semi-structured interviews</strong> use a prepared guide but allow the interviewer to follow interesting threads. <strong>Unstructured interviews</strong> are open-ended conversations — useful early in a project when the problem space is poorly understood.</p>
+<p>Effective interview questions:</p>
+<ul>
+<li>“Walk me through a typical day in your role. Where does [the system] fit in?”</li>
+<li>“What is the most frustrating part of the current process?”</li>
+<li>“What would success look like for you, six months after this system goes live?”</li>
+<li>“What happens when [edge case]? How do you handle that today?”</li>
+</ul>
+<h3 id="222-workshops"><a class="header" href="#222-workshops">2.2.2 Workshops</a></h3>
+<p>Requirements workshops bring multiple stakeholders together in a structured session facilitated by a trained requirements engineer. They are particularly effective for resolving conflicts between stakeholder groups and building shared understanding quickly.</p>
+<p>Joint Application Development (JAD) sessions (<a href="https://www.wiley.com/en-us/Joint+Application+Development-p-9780471042075">Wood &amp; Silver, 1995</a>) are a formalised workshop technique in which developers and users jointly define system requirements over 1–5 days. The intensity accelerates decision-making and builds stakeholder buy-in.</p>
+<h3 id="223-observation-and-ethnography"><a class="header" href="#223-observation-and-ethnography">2.2.3 Observation and Ethnography</a></h3>
+<p>Sometimes the best way to understand requirements is to watch people do their work. <em>Contextual inquiry</em> (<a href="https://www.elsevier.com/books/contextual-design/beyer/978-0-08-050612-3">Beyer &amp; Holtzblatt, 1998</a>) involves working alongside users in their natural environment, observing what they actually do rather than what they say they do. This often surfaces tacit knowledge — practices and workarounds that users perform automatically and would never think to mention in an interview.</p>
+<h3 id="224-document-analysis"><a class="header" href="#224-document-analysis">2.2.4 Document Analysis</a></h3>
+<p>Existing documents — process manuals, legacy system specifications, regulatory guidelines, error logs, support tickets — are a rich source of requirements for systems that replace or augment existing functionality. Analysing support tickets reveals the most common failure modes of a current system; regulatory guidelines reveal mandatory constraints.</p>
+<h3 id="225-prototyping"><a class="header" href="#225-prototyping">2.2.5 Prototyping</a></h3>
+<p>Showing stakeholders a low-fidelity prototype (wireframes, paper mockups, a clickable UI mockup) is often more effective than describing a system in words. Prototypes make abstract requirements concrete and frequently reveal misunderstandings that would otherwise persist until late in development.</p>
+<hr>
+<h2 id="23-functional-and-non-functional-requirements"><a class="header" href="#23-functional-and-non-functional-requirements">2.3 Functional and Non-Functional Requirements</a></h2>
+<p>All requirements can be classified as either functional or non-functional.</p>
+<h3 id="231-functional-requirements"><a class="header" href="#231-functional-requirements">2.3.1 Functional Requirements</a></h3>
+<p>Functional requirements describe <em>what</em> the system must do — specific behaviours, functions, or features. They define the interactions between the system and its environment.</p>
+<p><strong>Format</strong>: Functional requirements are often written as:</p>
+<blockquote>
+<p>The system shall [action] [object] [condition/qualifier].</p>
+</blockquote>
+<p><strong>Examples for a task management system:</strong></p>
+<ul>
+<li>The system shall allow authenticated users to create tasks with a title, description, due date, and priority level.</li>
+<li>The system shall allow project managers to assign tasks to one or more team members.</li>
+<li>The system shall send an email notification to an assignee within 5 minutes of being assigned a task.</li>
+<li>The system shall allow users to filter tasks by status (open, in progress, completed, cancelled).</li>
+</ul>
+<h3 id="232-non-functional-requirements"><a class="header" href="#232-non-functional-requirements">2.3.2 Non-Functional Requirements</a></h3>
+<p>Non-functional requirements (NFRs) describe <em>how</em> the system must behave — quality attributes that constrain the system’s operation. They are sometimes called quality attributes or system properties.</p>
+<p>NFRs are often harder to specify precisely than functional requirements, but they are equally important. A system that does the right thing slowly, insecurely, or unreliably fails its users just as surely as one that does the wrong thing.</p>
+<p>Key categories of non-functional requirements (<a href="https://www.iso.org/standard/35733.html">ISO/IEC 25010, 2011</a>):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Category</th><th>Description</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Performance</strong></td><td>Speed and throughput</td><td>The API shall respond to 95% of requests within 200ms under a load of 1,000 concurrent users.</td></tr>
+<tr><td><strong>Reliability</strong></td><td>Uptime and fault tolerance</td><td>The system shall achieve 99.9% uptime (≤8.7 hours downtime per year).</td></tr>
+<tr><td><strong>Security</strong></td><td>Protection from threats</td><td>All data at rest shall be encrypted using AES-256.</td></tr>
+<tr><td><strong>Scalability</strong></td><td>Ability to handle growth</td><td>The system shall support up to 100,000 active users without architectural changes.</td></tr>
+<tr><td><strong>Usability</strong></td><td>Ease of use</td><td>A new user shall be able to create their first task within 3 minutes of registering.</td></tr>
+<tr><td><strong>Maintainability</strong></td><td>Ease of change</td><td>All modules shall have unit test coverage of at least 80%.</td></tr>
+<tr><td><strong>Portability</strong></td><td>Ability to run in different environments</td><td>The system shall run on any Linux environment with Python 3.11+.</td></tr>
+<tr><td><strong>Compliance</strong></td><td>Adherence to regulations</td><td>The system shall comply with GDPR requirements for personal data storage and processing.</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>The danger of vague NFRs</strong>: Non-functional requirements must be <em>measurable</em> to be useful. “The system should be fast” is not a requirement — it is a wish. “The API shall respond to 95% of requests within 200ms under a load of 1,000 concurrent users” is testable.</p>
+<h3 id="233-the-furps-model"><a class="header" href="#233-the-furps-model">2.3.3 The FURPS+ Model</a></h3>
+<p>The FURPS+ model (<a href="https://dl.acm.org/doi/10.1145/155360.155361">Grady, 1992</a>) provides a checklist for ensuring requirements coverage:</p>
+<ul>
+<li><strong>F</strong>unctionality: Features and capabilities</li>
+<li><strong>U</strong>sability: User interface and user experience</li>
+<li><strong>R</strong>eliability: Availability, fault tolerance, recoverability</li>
+<li><strong>P</strong>erformance: Speed, throughput, capacity</li>
+<li><strong>S</strong>upportability: Testability, maintainability, portability</li>
+<li><strong>+</strong>: Constraints (design, implementation, interface, physical)</li>
+</ul>
+<hr>
+<h2 id="24-quality-attributes-of-good-requirements"><a class="header" href="#24-quality-attributes-of-good-requirements">2.4 Quality Attributes of Good Requirements</a></h2>
+<p>Individual requirements should satisfy the following quality criteria. The IEEE 830 standard (<a href="https://standards.ieee.org/ieee/830/1222/">IEEE, 1998</a>) and its successor ISO/IEC/IEEE 29148 (<a href="https://www.iso.org/standard/72052.html">2018</a>) are the canonical references.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Attribute</th><th>Description</th><th>Bad Example</th><th>Good Example</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Correct</strong></td><td>Accurately represents stakeholder needs</td><td>—</td><td>Validated with stakeholders</td></tr>
+<tr><td><strong>Unambiguous</strong></td><td>Has only one possible interpretation</td><td>“The system shall be user-friendly”</td><td>“A new user shall create their first task in under 3 minutes”</td></tr>
+<tr><td><strong>Complete</strong></td><td>Covers all necessary conditions</td><td>“Users can log in”</td><td>“Users can log in with email/password; failed attempts are logged; accounts lock after 5 failures”</td></tr>
+<tr><td><strong>Consistent</strong></td><td>Does not conflict with other requirements</td><td>Two requirements with contradictory session expiry rules</td><td>All session management requirements align</td></tr>
+<tr><td><strong>Verifiable</strong></td><td>Can be tested or inspected</td><td>“The system shall be reliable”</td><td>“The system shall achieve 99.9% uptime”</td></tr>
+<tr><td><strong>Traceable</strong></td><td>Can be linked to its source</td><td>Requirement with no stakeholder owner</td><td>Requirement tagged to specific stakeholder interview</td></tr>
+<tr><td><strong>Prioritised</strong></td><td>Ranked by importance</td><td>No priority information</td><td>MoSCoW category assigned</td></tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="25-epics-user-stories-and-work-items"><a class="header" href="#25-epics-user-stories-and-work-items">2.5 Epics, User Stories, and Work Items</a></h2>
+<p>In Agile teams, requirements are typically captured as a hierarchy of work items:</p>
+<pre><code>Epic
+ └── Feature / Capability
+      └── User Story
+           └── Task (implementation subtask)
+</code></pre>
+<h3 id="251-epics"><a class="header" href="#251-epics">2.5.1 Epics</a></h3>
+<p>An <em>epic</em> is a large body of work that can be broken down into smaller stories. Epics represent significant chunks of functionality — typically too large to complete in a single sprint.</p>
+<p><strong>Example epics for a task management system:</strong></p>
+<ul>
+<li>User Authentication and Authorisation</li>
+<li>Task Lifecycle Management (create, assign, update, complete)</li>
+<li>Notifications and Alerts</li>
+<li>Reporting and Analytics</li>
+</ul>
+<h3 id="252-user-stories"><a class="header" href="#252-user-stories">2.5.2 User Stories</a></h3>
+<p>Each epic decomposes into user stories — small, independently deliverable increments of value.</p>
+<p><strong>Epic: Task Lifecycle Management</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>ID</th><th>User Story</th></tr>
+</thead>
+<tbody>
+<tr><td>US-01</td><td>As a user, I want to create a task with a title and description so that I can record work that needs to be done.</td></tr>
+<tr><td>US-02</td><td>As a user, I want to assign a due date to a task so that I can track deadlines.</td></tr>
+<tr><td>US-03</td><td>As a project manager, I want to assign a task to a team member so that responsibilities are clear.</td></tr>
+<tr><td>US-04</td><td>As a user, I want to mark a task as complete so that the team can see progress.</td></tr>
+<tr><td>US-05</td><td>As a user, I want to add comments to a task so that I can communicate context without leaving the tool.</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="253-tasks"><a class="header" href="#253-tasks">2.5.3 Tasks</a></h3>
+<p>Each user story is implemented through one or more <em>tasks</em> — specific technical actions. Tasks are not user-visible; they are engineering sub-steps.</p>
+<p><strong>Example tasks for US-03 (assign a task to a team member):</strong></p>
+<ul>
+<li>Design the <code>POST /tasks/{id}/assign</code> API endpoint</li>
+<li>Implement the assignment logic and database update</li>
+<li>Write unit tests for the assignment service</li>
+<li>Write integration tests for the assignment endpoint</li>
+<li>Update API documentation</li>
+</ul>
+<hr>
+<h2 id="26-acceptance-criteria"><a class="header" href="#26-acceptance-criteria">2.6 Acceptance Criteria</a></h2>
+<p><em>Acceptance criteria</em> define the specific conditions that must be satisfied for a user story to be considered done. They bridge requirements and testing: each acceptance criterion should be directly testable.</p>
+<p>The most common format is <strong>Gherkin</strong> — a structured natural language syntax used by the Cucumber testing framework (<a href="https://pragprog.com/titles/hwcuc/the-cucumber-book/">Wynne &amp; Hellesøy, 2012</a>):</p>
+<pre><code class="language-gherkin">Given [some initial context]
+When  [an action occurs]
+Then  [an observable outcome]
+</code></pre>
+<p><strong>Example — US-03: Assign a task to a team member</strong></p>
+<pre><code class="language-gherkin">Scenario: Successfully assigning a task
+  Given I am logged in as a project manager
+  And a task with ID "123" exists in my project
+  And a team member "alice@example.com" exists in my project
+  When I send POST /tasks/123/assign with body {"assignee": "alice@example.com"}
+  Then the response status code is 200
+  And the task's assignee field is updated to "alice@example.com"
+  And alice receives an email notification within 5 minutes
+
+Scenario: Attempting to assign to a non-member
+  Given I am logged in as a project manager
+  And a task with ID "123" exists in my project
+  When I send POST /tasks/123/assign with body {"assignee": "nonmember@example.com"}
+  Then the response status code is 400
+  And the response body contains {"error": "User is not a member of this project"}
+
+Scenario: Attempting to assign without permission
+  Given I am logged in as a regular user (not a project manager)
+  When I send POST /tasks/123/assign with body {"assignee": "alice@example.com"}
+  Then the response status code is 403
+  And the response body contains {"error": "Insufficient permissions"}
+</code></pre>
+<p>Well-written acceptance criteria cover:</p>
+<ul>
+<li>The <strong>happy path</strong> (the successful scenario)</li>
+<li><strong>Error cases</strong> (invalid input, unauthorised access)</li>
+<li><strong>Edge cases</strong> (boundary conditions, concurrent operations)</li>
+</ul>
+<hr>
+<h2 id="27-definition-of-done"><a class="header" href="#27-definition-of-done">2.7 Definition of Done</a></h2>
+<p>The <em>Definition of Done</em> (DoD) is a shared agreement about what “complete” means for any piece of work. It is a quality gate: a story is not done until it satisfies every item on the DoD checklist (<a href="https://scrumguides.org/scrum-guide.html">Schwaber &amp; Sutherland, 2020</a>).</p>
+<p><strong>Example Definition of Done for the course project:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> All acceptance criteria pass</li>
+<li><input disabled="" type="checkbox"> Unit tests written and passing (minimum 80% coverage for new code)</li>
+<li><input disabled="" type="checkbox"> Integration tests written and passing</li>
+<li><input disabled="" type="checkbox"> Code reviewed by at least one other team member</li>
+<li><input disabled="" type="checkbox"> Linter and type checker pass with no errors</li>
+<li><input disabled="" type="checkbox"> API documentation updated (if applicable)</li>
+<li><input disabled="" type="checkbox"> No new security vulnerabilities introduced (verified by automated scan)</li>
+<li><input disabled="" type="checkbox"> Deployed to the staging environment and manually tested</li>
+</ul>
+<p>A DoD prevents “almost done” from becoming a permanent state and makes quality expectations explicit and consistent across the team.</p>
+<hr>
+<h2 id="28-ai-assisted-requirements-engineering"><a class="header" href="#28-ai-assisted-requirements-engineering">2.8 AI-Assisted Requirements Engineering</a></h2>
+<p>AI tools are beginning to enter the requirements engineering process in meaningful ways. This section examines where they add value and where their limitations matter most.</p>
+<h3 id="281-generating-draft-requirements"><a class="header" href="#281-generating-draft-requirements">2.8.1 Generating Draft Requirements</a></h3>
+<p>Given a brief system description, large language models can generate a first draft of requirements. This can accelerate early project stages by providing a concrete starting point for teams to critique and refine.</p>
+<p>A capable LLM will produce a reasonable draft, but AI-generated requirements should never be accepted uncritically. Common issues include:</p>
+<ul>
+<li><strong>Missing domain-specific constraints</strong>: The model cannot know about regulatory requirements, legacy integrations, or organisational policies.</li>
+<li><strong>Hallucinated specificity</strong>: Numbers (response times, user limits, data retention periods) will be plausibly invented rather than sourced from actual stakeholders.</li>
+<li><strong>Missing edge cases</strong>: Models generate obvious scenarios and may miss the edge cases that matter most in production.</li>
+<li><strong>Lack of traceability</strong>: AI-generated requirements have no stakeholder source — a critical weakness when requirements are disputed.</li>
+</ul>
+<h3 id="282-critiquing-and-improving-requirements"><a class="header" href="#282-critiquing-and-improving-requirements">2.8.2 Critiquing and Improving Requirements</a></h3>
+<p>A more reliable use of AI is as a <em>critic</em> rather than an <em>author</em>. Given a set of human-written requirements, an LLM can check for common quality issues:</p>
+<pre><code class="language-python">import anthropic
+
+client = anthropic.Anthropic()
+
+requirements_document = """
+1. The system shall be fast.
+2. Users can create tasks.
+3. The system should be secure.
+4. Tasks can be assigned to users.
+5. The system shall send notifications.
+"""
+
+response = client.messages.create(
+    model="claude-opus-4-7",
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": f"""Review the following requirements for quality issues.
+For each requirement, identify if it is: ambiguous, incomplete, or unverifiable.
+Suggest a rewritten version that addresses any issues.
+
+Requirements:
+{requirements_document}""",
+        }
+    ],
+)
+
+print(response.content[0].text)
+</code></pre>
+<p>This use of AI is lower risk because the human author retains ownership of the requirements and uses AI feedback as one input among several.</p>
+<h3 id="283-generating-user-stories-from-interview-notes"><a class="header" href="#283-generating-user-stories-from-interview-notes">2.8.3 Generating User Stories from Interview Notes</a></h3>
+<p>Stakeholder interviews produce messy, unstructured notes. AI can help transform these into structured user stories:</p>
+<pre><code class="language-python">import anthropic
+
+client = anthropic.Anthropic()
+
+interview_notes = """
+Spoke with Sarah (project manager, 12-person dev team).
+Main frustrations: can't see at a glance who is overloaded,
+tasks fall through the cracks when someone is sick,
+no way to see what was completed last week for stand-ups.
+Wants to reassign tasks quickly when priorities change.
+Spends 30 mins every Monday just updating statuses in a spreadsheet.
+"""
+
+response = client.messages.create(
+    model="claude-opus-4-7",
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": f"""You are a requirements engineer. Convert the following
+stakeholder interview notes into well-structured user stories using the format:
+"As a [role], I want [goal] so that [reason]."
+Include 2–3 acceptance criteria per story in Gherkin format.
+Only generate stories directly supported by the notes — do not invent requirements.
+
+Interview notes:
+{interview_notes}""",
+        }
+    ],
+)
+
+print(response.content[0].text)
+</code></pre>
+<p>The final instruction — “do not invent requirements” — is critical. Without it, models will helpfully generate plausible but unsupported requirements, which can mislead the team.</p>
+<h3 id="284-where-ai-cannot-replace-human-judgment"><a class="header" href="#284-where-ai-cannot-replace-human-judgment">2.8.4 Where AI Cannot Replace Human Judgment</a></h3>
+<p>Despite these capabilities, requirements engineering remains fundamentally a human activity. AI cannot:</p>
+<ul>
+<li><strong>Resolve political conflicts</strong> between stakeholders with competing interests</li>
+<li><strong>Understand organisational context</strong> — why a constraint exists, who has authority to waive it, what previous attempts failed</li>
+<li><strong>Elicit tacit knowledge</strong> — the workarounds, unspoken norms, and tribal knowledge that experienced users hold</li>
+<li><strong>Accept legal accountability</strong> for requirements in regulated domains (healthcare, finance, aviation)</li>
+<li><strong>Build trust</strong> with stakeholders — the relationship component that makes people willing to share their real problems</li>
+</ul>
+<p>The engineer’s role is not to be replaced by AI, but to use AI for routine structural tasks (formatting, checking, drafting) while investing their own time in the high-value, human-dependent work.</p>
+<hr>
+<h2 id="29-tutorial-requirements-review-pipeline"><a class="header" href="#29-tutorial-requirements-review-pipeline">2.9 Tutorial: Requirements Review Pipeline</a></h2>
+<p>This tutorial demonstrates a practical requirements quality review pipeline using the Anthropic API.</p>
+<h3 id="setup"><a class="header" href="#setup">Setup</a></h3>
+<pre><code class="language-bash">pip install anthropic python-dotenv
+</code></pre>
+<pre><code class="language-bash"># .env
+ANTHROPIC_API_KEY=your_key_here
+</code></pre>
+<h3 id="requirements-review-pipeline"><a class="header" href="#requirements-review-pipeline">Requirements Review Pipeline</a></h3>
+<pre><code class="language-python"># requirements_review.py
+import os
+import anthropic
+from dotenv import load_dotenv
+
+load_dotenv()
+
+client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+
+
+def review_requirement(requirement: str) -&gt; dict[str, str]:
+    """Review a single requirement and return issues, improvement, and verdict."""
+    response = client.messages.create(
+        model="claude-opus-4-7",
+        max_tokens=512,
+        messages=[
+            {
+                "role": "user",
+                "content": f"""Analyse this software requirement for quality issues.
+Check for: ambiguity, lack of measurability, incompleteness, missing edge cases.
+
+Requirement: "{requirement}"
+
+Respond in this exact format:
+ISSUES: [list specific issues, or "None" if well-formed]
+IMPROVED: [rewritten version, or original if no issues]
+VERDICT: [GOOD / NEEDS_IMPROVEMENT / POOR]""",
+            }
+        ],
+    )
+
+    text = response.content[0].text
+    result: dict[str, str] = {}
+    for line in text.strip().split("\n"):
+        for key in ("ISSUES", "IMPROVED", "VERDICT"):
+            if line.startswith(f"{key}:"):
+                result[key.lower()] = line[len(key) + 1 :].strip()
+    return result
+
+
+def review_requirements_document(requirements: list[str]) -&gt; None:
+    """Review a list of requirements and print a quality report."""
+    print("=" * 60)
+    print("REQUIREMENTS QUALITY REVIEW")
+    print("=" * 60)
+
+    scores: dict[str, int] = {"GOOD": 0, "NEEDS_IMPROVEMENT": 0, "POOR": 0}
+
+    for i, req in enumerate(requirements, 1):
+        print(f"\n[{i}] {req}")
+        result = review_requirement(req)
+        verdict = result.get("verdict", "UNKNOWN")
+        scores[verdict] = scores.get(verdict, 0) + 1
+
+        print(f"    Verdict:  {verdict}")
+        if verdict != "GOOD":
+            print(f"    Issues:   {result.get('issues', 'N/A')}")
+            print(f"    Improved: {result.get('improved', 'N/A')}")
+
+    print("\n" + "=" * 60)
+    print("SUMMARY")
+    for label, count in scores.items():
+        print(f"  {label:&lt;22} {count}")
+    print("=" * 60)
+
+
+if __name__ == "__main__":
+    sample_requirements = [
+        "The system shall be fast.",
+        "The system shall respond to 95% of API requests within 200ms "
+        "under a load of 1,000 concurrent users.",
+        "Users can create tasks.",
+        "The system shall allow authenticated users to create tasks with a title "
+        "(required, max 200 characters), description (optional, max 2,000 characters), "
+        "due date (optional), and priority level (low, medium, high, critical).",
+        "The system should be secure.",
+        "All user passwords shall be stored as bcrypt hashes with a work factor of at least 12.",
+    ]
+
+    review_requirements_document(sample_requirements)
+</code></pre>
+<p><strong>Sample output:</strong></p>
+<pre><code>============================================================
+REQUIREMENTS QUALITY REVIEW
+============================================================
+
+[1] The system shall be fast.
+    Verdict:  POOR
+    Issues:   Ambiguous and unverifiable — "fast" has no defined threshold
+    Improved: The system shall respond to 95% of API requests within 200ms
+              under a load of 1,000 concurrent users.
+
+[2] The system shall respond to 95% of API requests within 200ms...
+    Verdict:  GOOD
+
+[3] Users can create tasks.
+    Verdict:  NEEDS_IMPROVEMENT
+    Issues:   Incomplete — missing subject (who), authentication context,
+              and field constraints
+    Improved: The system shall allow authenticated users to create tasks...
+</code></pre>
+<hr>
+<h2 id="210-project-milestone-requirements-specification"><a class="header" href="#210-project-milestone-requirements-specification">2.10 Project Milestone: Requirements Specification</a></h2>
+<h3 id="this-weeks-deliverables"><a class="header" href="#this-weeks-deliverables">This Week’s Deliverables</a></h3>
+<p>Produce a requirements specification document for your Task Management API. Include:</p>
+<ol>
+<li><strong>Stakeholder list</strong>: At least 3 stakeholder roles and their primary concerns.</li>
+<li><strong>Functional requirements</strong>: At least 15 requirements in “The system shall…” format, covering your Must Have items.</li>
+<li><strong>Non-functional requirements</strong>: At least 6 NFRs covering performance, security, reliability, and maintainability — all measurable.</li>
+<li><strong>Epic and story map</strong>: At least 3 epics, each decomposed into 3–5 user stories.</li>
+<li><strong>Acceptance criteria</strong>: Full Gherkin acceptance criteria for at least 5 user stories.</li>
+<li><strong>Definition of Done</strong>: Your team’s agreed DoD checklist.</li>
+</ol>
+<h3 id="bonus"><a class="header" href="#bonus">Bonus</a></h3>
+<p>Run your requirements through the review pipeline from the tutorial. Include the output as an appendix to your specification. Note which requirements were flagged, whether you agreed with the AI’s assessment, and what you changed (or chose not to change) — and why.</p>
+<hr>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>Requirements engineering is the process of discovering, documenting, and validating what a system must do. Key takeaways:</p>
+<ul>
+<li>Elicitation techniques — interviews, workshops, observation, document analysis, and prototyping — each surface different types of requirements knowledge.</li>
+<li>Functional requirements describe <em>what</em> the system does; non-functional requirements describe <em>how well</em> it does it. Both must be measurable.</li>
+<li>Agile teams organise requirements as a hierarchy: epics decompose into user stories, which decompose into implementation tasks.</li>
+<li>Acceptance criteria in Gherkin format make requirements directly testable and reduce ambiguity.</li>
+<li>The Definition of Done is a shared quality gate that prevents “almost done” from becoming permanent.</li>
+<li>AI can accelerate drafting and critique of requirements, but cannot replace human judgment for elicitation, conflict resolution, and accountability.</li>
+</ul>
+<hr>
+<h2 id="review-questions"><a class="header" href="#review-questions">Review Questions</a></h2>
+<ol>
+<li>Why does fixing a requirements defect become more expensive the later it is discovered? What does this imply about investment in requirements engineering?</li>
+<li>What is the difference between a functional and a non-functional requirement? Give two examples of each for a ride-sharing application.</li>
+<li>Write three acceptance criteria in Gherkin format for: <em>“As a user, I want to delete a task so that I can remove tasks that are no longer relevant.”</em></li>
+<li>What is the Definition of Done, and how does it differ from acceptance criteria for a specific user story?</li>
+<li>You are eliciting requirements for a new hospital patient record system. Which techniques would you use and why? What are the specific challenges in this domain?</li>
+<li>Describe two ways AI can assist with requirements engineering and two significant limitations of AI in this context.</li>
+</ol>
+<hr>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li>Boehm, B., &amp; Papaccio, P. (1988). Understanding and Controlling Software Costs. <em>IEEE Transactions on Software Engineering</em>, 14(10). <a href="https://ieeexplore.ieee.org/document/12516">https://ieeexplore.ieee.org/document/12516</a></li>
+<li>Brooks, F. P. (1975). <em>The Mythical Man-Month</em>. Addison-Wesley. <a href="https://en.wikipedia.org/wiki/The_Mythical_Man-Month">https://en.wikipedia.org/wiki/The_Mythical_Man-Month</a></li>
+<li>Beyer, H., &amp; Holtzblatt, K. (1998). <em>Contextual Design: Defining Customer-Centered Systems</em>. Morgan Kaufmann. <a href="https://www.elsevier.com/books/contextual-design/beyer/978-0-08-050612-3">https://www.elsevier.com/books/contextual-design/beyer/978-0-08-050612-3</a></li>
+<li>Grady, R. B. (1992). <em>Practical Software Metrics for Project Management and Process Improvement</em>. Prentice Hall. <a href="https://dl.acm.org/doi/10.1145/155360.155361">https://dl.acm.org/doi/10.1145/155360.155361</a></li>
+<li>IEEE. (1998). <em>IEEE Recommended Practice for Software Requirements Specifications</em> (IEEE 830). <a href="https://standards.ieee.org/ieee/830/1222/">https://standards.ieee.org/ieee/830/1222/</a></li>
+<li>ISO/IEC 25010. (2011). <em>Systems and software Quality Requirements and Evaluation (SQuaRE)</em>. <a href="https://www.iso.org/standard/35733.html">https://www.iso.org/standard/35733.html</a></li>
+<li>ISO/IEC/IEEE 29148. (2018). <em>Systems and software engineering — Requirements engineering</em>. <a href="https://www.iso.org/standard/72052.html">https://www.iso.org/standard/72052.html</a></li>
+<li>Schwaber, K., &amp; Sutherland, J. (2020). <em>The Scrum Guide</em>. <a href="https://scrumguides.org/scrum-guide.html">https://scrumguides.org/scrum-guide.html</a></li>
+<li>Wood, J., &amp; Silver, D. (1995). <em>Joint Application Development</em>. Wiley. <a href="https://www.wiley.com/en-us/Joint+Application+Development-p-9780471042075">https://www.wiley.com/en-us/Joint+Application+Development-p-9780471042075</a></li>
+<li>Wynne, M., &amp; Hellesøy, A. (2012). <em>The Cucumber Book</em>. Pragmatic Bookshelf. <a href="https://pragprog.com/titles/hwcuc/the-cucumber-book/">https://pragprog.com/titles/hwcuc/the-cucumber-book/</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_1.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="chapter_3.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_1.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="chapter_3.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

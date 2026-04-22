@@ -1,0 +1,909 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 3: Software Design, Architecture, and Patterns - The AI-Native Engineer: Building Software with Coding Agents</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A 12-week online course and textbook on AI-native software engineering">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-cfb8c40f.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-b311743f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The AI-Native Engineer: Building Software with Coding Agents</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="chapter-3-software-design-architecture-and-patterns"><a class="header" href="#chapter-3-software-design-architecture-and-patterns">Chapter 3: Software Design, Architecture, and Patterns</a></h1>
+<blockquote>
+<p><em>“A designer knows he has achieved perfection not when there is nothing left to add, but when there is nothing left to take away.”</em>
+— Antoine de Saint-Exupéry</p>
+</blockquote>
+<hr>
+<h2 id="learning-objectives"><a class="header" href="#learning-objectives">Learning Objectives</a></h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Read and produce UML diagrams: use case, class, sequence, and component diagrams.</li>
+<li>Compare and select appropriate architectural patterns for a given system.</li>
+<li>Identify and apply common Gang of Four design patterns.</li>
+<li>Apply SOLID principles and other design guidelines to produce maintainable code.</li>
+<li>Write clean, readable Python code following established conventions.</li>
+<li>Use AI tools to assist with design and scaffolding — and critically evaluate what they produce.</li>
+</ol>
+<hr>
+<h2 id="31-why-design-matters"><a class="header" href="#31-why-design-matters">3.1 Why Design Matters</a></h2>
+<p>Writing code that works is necessary but not sufficient. Code must also be maintainable — readable and modifiable by other developers (and by your future self) over months and years. Poor design decisions made early in a project compound over time: a monolithic module that is difficult to test becomes more difficult to test as it grows; a tangled dependency structure becomes harder to untangle as more code depends on it.</p>
+<p>Software design is the activity of deciding <em>how</em> a system will be structured before (or alongside) the activity of writing code. Good design:</p>
+<ul>
+<li>Makes the system easier to understand</li>
+<li>Makes the system easier to test</li>
+<li>Makes the system easier to change in response to new requirements</li>
+<li>Reduces the risk of introducing bugs when modifying existing functionality</li>
+</ul>
+<p>This chapter covers design at three levels:</p>
+<ol>
+<li><strong>Diagrams</strong>: visual representations of system structure and behaviour</li>
+<li><strong>Architecture</strong>: high-level decisions about system organisation</li>
+<li><strong>Patterns</strong>: proven solutions to recurring design problems</li>
+</ol>
+<hr>
+<h2 id="32-uml-diagrams"><a class="header" href="#32-uml-diagrams">3.2 UML Diagrams</a></h2>
+<p>The Unified Modeling Language (UML) is a standardised notation for visualising software systems (<a href="https://www.omg.org/spec/UML/2.5.1/">OMG, 2017</a>). It provides a shared vocabulary for communicating design decisions between developers, architects, and stakeholders.</p>
+<p>We focus on four diagram types that are most commonly used in practice.</p>
+<h3 id="321-use-case-diagrams"><a class="header" href="#321-use-case-diagrams">3.2.1 Use Case Diagrams</a></h3>
+<p>Use case diagrams show the interactions between <em>actors</em> (users or external systems) and the <em>use cases</em> (features) a system provides. They communicate system scope at a high level and are useful for stakeholder communication early in a project.</p>
+<p><strong>Elements:</strong></p>
+<ul>
+<li><strong>Actor</strong>: A stick figure representing a user role or external system</li>
+<li><strong>Use case</strong>: An oval representing a system function</li>
+<li><strong>Association</strong>: A line connecting an actor to the use cases they participate in</li>
+<li><strong>System boundary</strong>: A rectangle enclosing all use cases in scope</li>
+</ul>
+<p><strong>Example — Task Management System:</strong></p>
+<pre><code>┌─────────────────────────────────────────────────────┐
+│                 Task Management System               │
+│                                                      │
+│   (Create Task)    (Assign Task)    (Close Task)     │
+│                                                      │
+│   (View Dashboard)  (Generate Report)                │
+│                                                      │
+│   (Receive Notification)                             │
+└─────────────────────────────────────────────────────┘
+        │               │                │
+      User          Manager          Email Service
+</code></pre>
+<p>Use case diagrams intentionally omit implementation detail — they show <em>what</em> the system does, not <em>how</em>.</p>
+<h3 id="322-class-diagrams"><a class="header" href="#322-class-diagrams">3.2.2 Class Diagrams</a></h3>
+<p>Class diagrams show the static structure of a system — the classes, their attributes and methods, and the relationships between them. They are the most widely used UML diagram type for communicating object-oriented design.</p>
+<p><strong>Key relationships:</strong></p>
+<ul>
+<li><strong>Association</strong>: A uses B (solid line)</li>
+<li><strong>Aggregation</strong>: A has B, B can exist without A (hollow diamond)</li>
+<li><strong>Composition</strong>: A contains B, B cannot exist without A (filled diamond)</li>
+<li><strong>Inheritance</strong>: A is a B (hollow triangle arrow)</li>
+<li><strong>Interface implementation</strong>: A implements B (dashed line with hollow triangle)</li>
+<li><strong>Dependency</strong>: A depends on B (dashed arrow)</li>
+</ul>
+<p><strong>Example — Task Management Domain Model:</strong></p>
+<pre><code>┌────────────────┐         ┌────────────────┐
+│    Project     │1      * │     Task       │
+│────────────────│─────────│────────────────│
+│ id: UUID       │         │ id: UUID       │
+│ name: str      │         │ title: str     │
+│ owner: User    │         │ description:str│
+│────────────────│         │ due_date: date │
+│ add_task()     │         │ priority: Enum │
+│ get_tasks()    │         │ status: Enum   │
+└────────────────┘         │────────────────│
+                           │ assign(user)   │
+                           │ complete()     │
+                           └───────┬────────┘
+                                   │* assignees
+                           ┌───────┴────────┐
+                           │      User      │
+                           │────────────────│
+                           │ id: UUID       │
+                           │ email: str     │
+                           │ role: Enum     │
+                           └────────────────┘
+</code></pre>
+<h3 id="323-sequence-diagrams"><a class="header" href="#323-sequence-diagrams">3.2.3 Sequence Diagrams</a></h3>
+<p>Sequence diagrams show how objects interact over time to accomplish a specific use case. They are valuable for documenting the flow of a complex operation, particularly when multiple components or services are involved.</p>
+<p><strong>Example — Assigning a task:</strong></p>
+<pre><code>Client       API Gateway    TaskService    UserService    NotificationService
+  │               │               │               │               │
+  │  POST /assign │               │               │               │
+  │──────────────&gt;│               │               │               │
+  │               │ assign(id,email)              │               │
+  │               │──────────────&gt;│               │               │
+  │               │               │ getUser(email)│               │
+  │               │               │──────────────&gt;│               │
+  │               │               │   user        │               │
+  │               │               │&lt;──────────────│               │
+  │               │               │                   notify(user)│
+  │               │               │──────────────────────────────&gt;│
+  │               │               │                   email sent  │
+  │               │               │&lt;──────────────────────────────│
+  │               │  200 OK       │               │               │
+  │&lt;──────────────│               │               │               │
+</code></pre>
+<h3 id="324-component-diagrams"><a class="header" href="#324-component-diagrams">3.2.4 Component Diagrams</a></h3>
+<p>Component diagrams show the high-level organisation of a system into components and their dependencies. They bridge the gap between architecture diagrams and class diagrams.</p>
+<p><strong>Example — Task Management API components:</strong></p>
+<pre><code>┌──────────────────────────────────────────────────────────┐
+│                     Task Management API                   │
+│                                                          │
+│  ┌─────────────┐    ┌──────────────┐   ┌─────────────┐  │
+│  │  REST API   │───&gt;│   Service    │──&gt;│  Repository │  │
+│  │  (FastAPI)  │    │   Layer      │   │  Layer      │  │
+│  └─────────────┘    └──────────────┘   └──────┬──────┘  │
+│                                               │         │
+│  ┌─────────────┐                      ┌───────┴──────┐  │
+│  │   Auth      │                      │  PostgreSQL  │  │
+│  │  (JWT)      │                      │  Database    │  │
+│  └─────────────┘                      └─────────────┘  │
+│                                                          │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │            Notification Service                  │    │
+│  │         (Email via SendGrid)                     │    │
+│  └─────────────────────────────────────────────────┘    │
+└──────────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="33-architectural-patterns"><a class="header" href="#33-architectural-patterns">3.3 Architectural Patterns</a></h2>
+<p>An architectural pattern is a high-level strategy for organising the major components of a system. Selecting the right architectural pattern for a system’s requirements is one of the most consequential decisions a software team makes — and one of the hardest to reverse.</p>
+<h3 id="331-layered-n-tier-architecture"><a class="header" href="#331-layered-n-tier-architecture">3.3.1 Layered (N-Tier) Architecture</a></h3>
+<p>The layered pattern organises a system into horizontal layers, where each layer serves the layer above it and depends only on the layer below it (<a href="https://www.wiley.com/en-us/Pattern+Oriented+Software+Architecture%2C+Volume+1%2C+A+System+of+Patterns-p-9780471958697">Buschmann et al., 1996</a>).</p>
+<pre><code>┌─────────────────────────────┐
+│       Presentation Layer    │  (HTTP endpoints, request/response)
+├─────────────────────────────┤
+│       Business Logic Layer  │  (Services, domain logic, rules)
+├─────────────────────────────┤
+│       Data Access Layer     │  (Repositories, ORM, queries)
+├─────────────────────────────┤
+│       Database Layer        │  (PostgreSQL, Redis, etc.)
+└─────────────────────────────┘
+</code></pre>
+<p><strong>Strengths:</strong> Simple to understand; good separation of concerns; easy to test each layer independently.</p>
+<p><strong>Weaknesses:</strong> Can lead to “pass-through” layers that add no logic; performance overhead from passing data through many layers; tendency toward monolithic deployment.</p>
+<p><strong>Suitable for:</strong> Business applications, CRUD-heavy APIs, systems where the team is primarily familiar with this pattern.</p>
+<h3 id="332-model-view-controller-mvc"><a class="header" href="#332-model-view-controller-mvc">3.3.2 Model-View-Controller (MVC)</a></h3>
+<p>MVC separates a system into three components (<a href="https://folk.universitetetioslo.no/trygver/themes/mvc/mvc-index.html">Reenskaug, 1979</a>):</p>
+<ul>
+<li><strong>Model</strong>: The data and business logic</li>
+<li><strong>View</strong>: The presentation layer (what the user sees)</li>
+<li><strong>Controller</strong>: Handles user input and coordinates Model and View</li>
+</ul>
+<p>MVC is widely used in web frameworks: Django, Ruby on Rails, and Spring MVC all implement variants of this pattern.</p>
+<h3 id="333-event-driven-architecture"><a class="header" href="#333-event-driven-architecture">3.3.3 Event-Driven Architecture</a></h3>
+<p>In an event-driven architecture, components communicate by producing and consuming events rather than calling each other directly. An <em>event broker</em> (such as Apache Kafka or RabbitMQ) decouples producers from consumers.</p>
+<pre><code>Producer ──&gt; [Event Broker] ──&gt; Consumer A
+                            ──&gt; Consumer B
+                            ──&gt; Consumer C
+</code></pre>
+<p><strong>Strengths:</strong> High decoupling; components can scale independently; easy to add new consumers without modifying producers.</p>
+<p><strong>Weaknesses:</strong> Harder to reason about system state; distributed tracing is complex; eventual consistency requires careful handling.</p>
+<p><strong>Suitable for:</strong> High-throughput systems, microservices that need loose coupling, real-time notification systems, audit log pipelines.</p>
+<h3 id="334-microservices"><a class="header" href="#334-microservices">3.3.4 Microservices</a></h3>
+<p>A microservices architecture decomposes a system into small, independently deployable services, each responsible for a single bounded domain (<a href="https://www.oreilly.com/library/view/building-microservices/9781491950340/">Newman, 2015</a>). Each service has its own database and communicates with others via APIs or events.</p>
+<p><strong>Strengths:</strong> Services can be deployed, scaled, and rewritten independently; teams can work autonomously on separate services; fault isolation.</p>
+<p><strong>Weaknesses:</strong> Significant operational complexity (service discovery, distributed tracing, network latency, eventual consistency); not appropriate for small teams or early-stage products.</p>
+<p><strong>Suitable for:</strong> Large teams (multiple squads, each owning a service); systems where different components have very different scaling requirements.</p>
+<h3 id="335-monolithic-architecture"><a class="header" href="#335-monolithic-architecture">3.3.5 Monolithic Architecture</a></h3>
+<p>A monolith is a single deployable unit containing all the system’s functionality. Despite its reputation, a well-structured monolith is often the right choice for small teams and early-stage systems (<a href="https://martinfowler.com/bliki/MonolithFirst.html">Fowler, 2015</a>).</p>
+<p><strong>Strengths:</strong> Simple to develop, test, and deploy; no network latency between components; easy to refactor across the codebase.</p>
+<p><strong>Weaknesses:</strong> Entire system must be redeployed for any change; scaling requires scaling the entire application; risk of components becoming tightly coupled over time.</p>
+<p><strong>The “Monolith First” principle</strong>: Start with a well-structured monolith. Extract services only when you have clear evidence that a specific component needs independent scaling or when team boundaries demand it.</p>
+<hr>
+<h2 id="34-design-patterns-gang-of-four"><a class="header" href="#34-design-patterns-gang-of-four">3.4 Design Patterns (Gang of Four)</a></h2>
+<p>Design patterns are proven, reusable solutions to commonly occurring problems in software design (<a href="https://en.wikipedia.org/wiki/Design_Patterns">Gamma et al., 1994</a>). The original catalog, published by the “Gang of Four” (GoF), describes 23 patterns in three categories:</p>
+<ul>
+<li><strong>Creational</strong>: How objects are created</li>
+<li><strong>Structural</strong>: How objects are composed</li>
+<li><strong>Behavioural</strong>: How objects interact and distribute responsibility</li>
+</ul>
+<p>We cover the patterns most commonly encountered in Python backend development.</p>
+<h3 id="341-singleton-creational"><a class="header" href="#341-singleton-creational">3.4.1 Singleton (Creational)</a></h3>
+<p>Ensures a class has only one instance and provides a global access point to it.</p>
+<p><strong>Use case</strong>: Database connection pools, configuration objects, logging instances.</p>
+<pre><code class="language-python"># singleton.py
+class DatabaseConnection:
+    _instance: "DatabaseConnection | None" = None
+
+    def __new__(cls) -&gt; "DatabaseConnection":
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance._connect()
+        return cls._instance
+
+    def _connect(self) -&gt; None:
+        # Initialise the connection once
+        self.connection = "connected"  # placeholder
+
+    def query(self, sql: str) -&gt; list:
+        # Execute query using self.connection
+        return []
+
+
+# Both variables point to the same instance
+db1 = DatabaseConnection()
+db2 = DatabaseConnection()
+assert db1 is db2  # True
+</code></pre>
+<p><strong>Caution</strong>: Singletons introduce global state, which can make testing difficult. In Python, dependency injection (passing the instance explicitly) is often preferable.</p>
+<h3 id="342-factory-method-creational"><a class="header" href="#342-factory-method-creational">3.4.2 Factory Method (Creational)</a></h3>
+<p>Defines an interface for creating objects but lets subclasses decide which class to instantiate.</p>
+<p><strong>Use case</strong>: Creating notification objects (email, SMS, push) based on user preference.</p>
+<pre><code class="language-python"># factory.py
+from abc import ABC, abstractmethod
+
+
+class Notification(ABC):
+    @abstractmethod
+    def send(self, message: str, recipient: str) -&gt; None: ...
+
+
+class EmailNotification(Notification):
+    def send(self, message: str, recipient: str) -&gt; None:
+        print(f"Sending email to {recipient}: {message}")
+
+
+class SMSNotification(Notification):
+    def send(self, message: str, recipient: str) -&gt; None:
+        print(f"Sending SMS to {recipient}: {message}")
+
+
+def create_notification(channel: str) -&gt; Notification:
+    """Factory function — returns the appropriate Notification subclass."""
+    channels: dict[str, type[Notification]] = {
+        "email": EmailNotification,
+        "sms": SMSNotification,
+    }
+    if channel not in channels:
+        raise ValueError(f"Unknown notification channel: {channel}")
+    return channels[channel]()
+
+
+# Usage
+notifier = create_notification("email")
+notifier.send("Your task has been assigned.", "alice@example.com")
+</code></pre>
+<h3 id="343-observer-behavioural"><a class="header" href="#343-observer-behavioural">3.4.3 Observer (Behavioural)</a></h3>
+<p>Defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified automatically.</p>
+<p><strong>Use case</strong>: Event systems, UI data binding, notification pipelines.</p>
+<pre><code class="language-python"># observer.py
+from abc import ABC, abstractmethod
+
+
+class EventListener(ABC):
+    @abstractmethod
+    def on_event(self, event: dict) -&gt; None: ...
+
+
+class TaskEventBus:
+    def __init__(self) -&gt; None:
+        self._listeners: list[EventListener] = []
+
+    def subscribe(self, listener: EventListener) -&gt; None:
+        self._listeners.append(listener)
+
+    def publish(self, event: dict) -&gt; None:
+        for listener in self._listeners:
+            listener.on_event(event)
+
+
+class EmailNotifier(EventListener):
+    def on_event(self, event: dict) -&gt; None:
+        if event.get("type") == "task_assigned":
+            print(f"Email: task {event['task_id']} assigned to {event['assignee']}")
+
+
+class AuditLogger(EventListener):
+    def on_event(self, event: dict) -&gt; None:
+        print(f"Audit log: {event}")
+
+
+# Usage
+bus = TaskEventBus()
+bus.subscribe(EmailNotifier())
+bus.subscribe(AuditLogger())
+
+bus.publish({"type": "task_assigned", "task_id": "123", "assignee": "alice"})
+</code></pre>
+<h3 id="344-strategy-behavioural"><a class="header" href="#344-strategy-behavioural">3.4.4 Strategy (Behavioural)</a></h3>
+<p>Defines a family of algorithms, encapsulates each one, and makes them interchangeable.</p>
+<p><strong>Use case</strong>: Sorting algorithms, payment processing, priority calculation.</p>
+<pre><code class="language-python"># strategy.py
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from datetime import date
+
+
+@dataclass
+class Task:
+    id: str
+    title: str
+    due_date: date
+    priority: int  # 1 (low) to 4 (critical)
+
+
+class SortStrategy(ABC):
+    @abstractmethod
+    def sort(self, tasks: list[Task]) -&gt; list[Task]: ...
+
+
+class SortByDueDate(SortStrategy):
+    def sort(self, tasks: list[Task]) -&gt; list[Task]:
+        return sorted(tasks, key=lambda t: t.due_date)
+
+
+class SortByPriority(SortStrategy):
+    def sort(self, tasks: list[Task]) -&gt; list[Task]:
+        return sorted(tasks, key=lambda t: t.priority, reverse=True)
+
+
+class TaskList:
+    def __init__(self, strategy: SortStrategy) -&gt; None:
+        self._strategy = strategy
+
+    def set_strategy(self, strategy: SortStrategy) -&gt; None:
+        self._strategy = strategy
+
+    def get_sorted(self, tasks: list[Task]) -&gt; list[Task]:
+        return self._strategy.sort(tasks)
+</code></pre>
+<h3 id="345-repository-architectural-pattern"><a class="header" href="#345-repository-architectural-pattern">3.4.5 Repository (Architectural Pattern)</a></h3>
+<p>While not in the original GoF catalog, the Repository pattern (<a href="https://martinfowler.com/eaaCatalog/repository.html">Fowler, 2002</a>) is essential in modern backend development. It abstracts the data access layer, presenting a collection-like interface to the domain model.</p>
+<pre><code class="language-python"># repository.py
+from abc import ABC, abstractmethod
+from uuid import UUID
+from dataclasses import dataclass
+from datetime import date
+
+
+@dataclass
+class Task:
+    id: UUID
+    title: str
+    due_date: date | None = None
+
+
+class TaskRepository(ABC):
+    """Abstract repository — defines the interface."""
+
+    @abstractmethod
+    def find_by_id(self, task_id: UUID) -&gt; Task | None: ...
+
+    @abstractmethod
+    def find_all_by_project(self, project_id: UUID) -&gt; list[Task]: ...
+
+    @abstractmethod
+    def save(self, task: Task) -&gt; Task: ...
+
+    @abstractmethod
+    def delete(self, task_id: UUID) -&gt; None: ...
+
+
+class InMemoryTaskRepository(TaskRepository):
+    """In-memory implementation — used in tests."""
+
+    def __init__(self) -&gt; None:
+        self._store: dict[UUID, Task] = {}
+
+    def find_by_id(self, task_id: UUID) -&gt; Task | None:
+        return self._store.get(task_id)
+
+    def find_all_by_project(self, project_id: UUID) -&gt; list[Task]:
+        return list(self._store.values())  # simplified
+
+    def save(self, task: Task) -&gt; Task:
+        self._store[task.id] = task
+        return task
+
+    def delete(self, task_id: UUID) -&gt; None:
+        self._store.pop(task_id, None)
+</code></pre>
+<p>The key benefit: services depend on the abstract <code>TaskRepository</code>, not on a specific database implementation. Swapping PostgreSQL for SQLite in tests requires only a different concrete class.</p>
+<hr>
+<h2 id="35-design-principles"><a class="header" href="#35-design-principles">3.5 Design Principles</a></h2>
+<p>Design patterns tell you <em>what</em> to do in specific situations. Design principles tell you <em>how to think</em> about design in general. These principles have been distilled from decades of practical experience.</p>
+<h3 id="351-solid-principles"><a class="header" href="#351-solid-principles">3.5.1 SOLID Principles</a></h3>
+<p>The SOLID principles (<a href="https://web.archive.org/web/20150906155800/http://www.objectmentor.com/resources/articles/Principles_and_Patterns.pdf">Martin, 2000</a>) are five guidelines for writing maintainable object-oriented code:</p>
+<p><strong>S — Single Responsibility Principle (SRP)</strong></p>
+<blockquote>
+<p>A class should have only one reason to change.</p>
+</blockquote>
+<p>A class that handles HTTP parsing, business logic, <em>and</em> database queries will need to change whenever any of those three concerns changes. Separating them into different classes means each has one reason to change.</p>
+<pre><code class="language-python"># Violates SRP — this class does too much
+class TaskService:
+    def create_task(self, title: str, user_id: str) -&gt; dict:
+        # Business logic
+        if not title.strip():
+            raise ValueError("Title cannot be empty")
+        # Database access (should be in repository)
+        db.execute("INSERT INTO tasks ...")
+        # Email sending (should be in notification service)
+        smtp.send_email(user_id, "Task created")
+        return {"id": "...", "title": title}
+</code></pre>
+<p><strong>O — Open/Closed Principle (OCP)</strong></p>
+<blockquote>
+<p>Software entities should be open for extension, but closed for modification.</p>
+</blockquote>
+<p>You should be able to add new behaviour without modifying existing code. The Strategy pattern from Section 3.4.4 is a direct application of OCP: new sort strategies can be added without modifying <code>TaskList</code>.</p>
+<p><strong>L — Liskov Substitution Principle (LSP)</strong></p>
+<blockquote>
+<p>Objects of a subclass should be substitutable for objects of the superclass without altering program correctness.</p>
+</blockquote>
+<p>If <code>InMemoryTaskRepository</code> is a subclass of <code>TaskRepository</code>, any code that works with <code>TaskRepository</code> must work identically with <code>InMemoryTaskRepository</code>. Violating LSP typically indicates that the inheritance relationship is wrong.</p>
+<p><strong>I — Interface Segregation Principle (ISP)</strong></p>
+<blockquote>
+<p>Clients should not be forced to depend on interfaces they do not use.</p>
+</blockquote>
+<p>Rather than one large interface, prefer several small, focused ones. A <code>ReadOnlyTaskRepository</code> interface (with only <code>find_by_id</code> and <code>find_all</code>) is more appropriate for a reporting service than a full <code>TaskRepository</code> that includes <code>save</code> and <code>delete</code>.</p>
+<p><strong>D — Dependency Inversion Principle (DIP)</strong></p>
+<blockquote>
+<p>High-level modules should not depend on low-level modules. Both should depend on abstractions.</p>
+</blockquote>
+<pre><code class="language-python"># Violates DIP — TaskService depends directly on the concrete PostgreSQL implementation
+class TaskService:
+    def __init__(self) -&gt; None:
+        self.repo = PostgresTaskRepository()  # concrete dependency
+
+# Follows DIP — TaskService depends on the abstract interface
+class TaskService:
+    def __init__(self, repo: TaskRepository) -&gt; None:
+        self.repo = repo  # injected abstraction
+</code></pre>
+<p>This is <em>dependency injection</em> — the concrete implementation is passed in from outside, typically by an application container. It makes <code>TaskService</code> testable with <code>InMemoryTaskRepository</code>.</p>
+<h3 id="352-dry-dont-repeat-yourself"><a class="header" href="#352-dry-dont-repeat-yourself">3.5.2 DRY: Don’t Repeat Yourself</a></h3>
+<blockquote>
+<p>Every piece of knowledge must have a single, unambiguous, authoritative representation within a system. (<a href="https://pragprog.com/titles/tpp/the-pragmatic-programmer/">Hunt &amp; Thomas, 1999</a>)</p>
+</blockquote>
+<p>Duplicated code is duplicated knowledge. When the logic changes (and it will), you must find and update every copy. The solution is not always to extract a function — sometimes the duplication is accidental and the two pieces of code will diverge. Use judgment: extract when the duplication represents the <em>same concept</em>, not just the same syntax.</p>
+<h3 id="353-composition-over-inheritance"><a class="header" href="#353-composition-over-inheritance">3.5.3 Composition Over Inheritance</a></h3>
+<p>Prefer composing objects from smaller, focused components over building deep inheritance hierarchies. Inheritance creates tight coupling between parent and child; composition allows components to be mixed and matched.</p>
+<h3 id="354-hollywood-principle"><a class="header" href="#354-hollywood-principle">3.5.4 Hollywood Principle</a></h3>
+<blockquote>
+<p>“Don’t call us, we’ll call you.”</p>
+</blockquote>
+<p>High-level components should control when and how low-level components are used, not the reverse. This is the principle behind inversion of control (IoC) frameworks and the Observer pattern.</p>
+<hr>
+<h2 id="36-clean-code"><a class="header" href="#36-clean-code">3.6 Clean Code</a></h2>
+<p>Clean code is code that is easy to read, understand, and modify (<a href="https://www.oreilly.com/library/view/clean-code-a/9780136083238/">Martin, 2008</a>). It is not about aesthetics — it is about reducing the cognitive load on the next developer who reads it (who is often you, six months later).</p>
+<h3 id="361-naming"><a class="header" href="#361-naming">3.6.1 Naming</a></h3>
+<p>Names should reveal intent. Avoid abbreviations, single-letter variables (except in well-established contexts like loop counters), and misleading names.</p>
+<pre><code class="language-python"># Poor naming
+def proc(d: list, f: bool) -&gt; list:
+    r = []
+    for i in d:
+        if i["s"] == 1 or f:
+            r.append(i)
+    return r
+
+# Clean naming
+def get_active_tasks(tasks: list[dict], include_archived: bool = False) -&gt; list[dict]:
+    return [
+        task for task in tasks
+        if task["status"] == 1 or include_archived
+    ]
+</code></pre>
+<h3 id="362-functions"><a class="header" href="#362-functions">3.6.2 Functions</a></h3>
+<p>Functions should do one thing and do it well. A function that can be described with “and” in its name (e.g., <code>validate_and_save_task</code>) is doing too much. Keep functions short — typically 5–20 lines. If a function is longer, it is probably doing more than one thing.</p>
+<h3 id="363-comments"><a class="header" href="#363-comments">3.6.3 Comments</a></h3>
+<p>Write code that does not need comments. When a comment is necessary, explain <em>why</em>, not <em>what</em> — the code already shows what it does.</p>
+<pre><code class="language-python"># Poor comment — explains what the code does, which is obvious
+# Loop through tasks and add them to the result list
+result = [task for task in tasks if task.is_active()]
+
+# Good comment — explains a non-obvious constraint
+# Skip soft-deleted tasks: the UI shows these with a strikethrough
+# but the API should not return them in list endpoints
+result = [task for task in tasks if not task.deleted_at]
+</code></pre>
+<h3 id="364-code-structure-and-style"><a class="header" href="#364-code-structure-and-style">3.6.4 Code Structure and Style</a></h3>
+<p>Consistent structure and formatting reduce cognitive load. For Python, follow <a href="https://peps.python.org/pep-0008/">PEP 8</a> — the official style guide — and use <code>ruff</code> (introduced in Chapter 1) to enforce it automatically.</p>
+<p>Key conventions:</p>
+<ul>
+<li>4-space indentation</li>
+<li>Maximum line length: 88–120 characters (team decision)</li>
+<li>Two blank lines between top-level definitions</li>
+<li>Type annotations on all function signatures (enforced by <code>mypy</code>)</li>
+</ul>
+<hr>
+<h2 id="37-ai-assisted-design"><a class="header" href="#37-ai-assisted-design">3.7 AI-Assisted Design</a></h2>
+<p>AI tools can accelerate the design phase in several ways, but each requires critical evaluation.</p>
+<h3 id="371-generating-architecture-diagrams-from-specifications"><a class="header" href="#371-generating-architecture-diagrams-from-specifications">3.7.1 Generating Architecture Diagrams from Specifications</a></h3>
+<p>Given a requirements document, an LLM can suggest an initial architecture:</p>
+<pre><code class="language-python">import anthropic
+
+client = anthropic.Anthropic()
+
+requirements = """
+System: Task Management API
+- Multi-tenant SaaS for software teams (10–500 users per tenant)
+- REST API backend; no frontend in scope
+- Tasks can be created, assigned, updated, and completed
+- Email notifications on assignment
+- Must support 1,000 concurrent users, 200ms p95 response time
+- Data must be isolated per tenant
+"""
+
+response = client.messages.create(
+    model="claude-opus-4-7",
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": f"""You are a software architect.
+Based on the following requirements, suggest an appropriate
+architectural pattern and explain your reasoning. Identify
+the key components and their responsibilities.
+Flag any requirements that represent significant architectural risk.
+
+Requirements:
+{requirements}""",
+        }
+    ],
+)
+
+print(response.content[0].text)
+</code></pre>
+<p>The output is a starting point for discussion, not a final decision. Treat it as a first draft from a knowledgeable junior architect who has not seen your organisation’s constraints.</p>
+<h3 id="372-generating-code-scaffolds"><a class="header" href="#372-generating-code-scaffolds">3.7.2 Generating Code Scaffolds</a></h3>
+<p>AI excels at generating boilerplate code from a class diagram or interface definition:</p>
+<pre><code class="language-python">response = client.messages.create(
+    model="claude-opus-4-7",
+    max_tokens=2048,
+    messages=[
+        {
+            "role": "user",
+            "content": """Generate a Python implementation of a TaskRepository
+using the Repository pattern. The concrete implementation should use
+a plain dictionary as an in-memory store (for testing).
+Use Python 3.11 type hints throughout. Include docstrings only where
+the behaviour is non-obvious. Follow PEP 8.""",
+        }
+    ],
+)
+</code></pre>
+<p>Always review AI-generated scaffolds for:</p>
+<ul>
+<li>Correct use of type hints</li>
+<li>Adherence to the interface contract</li>
+<li>Missing edge cases (null handling, empty collections)</li>
+<li>Security issues (SQL injection if a DB implementation is generated)</li>
+</ul>
+<hr>
+<h2 id="38-tutorial-ai-assisted-system-design"><a class="header" href="#38-tutorial-ai-assisted-system-design">3.8 Tutorial: AI-Assisted System Design</a></h2>
+<p>This tutorial walks through using AI to assist with the design of the course project API, then critically reviewing the output.</p>
+<h3 id="step-1-generate-a-component-design"><a class="header" href="#step-1-generate-a-component-design">Step 1: Generate a Component Design</a></h3>
+<pre><code class="language-python"># design_assistant.py
+import anthropic
+
+client = anthropic.Anthropic()
+
+
+def generate_component_design(requirements: str) -&gt; str:
+    response = client.messages.create(
+        model="claude-opus-4-7",
+        max_tokens=2048,
+        messages=[
+            {
+                "role": "user",
+                "content": f"""You are a software architect designing a Python
+REST API. Based on the requirements below, produce:
+1. A list of the main components (services, repositories, models)
+2. The key interface (method signatures) for each component
+3. A brief rationale for any significant design decision
+
+Use Python 3.11 type hints in all interface definitions.
+Do not generate implementation code — interfaces only.
+
+Requirements:
+{requirements}""",
+            }
+        ],
+    )
+    return response.content[0].text
+
+
+requirements = """
+Task Management API:
+- Users can create, read, update, and delete tasks
+- Tasks belong to projects; projects belong to organisations
+- Tasks have: title, description, due_date, priority, status, assignee
+- Project managers can assign tasks; regular users can only update their own
+- Email notification sent when a task is assigned
+- All endpoints require JWT authentication
+"""
+
+design = generate_component_design(requirements)
+print(design)
+</code></pre>
+<h3 id="step-2-critically-review-the-output"><a class="header" href="#step-2-critically-review-the-output">Step 2: Critically Review the Output</a></h3>
+<p>When reviewing AI-generated design, ask:</p>
+<ol>
+<li><strong>Does each component have a single responsibility?</strong> If a service is described as doing X, Y, <em>and</em> Z, it needs to be split.</li>
+<li><strong>Are dependencies pointing the right direction?</strong> High-level business logic should not depend on low-level infrastructure.</li>
+<li><strong>Is the interface testable?</strong> Can you write a test without a real database or email server?</li>
+<li><strong>Are edge cases represented?</strong> What happens when a task is assigned to a user who has left the project?</li>
+<li><strong>Is the interface consistent?</strong> Do all repository methods follow the same conventions?</li>
+</ol>
+<p>Document your review findings and revise the design before implementing.</p>
+<hr>
+<h2 id="39-project-milestone-design-and-architecture-document"><a class="header" href="#39-project-milestone-design-and-architecture-document">3.9 Project Milestone: Design and Architecture Document</a></h2>
+<h3 id="this-weeks-deliverables"><a class="header" href="#this-weeks-deliverables">This Week’s Deliverables</a></h3>
+<p>Produce a design document for your Task Management API. Include:</p>
+<ol>
+<li><strong>Architecture decision</strong>: Which architectural pattern (layered, MVC, etc.) will you use, and why? What alternatives did you consider?</li>
+<li><strong>Component diagram</strong>: A diagram showing the major components and their dependencies (draw.io, Mermaid, or ASCII art all acceptable).</li>
+<li><strong>Domain class diagram</strong>: A class diagram showing your core domain entities (Task, Project, User, etc.) and their relationships.</li>
+<li><strong>At least 2 sequence diagrams</strong>: One for creating a task, one for assigning a task.</li>
+<li><strong>Design patterns</strong>: Identify at least 2 GoF or architectural patterns you will use, with a brief justification for each.</li>
+<li><strong>SOLID review</strong>: For each of the 5 SOLID principles, write one sentence explaining how your design applies it.</li>
+</ol>
+<h3 id="bonus"><a class="header" href="#bonus">Bonus</a></h3>
+<p>Use the AI design assistant from the tutorial to generate an initial component design. Include the AI output in an appendix, and document what you changed and why.</p>
+<hr>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>Software design is the activity of deciding how a system will be structured before writing code. Key takeaways:</p>
+<ul>
+<li>UML provides a shared visual vocabulary: use case diagrams communicate scope; class diagrams show structure; sequence diagrams show behaviour over time; component diagrams show high-level organisation.</li>
+<li>Architectural patterns — layered, MVC, event-driven, microservices, monolithic — each have appropriate use cases and trade-offs. Start with the simplest that meets your requirements.</li>
+<li>GoF design patterns are proven solutions to recurring problems. The most commonly applied include Singleton, Factory, Observer, Strategy, and Repository.</li>
+<li>SOLID principles guide object-oriented design toward maintainability. DRY, composition over inheritance, and the Hollywood principle complement SOLID.</li>
+<li>Clean code is about readability and maintainability: meaningful names, small focused functions, minimal comments, and consistent style.</li>
+<li>AI can accelerate design by generating initial component structures and code scaffolds, but requires critical review for correctness, completeness, and security.</li>
+</ul>
+<hr>
+<h2 id="review-questions"><a class="header" href="#review-questions">Review Questions</a></h2>
+<ol>
+<li>When would you choose a sequence diagram over a class diagram to communicate a design decision? Give an example.</li>
+<li>Compare layered architecture and microservices. Under what circumstances would you recommend each for a new project?</li>
+<li>Explain the Dependency Inversion Principle using a concrete Python example. How does it relate to testability?</li>
+<li>You are designing a system that currently sends email notifications, but may need to support SMS and push notifications in the future. Which design pattern would you apply? Write a Python interface for it.</li>
+<li>Identify three violations of clean code principles in the following function and rewrite it:
+<pre><code class="language-python">def f(x, y, z):
+    res = []
+    for i in x:
+        if i['s'] != 'del' and (z == True or i['p'] &gt; 2):
+            res.append(i)
+    return sorted(res, key=lambda i: i['d'])
+</code></pre>
+</li>
+<li>What are the risks of using AI to generate a system architecture? How would you mitigate them?</li>
+</ol>
+<hr>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li>Buschmann, F., et al. (1996). <em>Pattern-Oriented Software Architecture, Volume 1: A System of Patterns</em>. Wiley. <a href="https://www.wiley.com/en-us/Pattern+Oriented+Software+Architecture%2C+Volume+1%2C+A+System+of+Patterns-p-9780471958697">https://www.wiley.com/en-us/Pattern+Oriented+Software+Architecture</a></li>
+<li>Fowler, M. (2002). <em>Patterns of Enterprise Application Architecture</em>. Addison-Wesley. <a href="https://martinfowler.com/eaaCatalog/repository.html">https://martinfowler.com/eaaCatalog/repository.html</a></li>
+<li>Fowler, M. (2015). MonolithFirst. <a href="https://martinfowler.com/bliki/MonolithFirst.html">https://martinfowler.com/bliki/MonolithFirst.html</a></li>
+<li>Gamma, E., Helm, R., Johnson, R., &amp; Vlissides, J. (1994). <em>Design Patterns: Elements of Reusable Object-Oriented Software</em>. Addison-Wesley. <a href="https://en.wikipedia.org/wiki/Design_Patterns">https://en.wikipedia.org/wiki/Design_Patterns</a></li>
+<li>Hunt, A., &amp; Thomas, D. (1999). <em>The Pragmatic Programmer</em>. Addison-Wesley. <a href="https://pragprog.com/titles/tpp/the-pragmatic-programmer/">https://pragprog.com/titles/tpp/the-pragmatic-programmer/</a></li>
+<li>Martin, R. C. (2000). Design Principles and Design Patterns. <a href="https://web.archive.org/web/20150906155800/http://www.objectmentor.com/resources/articles/Principles_and_Patterns.pdf">https://web.archive.org/web/20150906155800/http://www.objectmentor.com/resources/articles/Principles_and_Patterns.pdf</a></li>
+<li>Martin, R. C. (2008). <em>Clean Code: A Handbook of Agile Software Craftsmanship</em>. Prentice Hall. <a href="https://www.oreilly.com/library/view/clean-code-a/9780136083238/">https://www.oreilly.com/library/view/clean-code-a/9780136083238/</a></li>
+<li>Newman, S. (2015). <em>Building Microservices</em>. O’Reilly. <a href="https://www.oreilly.com/library/view/building-microservices/9781491950340/">https://www.oreilly.com/library/view/building-microservices/9781491950340/</a></li>
+<li>OMG. (2017). <em>Unified Modeling Language Specification, Version 2.5.1</em>. <a href="https://www.omg.org/spec/UML/2.5.1/">https://www.omg.org/spec/UML/2.5.1/</a></li>
+<li>Reenskaug, T. (1979). MVC — XEROX PARC 1978–79. <a href="https://folk.universitetetioslo.no/trygver/themes/mvc/mvc-index.html">https://folk.universitetetioslo.no/trygver/themes/mvc/mvc-index.html</a></li>
+<li>Python Software Foundation. PEP 8 — Style Guide for Python Code. <a href="https://peps.python.org/pep-0008/">https://peps.python.org/pep-0008/</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="chapter_4.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="chapter_4.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

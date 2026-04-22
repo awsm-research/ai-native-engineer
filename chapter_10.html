@@ -1,0 +1,696 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 10: Licenses, Ethics, and Responsible AI - The AI-Native Engineer: Building Software with Coding Agents</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A 12-week online course and textbook on AI-native software engineering">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-cfb8c40f.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-b311743f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The AI-Native Engineer: Building Software with Coding Agents</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="chapter-10-licenses-ethics-and-responsible-ai"><a class="header" href="#chapter-10-licenses-ethics-and-responsible-ai">Chapter 10: Licenses, Ethics, and Responsible AI</a></h1>
+<blockquote>
+<p><em>“The question is not whether AI systems can do things. The question is who is responsible when they do them badly.”</em></p>
+</blockquote>
+<hr>
+<h2 id="learning-objectives"><a class="header" href="#learning-objectives">Learning Objectives</a></h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Explain the major categories of software licenses and their obligations.</li>
+<li>Navigate the copyright ambiguity around AI-generated code.</li>
+<li>Apply a responsible AI framework to evaluate an AI-enabled system.</li>
+<li>Identify sources of bias in AI coding assistants and their practical consequences.</li>
+<li>Describe key governance frameworks for responsible AI development.</li>
+<li>Conduct a basic license and responsible AI audit of a software project.</li>
+</ol>
+<hr>
+<h2 id="101-intellectual-property-and-code-ownership"><a class="header" href="#101-intellectual-property-and-code-ownership">10.1 Intellectual Property and Code Ownership</a></h2>
+<p>Intellectual property (IP) law governs who owns creative works, including software. Understanding software IP is essential for every engineer — particularly in the context of open source software and AI-generated code.</p>
+<h3 id="1011-copyright"><a class="header" href="#1011-copyright">10.1.1 Copyright</a></h3>
+<p>Copyright is the primary form of IP protection for software. In most jurisdictions, copyright in software belongs to its author (or the author’s employer if created in the course of employment) automatically upon creation — no registration required.</p>
+<p>Copyright grants the owner exclusive rights to:</p>
+<ul>
+<li>Copy the software</li>
+<li>Distribute the software</li>
+<li>Create derivative works</li>
+<li>Display or perform the software publicly</li>
+</ul>
+<p>For software, this means that you cannot legally copy, distribute, or build upon someone else’s code without either a licence from the copyright holder or an applicable exception (such as fair use/fair dealing).</p>
+<p><strong>Work for hire</strong>: In most employment relationships, software created by an employee in the course of their duties is owned by the employer, not the employee. Contractors may retain ownership depending on the contract.</p>
+<h3 id="1012-patents"><a class="header" href="#1012-patents">10.1.2 Patents</a></h3>
+<p>Software patents protect specific technical implementations or processes. They are controversial in the software industry — critics argue they stifle innovation by allowing trivial ideas to be patented. Their relevance varies significantly by jurisdiction (more significant in the US than in Europe).</p>
+<h3 id="1013-trade-secrets"><a class="header" href="#1013-trade-secrets">10.1.3 Trade Secrets</a></h3>
+<p>Some software (particularly proprietary algorithms and training data) is protected as a trade secret rather than through copyright or patents. Trade secret protection requires the owner to take reasonable measures to keep the information confidential.</p>
+<hr>
+<h2 id="102-software-licenses"><a class="header" href="#102-software-licenses">10.2 Software Licenses</a></h2>
+<p>A software licence is a legal instrument through which a copyright holder grants others permission to use, copy, modify, and/or distribute their software under specified conditions.</p>
+<h3 id="1021-proprietary-licenses"><a class="header" href="#1021-proprietary-licenses">10.2.1 Proprietary Licenses</a></h3>
+<p>Proprietary licences retain all rights for the copyright holder. Users may run the software but cannot view the source code, modify it, or redistribute it. Examples: Microsoft Windows, Adobe Photoshop, most commercial SaaS products.</p>
+<h3 id="1022-open-source-licenses"><a class="header" href="#1022-open-source-licenses">10.2.2 Open Source Licenses</a></h3>
+<p>Open source licences grant users the freedom to use, study, modify, and distribute the software. The <a href="https://opensource.org/osd">Open Source Initiative</a> (OSI) maintains the definitive list of approved open source licences.</p>
+<p>Open source licences fall broadly into two categories:</p>
+<p><strong>Permissive licences</strong> allow the software to be used in almost any way, including incorporation into proprietary software:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Licence</th><th>Key Conditions</th><th>Common Use Cases</th></tr>
+</thead>
+<tbody>
+<tr><td>MIT</td><td>Include copyright notice</td><td>Most popular for libraries</td></tr>
+<tr><td>Apache 2.0</td><td>Include copyright notice; patent grant</td><td>Corporate-friendly projects</td></tr>
+<tr><td>BSD (2/3-clause)</td><td>Include copyright notice</td><td>BSD-origin software</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Copyleft licences</strong> require that derivative works be distributed under the same licence:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Licence</th><th>Key Conditions</th><th>Common Use Cases</th></tr>
+</thead>
+<tbody>
+<tr><td>GPL v2/v3</td><td>Derivative works must be GPL</td><td>Linux kernel, GNU tools</td></tr>
+<tr><td>LGPL</td><td>Weaker copyleft; allows linking without GPL obligation</td><td>Libraries intended for wide use</td></tr>
+<tr><td>AGPL</td><td>GPL + network use triggers copyleft</td><td>SaaS applications</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>The copyleft risk</strong>: If your proprietary application incorporates AGPL-licensed code, the AGPL requires you to release your application’s source code. Mixing GPL-licensed libraries into a proprietary codebase creates licence compatibility problems.</p>
+<h3 id="1023-creative-commons"><a class="header" href="#1023-creative-commons">10.2.3 Creative Commons</a></h3>
+<p>Creative Commons licences are primarily for non-software creative works (documentation, datasets, design assets). They are not appropriate for software source code — use an OSI-approved licence instead.</p>
+<h3 id="1024-choosing-a-license"><a class="header" href="#1024-choosing-a-license">10.2.4 Choosing a License</a></h3>
+<p>For open source projects:</p>
+<ul>
+<li><strong>MIT or Apache 2.0</strong>: Maximise adoption; allow use in proprietary software</li>
+<li><strong>GPL</strong>: Ensure all derivatives remain open source</li>
+<li><strong>AGPL</strong>: Ensure even SaaS deployments that use the software release modifications</li>
+</ul>
+<p>For internal/proprietary projects: use a proprietary licence (explicitly state no licence is granted if you want to be clear).</p>
+<p><strong>No licence = all rights reserved</strong>: If you publish code without a licence, copyright law gives no-one the right to use it, even if it is publicly visible.</p>
+<hr>
+<h2 id="1025-real-world-licensing-case-studies"><a class="header" href="#1025-real-world-licensing-case-studies">10.2.5 Real-World Licensing Case Studies</a></h2>
+<p>Understanding licensing obligations through concrete cases is more effective than reading licence texts in isolation.</p>
+<p><strong>Case 1: The AGPL Trap — MongoDB and Elastic</strong></p>
+<p>MongoDB originally used the AGPL licence for its core database. When MongoDB’s commercial competitiveness was threatened by cloud providers offering MongoDB-as-a-service without contributing back, MongoDB switched to the Server Side Public License (SSPL), which extends the AGPL copyleft to <em>all</em> software used to offer the database as a service. Elastic made a similar move with Elasticsearch in 2021.</p>
+<p><em>Lesson for engineers</em>: If your SaaS product depends on an AGPL or SSPL component, the copyleft may require you to release your entire application’s source code. Check licences before adopting new dependencies.</p>
+<p><strong>Case 2: The GPL Enforcement — BusyBox and Android</strong></p>
+<p>The Software Freedom Conservancy has pursued numerous enforcement actions against device manufacturers shipping Linux (GPL v2) and BusyBox (GPL v2) without distributing corresponding source code, as required by the GPL. High-profile cases include actions against Best Buy, Samsung, and several router manufacturers.</p>
+<p><em>Lesson for engineers</em>: GPL compliance for embedded or distributed software (firmware, IoT devices) requires distributing the source code or making it available on written request. Many organisations fail this requirement and only discover the problem during acquisition due diligence.</p>
+<p><strong>Case 3: The GitHub Copilot Class Action</strong></p>
+<p>In 2022, a class action lawsuit was filed against GitHub, Microsoft, and OpenAI alleging that Copilot reproduces copyrighted code from training data — including code under licences that require attribution and source disclosure — without attribution (<a href="https://githubcopilotlitigation.com/">Doe v. GitHub, 2022</a>). As of 2024–2025, this litigation is ongoing.</p>
+<p><em>Lesson for engineers</em>: AI tools trained on copyrighted code may reproduce that code verbatim. Several organisations (Samsung, Apple, JPMorgan) have restricted or banned external AI coding tools to mitigate this risk. Understand your organisation’s policy before using AI tools with proprietary code.</p>
+<p><strong>Case 4: The Copyleft Compatibility Matrix</strong></p>
+<p>Not all open source licences are compatible with each other. The following matrix summarises common compatibility issues:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Combining</th><th>With GPL v3</th><th>With Apache 2.0</th><th>With MIT</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>GPL v3</strong></td><td>Compatible</td><td>Compatible (Apache can be relicensed under GPL v3)</td><td>Compatible</td></tr>
+<tr><td><strong>Apache 2.0</strong></td><td>Compatible</td><td>Compatible</td><td>Compatible</td></tr>
+<tr><td><strong>GPL v2 only</strong></td><td><strong>Incompatible</strong></td><td><strong>Incompatible</strong></td><td>Compatible</td></tr>
+<tr><td><strong>AGPL v3</strong></td><td>Compatible</td><td>Compatible</td><td>Compatible</td></tr>
+</tbody>
+</table>
+</div>
+<p>The GPL v2 / GPL v3 incompatibility matters because the Linux kernel (GPL v2 only) cannot legally incorporate code from GPL v3 projects. This has practical consequences for kernel modules and embedded Linux distributions.</p>
+<p><em>Lesson for engineers</em>: Before incorporating a library, check that its licence is compatible with your project’s licence and all other dependencies. Tools like <a href="https://fossa.com/">FOSSA</a> and <a href="https://tldrlegal.com/">TLDR Legal</a> can help.</p>
+<hr>
+<h2 id="103-ai-generated-code-and-copyright"><a class="header" href="#103-ai-generated-code-and-copyright">10.3 AI-Generated Code and Copyright</a></h2>
+<p>The copyright status of AI-generated code is one of the most actively litigated and debated questions in technology law as of 2024–2025.</p>
+<h3 id="1031-the-current-legal-landscape"><a class="header" href="#1031-the-current-legal-landscape">10.3.1 The Current Legal Landscape</a></h3>
+<p><strong>Human authorship requirement</strong>: In most jurisdictions, copyright requires human authorship. The United States Copyright Office has repeatedly held that works produced autonomously by AI without human creative input are not copyrightable (<a href="https://www.copyright.gov/ai/">USPTO, 2024</a>). This means purely AI-generated code may have no copyright holder — it may be in the public domain.</p>
+<p><strong>Human-AI collaboration</strong>: Where a human makes meaningful creative choices in directing, selecting, and refining AI output, the resulting work may be copyrightable as a human-authored work. The threshold for “meaningful creative contribution” is not yet clearly defined.</p>
+<p><strong>Training data and copyright</strong>: Several lawsuits have been filed alleging that AI models trained on copyrighted code without permission infringe copyright (<a href="https://githubcopilotlitigation.com/">GitHub Copilot class action, 2022</a>). These cases are unresolved as of this writing.</p>
+<h3 id="1032-practical-guidance"><a class="header" href="#1032-practical-guidance">10.3.2 Practical Guidance</a></h3>
+<p>In the absence of settled law, the pragmatic guidance is:</p>
+<ol>
+<li>
+<p><strong>For critical proprietary systems</strong>: Treat AI-generated code with the same IP review you would apply to any third-party code. Understand what training data the model was trained on, and whether it may reproduce copyrighted code verbatim.</p>
+</li>
+<li>
+<p><strong>For licence compliance</strong>: AI coding assistants trained on copyleft code could theoretically reproduce that code in their outputs, creating a hidden licence obligation. Some organisations have adopted policies requiring a human review of AI-generated code before incorporating it.</p>
+</li>
+<li>
+<p><strong>For attribution</strong>: If an AI assistant produces code that is substantially similar to an existing open source project, treat it as if it were copied from that project and apply the appropriate licence obligations.</p>
+</li>
+<li>
+<p><strong>Keep documentation</strong>: Record which parts of your codebase are AI-generated, which tools were used, and which specifications were provided. This documentation supports IP claims and audits.</p>
+</li>
+</ol>
+<hr>
+<h2 id="104-responsible-ai-principles"><a class="header" href="#104-responsible-ai-principles">10.4 Responsible AI Principles</a></h2>
+<p>Responsible AI is the discipline of designing, developing, and deploying AI systems in ways that are safe, fair, transparent, and accountable. It has moved from academic concern to regulatory requirement: the EU AI Act (<a href="https://www.europarl.europa.eu/news/en/press-room/20240308IPR19015/artificial-intelligence-act-meps-adopt-landmark-law">European Parliament, 2024</a>), the US Executive Order on Safe, Secure, and Trustworthy AI (<a href="https://www.whitehouse.gov/briefing-room/presidential-actions/2023/10/30/executive-order-on-the-safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence/">White House, 2023</a>), and the Australian Government’s AI Ethics Framework (<a href="https://www.industry.gov.au/publications/australias-artificial-intelligence-ethics-framework">DISER, 2019</a>) all impose obligations on organisations developing or deploying AI.</p>
+<p>Key responsible AI principles (<a href="https://www.nature.com/articles/s42256-019-0088-2">Jobin et al., 2019</a>):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Principle</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Fairness</strong></td><td>AI systems should not discriminate unfairly against individuals or groups</td></tr>
+<tr><td><strong>Transparency</strong></td><td>The behaviour and decision-making of AI systems should be explainable</td></tr>
+<tr><td><strong>Accountability</strong></td><td>There must be clear human responsibility for AI system outcomes</td></tr>
+<tr><td><strong>Privacy</strong></td><td>AI systems should respect individuals’ privacy rights</td></tr>
+<tr><td><strong>Safety</strong></td><td>AI systems should not cause harm</td></tr>
+<tr><td><strong>Beneficence</strong></td><td>AI systems should benefit individuals and society</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="1041-fairness-and-bias-in-ai-coding-assistants"><a class="header" href="#1041-fairness-and-bias-in-ai-coding-assistants">10.4.1 Fairness and Bias in AI Coding Assistants</a></h3>
+<p>AI coding assistants can exhibit bias in several ways:</p>
+<p><strong>Code quality disparity</strong>: Research has found that AI coding tools perform better on code written in widely-used languages and paradigms. Code in less common languages, frameworks, or domains receives lower quality suggestions — creating a “rich get richer” dynamic where well-resourced projects benefit more from AI assistance (<a href="https://arxiv.org/abs/2304.10778">Dakhel et al., 2023</a>).</p>
+<p><strong>Representation in training data</strong>: AI models trained on public code repositories inherit the demographics and conventions of those repositories. If the training data overrepresents certain coding styles, conventions, or languages, the model’s suggestions will reflect those biases.</p>
+<p><strong>Accessibility</strong>: AI coding tools require reliable internet access, modern hardware, and often paid subscriptions. This creates barriers for developers in lower-income countries or those working in resource-constrained environments.</p>
+<h3 id="1042-transparency-and-explainability"><a class="header" href="#1042-transparency-and-explainability">10.4.2 Transparency and Explainability</a></h3>
+<p>When AI systems make decisions or generate outputs that affect people, those affected often have a right to understand how the decision was made. For AI coding assistants, relevant questions include:</p>
+<ul>
+<li>What training data was used?</li>
+<li>How does the model decide what code to generate?</li>
+<li>When the model generates insecure code, can this be detected and explained?</li>
+</ul>
+<p>Current AI coding assistants offer limited explainability. This is an active research area, and engineers should be cautious about deploying AI decision-making in contexts where explainability is legally or ethically required.</p>
+<h3 id="1043-accountability"><a class="header" href="#1043-accountability">10.4.3 Accountability</a></h3>
+<p>The “accountability gap” in AI systems refers to the challenge of assigning responsibility when an AI system causes harm. For software engineers, the practical principle is:</p>
+<p><strong>You are accountable for AI-generated code you ship.</strong> The fact that an AI assistant generated a vulnerable function does not transfer responsibility to the AI vendor. The engineer who reviewed, accepted, and deployed the code is responsible.</p>
+<p>This accountability principle reinforces the evaluation-driven approach of Chapter 7: you cannot disclaim responsibility for code you did not evaluate.</p>
+<hr>
+<h2 id="105-organisational-ai-governance"><a class="header" href="#105-organisational-ai-governance">10.5 Organisational AI Governance</a></h2>
+<p>As AI tools proliferate in software teams, organisations need governance frameworks to manage the associated risks.</p>
+<h3 id="1051-ai-use-policies"><a class="header" href="#1051-ai-use-policies">10.5.1 AI Use Policies</a></h3>
+<p>An AI use policy defines:</p>
+<ul>
+<li>Which AI tools are approved for use (and for what purposes)</li>
+<li>What data may and may not be sent to AI services</li>
+<li>How AI-generated code must be reviewed before production use</li>
+<li>How AI tool usage should be documented</li>
+</ul>
+<p><strong>Example policy clauses:</strong></p>
+<blockquote>
+<p>“Engineers may use approved AI coding assistants (see the approved tools list) for code generation. All AI-generated code must be reviewed by a human engineer before merging to the main branch.”</p>
+</blockquote>
+<blockquote>
+<p>“No customer PII, authentication credentials, or proprietary algorithm details may be included in prompts to external AI services.”</p>
+</blockquote>
+<blockquote>
+<p>“Engineers must disclose AI tool usage in pull request descriptions when AI-generated code constitutes more than 20% of the change.”</p>
+</blockquote>
+<h3 id="1052-risk-tiering"><a class="header" href="#1052-risk-tiering">10.5.2 Risk Tiering</a></h3>
+<p>The EU AI Act introduced a risk-tiered framework for AI systems (<a href="https://www.europarl.europa.eu/news/en/press-room/20240308IPR19015/artificial-intelligence-act-meps-adopt-landmark-law">European Parliament, 2024</a>):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Risk Tier</th><th>Examples</th><th>Requirements</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Unacceptable risk</strong></td><td>Social scoring, real-time biometric surveillance</td><td>Prohibited</td></tr>
+<tr><td><strong>High risk</strong></td><td>Medical devices, hiring decisions, credit scoring</td><td>Conformity assessment, transparency, human oversight</td></tr>
+<tr><td><strong>Limited risk</strong></td><td>Chatbots, deepfakes</td><td>Transparency obligations</td></tr>
+<tr><td><strong>Minimal risk</strong></td><td>AI coding assistants, spam filters</td><td>Voluntary codes of conduct</td></tr>
+</tbody>
+</table>
+</div>
+<p>For most software development use cases, AI coding assistants fall in the “minimal risk” tier. However, if you are <em>building</em> a high-risk AI system (medical diagnosis, credit scoring, automated hiring), significantly stricter requirements apply.</p>
+<h3 id="1053-documentation-and-audit-trails"><a class="header" href="#1053-documentation-and-audit-trails">10.5.3 Documentation and Audit Trails</a></h3>
+<p>Responsible AI deployment requires documentation:</p>
+<ul>
+<li><strong>Model cards</strong> (<a href="https://arxiv.org/abs/1810.03993">Mitchell et al., 2019</a>): Structured documents describing an AI model’s intended use, limitations, evaluation results, and ethical considerations</li>
+<li><strong>Datasheets for datasets</strong> (<a href="https://arxiv.org/abs/1803.09010">Gebru et al., 2018</a>): Structured documents describing a dataset’s composition, collection process, and known limitations</li>
+<li><strong>System cards</strong>: Documentation of a deployed AI system, including the models used, their risk assessments, and mitigation measures</li>
+</ul>
+<hr>
+<h2 id="106-privacy-regulation-and-ai-generated-code"><a class="header" href="#106-privacy-regulation-and-ai-generated-code">10.6 Privacy Regulation and AI-Generated Code</a></h2>
+<p>Privacy regulations impose obligations that interact directly with AI-generated code. Engineers who generate data-handling code with AI tools must understand whether the output is compliant.</p>
+<h3 id="1061-key-regulations"><a class="header" href="#1061-key-regulations">10.6.1 Key Regulations</a></h3>
+<p><strong>GDPR (General Data Protection Regulation)</strong> — applies to any organisation that processes personal data of EU residents, regardless of where the organisation is located (<a href="https://gdpr.eu/">EU Regulation 2016/679</a>).</p>
+<p>Key obligations relevant to AI-generated code:</p>
+<ul>
+<li><strong>Data minimisation</strong>: Collect only the data you need. AI-generated code that logs request bodies may inadvertently collect PII.</li>
+<li><strong>Purpose limitation</strong>: Use data only for the purpose collected. AI-generated analytics code may aggregate data in ways that exceed the original purpose.</li>
+<li><strong>Right to erasure (“right to be forgotten”)</strong>: Code must support deleting a user’s personal data on request. AI-generated CRUD code frequently omits this.</li>
+<li><strong>Data portability</strong>: Code must support exporting a user’s personal data in a structured format.</li>
+<li><strong>Lawful basis</strong>: You need a lawful basis (consent, contract, legitimate interest) to process personal data. AI-generated signup flows may not implement consent collection correctly.</li>
+</ul>
+<p><strong>CCPA (California Consumer Privacy Act)</strong> — similar to GDPR in scope, applies to businesses collecting personal information of California residents (<a href="https://oag.ca.gov/privacy/ccpa">California Attorney General</a>).</p>
+<p><strong>Australian Privacy Act 1988</strong> — applies to Australian Government agencies and organisations with annual turnover over $3 million (<a href="https://www.oaic.gov.au/privacy/the-privacy-act">OAIC</a>).</p>
+<h3 id="1062-worked-scenario-ai-generated-user-deletion-endpoint"><a class="header" href="#1062-worked-scenario-ai-generated-user-deletion-endpoint">10.6.2 Worked Scenario: AI-Generated User Deletion Endpoint</a></h3>
+<p>A common GDPR compliance gap in AI-generated code is the missing right-to-erasure implementation.</p>
+<p><strong>Prompt to AI assistant:</strong></p>
+<pre><code>Add a DELETE /users/{user_id} endpoint to our FastAPI application that removes 
+a user from the database.
+</code></pre>
+<p><strong>AI-generated code (non-compliant):</strong></p>
+<pre><code class="language-python">@app.delete("/users/{user_id}")
+async def delete_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    db.delete(user)
+    db.commit()
+    return {"message": "User deleted"}
+</code></pre>
+<p>This deletes the <code>User</code> row but fails GDPR requirements in several ways:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>GDPR Requirement</th><th>Gap in Generated Code</th></tr>
+</thead>
+<tbody>
+<tr><td>Cascade deletion</td><td>User’s tasks, comments, audit logs may retain PII</td></tr>
+<tr><td>Audit trail</td><td>No record that deletion was requested and completed</td></tr>
+<tr><td>Third-party notification</td><td>External services (email, analytics) may still hold the user’s data</td></tr>
+<tr><td>Verification</td><td>No check that the requester is authorised to delete this account</td></tr>
+<tr><td>Confirmation</td><td>No confirmation email to document the right-to-erasure request</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Improved specification for AI:</strong></p>
+<pre><code>Add a GDPR-compliant DELETE /users/{user_id} endpoint:
+- Verify the caller is the user themselves (JWT claim) or an admin
+- Cascade delete: remove all tasks, comments, and audit logs owned by the user
+- Anonymise rather than delete activity that is required for financial records (replace 
+  user name/email with "Deleted User [id]" in order history)
+- Create a DeletionRequest audit record with: user_id, requester_id, timestamp, 
+  cascaded_tables
+- Return 204 No Content on success
+- Send a confirmation email to the user's address before deleting it
+Assume: User, Task, Comment, AuditLog, DeletionRequest SQLAlchemy models; 
+        send_email(to, subject, body) utility function available
+</code></pre>
+<p>This specification produces code that satisfies the right-to-erasure obligation. The gap between the two versions illustrates why privacy compliance cannot be delegated to AI without privacy-aware specifications.</p>
+<h3 id="1063-pii-in-ai-prompts"><a class="header" href="#1063-pii-in-ai-prompts">10.6.3 PII in AI Prompts</a></h3>
+<p>Sending personal data to external AI APIs creates its own compliance risk. GDPR Article 28 requires a Data Processing Agreement (DPA) with any third party that processes personal data on your behalf. Most major AI providers offer DPAs, but these must be executed before sending personal data.</p>
+<p><strong>Do not send to external AI APIs (without a DPA and privacy review):</strong></p>
+<ul>
+<li>Names, email addresses, phone numbers</li>
+<li>IP addresses (considered personal data under GDPR)</li>
+<li>User-generated content that may contain PII</li>
+<li>Authentication tokens or session identifiers</li>
+</ul>
+<p><strong>Automated PII detection before AI prompts:</strong></p>
+<pre><code class="language-python"># pii_guard.py
+import anthropic
+from presidio_analyzer import AnalyzerEngine
+
+analyzer = AnalyzerEngine()
+client = anthropic.Anthropic()
+
+
+def safe_ai_request(prompt: str, model: str = "claude-haiku-4-5-20251001") -&gt; str:
+    """Reject prompts that contain detectable PII."""
+    results = analyzer.analyze(text=prompt, language="en")
+    
+    pii_found = [r.entity_type for r in results if r.score &gt; 0.7]
+    if pii_found:
+        raise ValueError(
+            f"Prompt contains potential PII ({pii_found}). "
+            "Remove PII before sending to external AI services."
+        )
+    
+    response = client.messages.create(
+        model=model,
+        max_tokens=1024,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    return response.content[0].text
+
+
+# Usage
+try:
+    result = safe_ai_request(
+        "Fix the bug in this function. The user john.doe@example.com reported it."
+    )
+except ValueError as e:
+    print(f"PII guard blocked request: {e}")
+    # Sanitise the prompt: remove the email address before retrying
+</code></pre>
+<hr>
+<h2 id="107-tutorial-license-compliance-audit-and-responsible-ai-checklist"><a class="header" href="#107-tutorial-license-compliance-audit-and-responsible-ai-checklist">10.7 Tutorial: License Compliance Audit and Responsible AI Checklist</a></h2>
+<h3 id="1071-license-compliance-audit-with-pip-licenses"><a class="header" href="#1071-license-compliance-audit-with-pip-licenses">10.7.1 License Compliance Audit with pip-licenses</a></h3>
+<pre><code class="language-bash">pip install pip-licenses
+
+# List all dependencies and their licenses
+pip-licenses --format=table
+
+# Export to CSV for review
+pip-licenses --format=csv --output-file=licenses.csv
+
+# Check for copyleft licenses that may require disclosure
+pip-licenses --fail-on="GPL;AGPL" --format=table
+</code></pre>
+<p>Sample output:</p>
+<pre><code>Name              Version  License
+anthropic         0.28.0   MIT License
+fastapi           0.111.0  MIT License
+pytest            8.2.0    MIT License
+sqlalchemy        2.0.30   MIT License
+</code></pre>
+<p>If any dependency has a GPL or AGPL licence, review whether your use triggers copyleft obligations.</p>
+<h3 id="1072-responsible-ai-checklist-for-the-course-project"><a class="header" href="#1072-responsible-ai-checklist-for-the-course-project">10.7.2 Responsible AI Checklist for the Course Project</a></h3>
+<pre><code class="language-python"># responsible_ai_audit.py
+import anthropic
+
+client = anthropic.Anthropic()
+
+RESPONSIBLE_AI_CHECKLIST = """
+Fairness:
+- [ ] Have we considered who may be disadvantaged by AI-generated code quality disparities?
+- [ ] Have we tested the system with diverse inputs, not just the "happy path"?
+
+Transparency:
+- [ ] Is it documented which parts of the codebase are AI-generated?
+- [ ] Are AI tools used in this project disclosed in project documentation?
+
+Accountability:
+- [ ] Has all AI-generated code been reviewed by a human engineer?
+- [ ] Is there clear ownership of each component, including AI-generated ones?
+
+Privacy:
+- [ ] Have we verified that no PII or credentials were included in AI prompts?
+- [ ] Does the system comply with applicable privacy regulations (GDPR, Privacy Act)?
+
+Security:
+- [ ] Has AI-generated code undergone security review (Bandit, manual review)?
+- [ ] Have we run GitLeaks to ensure no credentials are in the repository?
+
+Licensing:
+- [ ] Have all dependencies been audited for licence compatibility?
+- [ ] Is it clear that AI-generated code does not reproduce copylefted code?
+"""
+
+
+def generate_responsible_ai_report(project_description: str) -&gt; str:
+    """Generate a responsible AI assessment for a project."""
+    response = client.messages.create(
+        model="claude-opus-4-7",
+        max_tokens=1024,
+        messages=[
+            {
+                "role": "user",
+                "content": f"""You are a responsible AI auditor. Based on the project description
+below, provide a brief responsible AI risk assessment. For each of the six principles
+(Fairness, Transparency, Accountability, Privacy, Safety, Beneficence), identify:
+1. The primary risk for this project
+2. A specific mitigation recommendation
+
+Project:
+{project_description}""",
+            }
+        ],
+    )
+    return response.content[0].text
+
+
+if __name__ == "__main__":
+    project = """
+    Task Management API for software development teams.
+    - Built with Python and FastAPI
+    - Uses AI coding assistants for feature development (chapters 5-8 of this course)
+    - Stores user data including email addresses and work activity
+    - Will be deployed as a SaaS product to paying customers
+    """
+
+    print("RESPONSIBLE AI ASSESSMENT")
+    print("=" * 60)
+    print(generate_responsible_ai_report(project))
+    print()
+    print("SELF-AUDIT CHECKLIST")
+    print("=" * 60)
+    print(RESPONSIBLE_AI_CHECKLIST)
+</code></pre>
+<hr>
+<h2 id="108-project-milestone-license-and-responsible-ai-review"><a class="header" href="#108-project-milestone-license-and-responsible-ai-review">10.8 Project Milestone: License and Responsible AI Review</a></h2>
+<h3 id="this-weeks-deliverables"><a class="header" href="#this-weeks-deliverables">This Week’s Deliverables</a></h3>
+<ol>
+<li>
+<p><strong>License audit</strong>: Run <code>pip-licenses</code> on your project. Document every dependency licence. Identify any copyleft dependencies and assess whether your project’s use triggers copyleft obligations.</p>
+</li>
+<li>
+<p><strong>AI-generated code documentation</strong>: Add a section to your project’s <code>README.md</code> disclosing which parts of the codebase are substantially AI-generated and which AI tools were used.</p>
+</li>
+<li>
+<p><strong>Responsible AI assessment</strong>: Complete the checklist from Section 10.6.2 for your project. For any unchecked items, document why (accepted risk, not applicable, or a remediation plan).</p>
+</li>
+<li>
+<p><strong>Copyright decision</strong>: Choose an appropriate licence for your course project and add a <code>LICENSE</code> file to your repository. Justify your choice in a comment in the project’s <code>README.md</code>.</p>
+</li>
+</ol>
+<hr>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>Licences, ethics, and responsible AI are not bureaucratic overhead — they are the framework that makes AI-assisted engineering trustworthy. Key takeaways:</p>
+<ul>
+<li>Copyright is the primary IP protection for software. Open source licences range from permissive (MIT, Apache) to copyleft (GPL, AGPL).</li>
+<li>The copyright status of AI-generated code is unsettled law. Engineers should document AI tool usage, treat AI output like third-party code, and review for potential copyleft obligations.</li>
+<li>Responsible AI principles — fairness, transparency, accountability, privacy, safety, beneficence — are increasingly codified in regulation (EU AI Act, GDPR).</li>
+<li>AI coding assistants can exhibit bias (better performance for well-represented languages), and engineers who deploy AI-generated code are accountable for its quality and safety.</li>
+<li>Organisational AI governance includes use policies, risk tiering, model documentation, and audit trails.</li>
+</ul>
+<hr>
+<h2 id="review-questions"><a class="header" href="#review-questions">Review Questions</a></h2>
+<ol>
+<li>What is the difference between a permissive and a copyleft open source licence? Give an example of each and describe when you would choose each.</li>
+<li>A developer uses an AI coding assistant to generate a function. The function is substantially similar to a GPL-licensed library the assistant was trained on. What are the potential copyright and licence implications?</li>
+<li>The EU AI Act establishes four risk tiers. What tier would you assign to each of the following, and why: (a) an AI-powered code review tool, (b) an AI system that automatically approves or rejects mortgage applications?</li>
+<li>What is the “accountability gap” in AI systems? How does it apply to a software engineer who uses an AI coding assistant?</li>
+<li>Your organisation wants to use an external AI coding assistant API. Write three clauses for an AI use policy that would appear in your organisation’s engineering handbook.</li>
+<li>Identify two ways AI coding assistants can exhibit bias and describe the practical consequences for the teams that use them.</li>
+</ol>
+<hr>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li>Dakhel, A. M., et al. (2023). GitHub Copilot AI Pair Programmer: Asset or Liability? <em>arXiv</em>. <a href="https://arxiv.org/abs/2304.10778">https://arxiv.org/abs/2304.10778</a></li>
+<li>DISER. (2019). Australia’s Artificial Intelligence Ethics Framework. <a href="https://www.industry.gov.au/publications/australias-artificial-intelligence-ethics-framework">https://www.industry.gov.au/publications/australias-artificial-intelligence-ethics-framework</a></li>
+<li>European Parliament. (2024). Artificial Intelligence Act. <a href="https://www.europarl.europa.eu/news/en/press-room/20240308IPR19015/artificial-intelligence-act-meps-adopt-landmark-law">https://www.europarl.europa.eu/news/en/press-room/20240308IPR19015/artificial-intelligence-act-meps-adopt-landmark-law</a></li>
+<li>Gebru, T., et al. (2018). Datasheets for Datasets. <em>arXiv</em>. <a href="https://arxiv.org/abs/1803.09010">https://arxiv.org/abs/1803.09010</a></li>
+<li>GitHub Copilot Litigation. (2022). <a href="https://githubcopilotlitigation.com/">https://githubcopilotlitigation.com/</a></li>
+<li>Jobin, A., Ienca, M., &amp; Vayena, E. (2019). The global landscape of AI ethics guidelines. <em>Nature Machine Intelligence</em>. <a href="https://www.nature.com/articles/s42256-019-0088-2">https://www.nature.com/articles/s42256-019-0088-2</a></li>
+<li>Mitchell, M., et al. (2019). Model Cards for Model Reporting. <em>arXiv</em>. <a href="https://arxiv.org/abs/1810.03993">https://arxiv.org/abs/1810.03993</a></li>
+<li>Open Source Initiative. Open Source Definition. <a href="https://opensource.org/osd">https://opensource.org/osd</a></li>
+<li>USPTO. (2024). Artificial Intelligence and Copyright. <a href="https://www.copyright.gov/ai/">https://www.copyright.gov/ai/</a></li>
+<li>White House. (2023). Executive Order on the Safe, Secure, and Trustworthy Development and Use of AI. <a href="https://www.whitehouse.gov/briefing-room/presidential-actions/2023/10/30/executive-order-on-the-safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence/">https://www.whitehouse.gov/briefing-room/presidential-actions/2023/10/30/executive-order-on-the-safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence/</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_9.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="chapter_11.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_9.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="chapter_11.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

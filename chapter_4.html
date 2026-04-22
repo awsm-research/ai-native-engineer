@@ -1,0 +1,759 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 4: Testing, Quality, and CI/CD - The AI-Native Engineer: Building Software with Coding Agents</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A 12-week online course and textbook on AI-native software engineering">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-cfb8c40f.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-b311743f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The AI-Native Engineer: Building Software with Coding Agents</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="chapter-4-testing-quality-and-cicd"><a class="header" href="#chapter-4-testing-quality-and-cicd">Chapter 4: Testing, Quality, and CI/CD</a></h1>
+<blockquote>
+<p><em>“Testing shows the presence, not the absence of bugs.”</em>
+— Edsger W. Dijkstra</p>
+</blockquote>
+<hr>
+<h2 id="learning-objectives"><a class="header" href="#learning-objectives">Learning Objectives</a></h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ol>
+<li>Explain the different levels of software testing and when to apply each.</li>
+<li>Write unit tests and integration tests in Python using pytest.</li>
+<li>Measure and interpret code coverage and understand its limitations.</li>
+<li>Configure a CI/CD pipeline using GitHub Actions.</li>
+<li>Apply static analysis and code review techniques to catch defects early.</li>
+<li>Critically evaluate AI-generated tests and understand why AI cannot replace a thoughtful testing strategy.</li>
+</ol>
+<hr>
+<h2 id="41-why-testing-matters"><a class="header" href="#41-why-testing-matters">4.1 Why Testing Matters</a></h2>
+<p>Software testing is the process of executing software with the intent of finding defects. It is not an optional step at the end of development — it is a discipline that runs throughout the entire software development lifecycle.</p>
+<p>Testing serves several purposes:</p>
+<ul>
+<li><strong>Defect detection</strong>: Finding bugs before they reach users</li>
+<li><strong>Regression prevention</strong>: Ensuring that new changes do not break existing functionality</li>
+<li><strong>Design feedback</strong>: Tests that are hard to write often indicate design problems</li>
+<li><strong>Documentation</strong>: A well-named test suite describes exactly what a system does</li>
+<li><strong>Confidence</strong>: A passing test suite gives the team confidence to make changes</li>
+</ul>
+<p>The question is not whether to test, but <em>how</em> to test effectively given limited time and resources.</p>
+<hr>
+<h2 id="42-the-testing-pyramid"><a class="header" href="#42-the-testing-pyramid">4.2 The Testing Pyramid</a></h2>
+<p>The <em>testing pyramid</em> (<a href="https://www.mountaingoatsoftware.com/books/succeeding-with-agile-software-development-using-scrum">Cohn, 2009</a>) describes the ideal distribution of test types:</p>
+<pre><code>          ┌───────────┐
+          │   E2E /   │   Few, slow, fragile — test critical paths only
+          │ UI Tests  │
+         ┌┴───────────┴┐
+         │ Integration  │  Some — test component interactions
+         │    Tests     │
+        ┌┴──────────────┴┐
+        │   Unit Tests    │  Many — fast, isolated, precise
+        └────────────────┘
+</code></pre>
+<p><strong>Unit tests</strong> are the foundation: fast, isolated, numerous. They test individual functions or classes in isolation.</p>
+<p><strong>Integration tests</strong> verify that components work correctly together — services calling repositories, API handlers interacting with business logic.</p>
+<p><strong>End-to-end (E2E) tests</strong> exercise the system as a whole, simulating real user interactions. They are slow, brittle, and expensive to maintain — use them sparingly, for critical user journeys only.</p>
+<p>This distribution is sometimes called the “1:10:100 rule” — for every E2E test, write ~10 integration tests and ~100 unit tests. The exact ratio varies by system, but the principle holds: favour fast, isolated tests over slow, coupled ones.</p>
+<hr>
+<h2 id="43-black-box-and-white-box-testing"><a class="header" href="#43-black-box-and-white-box-testing">4.3 Black-Box and White-Box Testing</a></h2>
+<p>Testing approaches can be categorised by how much knowledge of the internal implementation the tester uses.</p>
+<h3 id="431-black-box-testing"><a class="header" href="#431-black-box-testing">4.3.1 Black-Box Testing</a></h3>
+<p>In black-box testing, the tester has no knowledge of the internal implementation. Tests are derived entirely from the specification — inputs are provided and outputs are verified against expected behaviour.</p>
+<p><strong>Advantages</strong>: Tests are specification-driven; a new implementation can be tested without modifying the tests; tests reflect user-visible behaviour.</p>
+<p><strong>Techniques:</strong></p>
+<ul>
+<li><strong>Equivalence partitioning</strong>: Divide inputs into classes that the system should handle identically. Test one representative from each class.</li>
+<li><strong>Boundary value analysis</strong>: Test at the boundaries of valid input ranges. Bugs cluster at boundaries (off-by-one errors, empty inputs, maximum values).</li>
+<li><strong>Decision table testing</strong>: For systems with complex conditional logic, enumerate all combinations of conditions and expected outcomes.</li>
+</ul>
+<p><strong>Example — equivalence partitioning for task priority:</strong></p>
+<p>The system accepts priority values 1–4. Partitions:</p>
+<ul>
+<li><strong>Valid</strong>: 1, 2, 3, 4</li>
+<li><strong>Below range</strong>: 0, -1</li>
+<li><strong>Above range</strong>: 5, 100</li>
+<li><strong>Non-integer</strong>: “high”, 2.5, None</li>
+</ul>
+<p>Test one value from each partition: <code>priority=2</code> (valid), <code>priority=0</code> (below), <code>priority=5</code> (above), <code>priority="high"</code> (non-integer).</p>
+<h3 id="432-white-box-testing"><a class="header" href="#432-white-box-testing">4.3.2 White-Box Testing</a></h3>
+<p>In white-box testing (also called structural or glass-box testing), the tester has full knowledge of the internal implementation. Tests are derived from the source code, with the goal of exercising specific paths, branches, and conditions.</p>
+<p><strong>Techniques:</strong></p>
+<ul>
+<li><strong>Statement coverage</strong>: Every statement is executed by at least one test</li>
+<li><strong>Branch coverage</strong>: Every branch (if/else, loop) is executed in both directions</li>
+<li><strong>Path coverage</strong>: Every possible path through the code is executed (often infeasible for complex code)</li>
+</ul>
+<p>White-box testing is particularly valuable for finding dead code, unreachable branches, and logic errors that black-box tests might miss.</p>
+<hr>
+<h2 id="44-unit-testing-with-pytest"><a class="header" href="#44-unit-testing-with-pytest">4.4 Unit Testing with pytest</a></h2>
+<p>Unit tests verify the behaviour of a single unit of code — typically a function or method — in isolation from its dependencies.</p>
+<h3 id="441-writing-your-first-tests"><a class="header" href="#441-writing-your-first-tests">4.4.1 Writing Your First Tests</a></h3>
+<pre><code class="language-python"># src/task_service.py
+from dataclasses import dataclass
+from datetime import date
+from uuid import UUID, uuid4
+
+
+class TaskValidationError(ValueError):
+    pass
+
+
+@dataclass
+class Task:
+    id: UUID
+    title: str
+    priority: int  # 1–4
+    due_date: date | None = None
+    status: str = "open"
+
+
+def create_task(title: str, priority: int, due_date: date | None = None) -&gt; Task:
+    """Create a new task with validation."""
+    if not title or not title.strip():
+        raise TaskValidationError("Title cannot be empty")
+    if priority not in range(1, 5):
+        raise TaskValidationError(f"Priority must be 1–4, got {priority}")
+    if due_date and due_date &lt; date.today():
+        raise TaskValidationError("Due date cannot be in the past")
+    return Task(id=uuid4(), title=title.strip(), priority=priority, due_date=due_date)
+</code></pre>
+<pre><code class="language-python"># tests/test_task_service.py
+import pytest
+from datetime import date, timedelta
+from src.task_service import create_task, TaskValidationError
+
+
+class TestCreateTask:
+    def test_creates_task_with_valid_inputs(self) -&gt; None:
+        task = create_task("Write tests", priority=2)
+        assert task.title == "Write tests"
+        assert task.priority == 2
+        assert task.status == "open"
+        assert task.id is not None
+
+    def test_strips_whitespace_from_title(self) -&gt; None:
+        task = create_task("  Write tests  ", priority=1)
+        assert task.title == "Write tests"
+
+    def test_raises_for_empty_title(self) -&gt; None:
+        with pytest.raises(TaskValidationError, match="Title cannot be empty"):
+            create_task("", priority=1)
+
+    def test_raises_for_whitespace_only_title(self) -&gt; None:
+        with pytest.raises(TaskValidationError):
+            create_task("   ", priority=1)
+
+    @pytest.mark.parametrize("priority", [0, -1, 5, 100])
+    def test_raises_for_invalid_priority(self, priority: int) -&gt; None:
+        with pytest.raises(TaskValidationError, match="Priority must be 1–4"):
+            create_task("Valid title", priority=priority)
+
+    @pytest.mark.parametrize("priority", [1, 2, 3, 4])
+    def test_accepts_valid_priorities(self, priority: int) -&gt; None:
+        task = create_task("Valid title", priority=priority)
+        assert task.priority == priority
+
+    def test_raises_for_past_due_date(self) -&gt; None:
+        yesterday = date.today() - timedelta(days=1)
+        with pytest.raises(TaskValidationError, match="Due date cannot be in the past"):
+            create_task("Valid title", priority=1, due_date=yesterday)
+
+    def test_accepts_future_due_date(self) -&gt; None:
+        tomorrow = date.today() + timedelta(days=1)
+        task = create_task("Valid title", priority=1, due_date=tomorrow)
+        assert task.due_date == tomorrow
+
+    def test_accepts_no_due_date(self) -&gt; None:
+        task = create_task("Valid title", priority=1)
+        assert task.due_date is None
+</code></pre>
+<p>Run the tests:</p>
+<pre><code class="language-bash">pytest tests/test_task_service.py -v
+</code></pre>
+<h3 id="442-fixtures"><a class="header" href="#442-fixtures">4.4.2 Fixtures</a></h3>
+<p>Fixtures are reusable setup functions that provide test dependencies. They replace repetitive setup code and enable dependency injection in tests.</p>
+<pre><code class="language-python"># tests/conftest.py
+import pytest
+from uuid import uuid4
+from datetime import date, timedelta
+from src.task_service import Task
+from src.repository import InMemoryTaskRepository
+
+
+@pytest.fixture
+def repository() -&gt; InMemoryTaskRepository:
+    return InMemoryTaskRepository()
+
+
+@pytest.fixture
+def sample_task() -&gt; Task:
+    return Task(
+        id=uuid4(),
+        title="Sample task",
+        priority=2,
+        due_date=date.today() + timedelta(days=7),
+    )
+</code></pre>
+<pre><code class="language-python"># tests/test_repository.py
+from uuid import uuid4
+from src.task_service import Task
+from src.repository import InMemoryTaskRepository
+
+
+def test_save_and_retrieve_task(
+    repository: InMemoryTaskRepository, sample_task: Task
+) -&gt; None:
+    repository.save(sample_task)
+    retrieved = repository.find_by_id(sample_task.id)
+    assert retrieved == sample_task
+
+
+def test_returns_none_for_missing_task(repository: InMemoryTaskRepository) -&gt; None:
+    result = repository.find_by_id(uuid4())
+    assert result is None
+
+
+def test_delete_removes_task(
+    repository: InMemoryTaskRepository, sample_task: Task
+) -&gt; None:
+    repository.save(sample_task)
+    repository.delete(sample_task.id)
+    assert repository.find_by_id(sample_task.id) is None
+</code></pre>
+<h3 id="443-mocking"><a class="header" href="#443-mocking">4.4.3 Mocking</a></h3>
+<p>When a unit under test depends on external systems (databases, email services, APIs), mocking replaces those dependencies with controlled substitutes.</p>
+<pre><code class="language-python"># tests/test_assignment_service.py
+from unittest.mock import MagicMock, patch
+from uuid import uuid4
+from src.assignment_service import AssignmentService
+from src.task_service import Task
+
+
+def test_assign_task_sends_notification() -&gt; None:
+    # Arrange
+    mock_repo = MagicMock()
+    mock_notifier = MagicMock()
+    service = AssignmentService(repo=mock_repo, notifier=mock_notifier)
+
+    task_id = uuid4()
+    mock_repo.find_by_id.return_value = Task(
+        id=task_id, title="Test task", priority=1
+    )
+
+    # Act
+    service.assign(task_id=task_id, assignee_email="alice@example.com")
+
+    # Assert
+    mock_repo.save.assert_called_once()
+    mock_notifier.notify.assert_called_once_with(
+        recipient="alice@example.com",
+        subject="You have been assigned a task",
+    )
+</code></pre>
+<hr>
+<h2 id="45-code-coverage"><a class="header" href="#45-code-coverage">4.5 Code Coverage</a></h2>
+<p>Code coverage measures how much of your source code is executed by your test suite. It is a useful indicator of untested areas, but it is not a measure of test quality.</p>
+<pre><code class="language-bash">pip install pytest-cov
+pytest tests/ --cov=src --cov-report=term-missing
+</code></pre>
+<p>Sample output:</p>
+<pre><code>Name                      Stmts   Miss  Cover   Missing
+---------------------------------------------------------
+src/task_service.py          18      2    89%   34-35
+src/repository.py            22      0   100%
+src/assignment_service.py    15      3    80%   28, 41-42
+---------------------------------------------------------
+TOTAL                        55      5    91%
+</code></pre>
+<p>The <code>Missing</code> column shows which lines are not covered — useful for targeting additional tests.</p>
+<p><strong>Coverage targets</strong>: 80% is a common minimum threshold for production code. 100% coverage is neither necessary nor sufficient — you can have 100% coverage with tests that make no meaningful assertions.</p>
+<p><strong>What coverage cannot tell you</strong>:</p>
+<ul>
+<li>Whether the tests assert the <em>right</em> things</li>
+<li>Whether edge cases are tested (a line can be covered by a single happy-path test)</li>
+<li>Whether the system behaves correctly at the integration level</li>
+</ul>
+<hr>
+<h2 id="46-code-quality-and-static-analysis"><a class="header" href="#46-code-quality-and-static-analysis">4.6 Code Quality and Static Analysis</a></h2>
+<p>Beyond testing, several automated tools catch quality issues before code review.</p>
+<h3 id="461-linting-with-ruff"><a class="header" href="#461-linting-with-ruff">4.6.1 Linting with Ruff</a></h3>
+<p>Ruff (introduced in Chapter 1) enforces style rules and catches common programming errors:</p>
+<pre><code class="language-bash">ruff check src/
+ruff format src/
+</code></pre>
+<p>Ruff subsumes the functionality of flake8, isort, and black, and is significantly faster than any of them individually.</p>
+<h3 id="462-type-checking-with-mypy"><a class="header" href="#462-type-checking-with-mypy">4.6.2 Type Checking with mypy</a></h3>
+<p>Type annotations in Python (since PEP 484, <a href="https://peps.python.org/pep-0484/">van Rossum et al., 2015</a>) enable static analysis. mypy verifies that type annotations are consistent throughout the codebase, catching a class of bugs that tests can miss.</p>
+<pre><code class="language-bash">mypy src/ --strict
+</code></pre>
+<p>Common errors mypy catches:</p>
+<ul>
+<li>Passing <code>None</code> where a non-optional value is expected</li>
+<li>Calling a method that does not exist on a type</li>
+<li>Returning the wrong type from a function</li>
+<li>Missing return statements</li>
+</ul>
+<h3 id="463-security-scanning-with-bandit"><a class="header" href="#463-security-scanning-with-bandit">4.6.3 Security Scanning with Bandit</a></h3>
+<p>Bandit (<a href="https://bandit.readthedocs.io/en/latest/">PyCQA, 2014</a>) scans Python code for common security vulnerabilities:</p>
+<pre><code class="language-bash">pip install bandit
+bandit -r src/
+</code></pre>
+<p>Bandit flags issues like SQL injection risks, hardcoded passwords, use of weak cryptographic algorithms, and unsafe deserialization. Security scanning is covered in depth in Chapter 9.</p>
+<hr>
+<h2 id="47-code-review"><a class="header" href="#47-code-review">4.7 Code Review</a></h2>
+<p>Code review is the practice of having another developer read and evaluate your code before it is merged into the main branch. It is one of the most effective defect-detection techniques in software engineering (<a href="https://ieeexplore.ieee.org/document/1702601">Fagan, 1976</a>).</p>
+<h3 id="471-what-to-look-for-in-a-code-review"><a class="header" href="#471-what-to-look-for-in-a-code-review">4.7.1 What to Look for in a Code Review</a></h3>
+<p>An effective reviewer checks:</p>
+<ul>
+<li><strong>Correctness</strong>: Does the code do what it is supposed to do? Are there edge cases the author missed?</li>
+<li><strong>Tests</strong>: Are there sufficient tests? Do they cover the important cases?</li>
+<li><strong>Design</strong>: Does the change fit the existing architecture? Does it introduce unnecessary complexity?</li>
+<li><strong>Security</strong>: Does the change introduce any security vulnerabilities?</li>
+<li><strong>Readability</strong>: Can you understand the code without asking the author?</li>
+<li><strong>Performance</strong>: Are there obvious performance issues (e.g., N+1 queries)?</li>
+</ul>
+<h3 id="472-code-review-etiquette"><a class="header" href="#472-code-review-etiquette">4.7.2 Code Review Etiquette</a></h3>
+<p>Effective code review requires clear, respectful communication:</p>
+<ul>
+<li>Review the code, not the person: “This function is hard to follow” not “You wrote this poorly”</li>
+<li>Be specific: “Line 42: extracting this into a helper function would make it easier to test” not “this is messy”</li>
+<li>Distinguish must-fix from suggestions: prefix non-blocking suggestions with “nit:” or “optional:”</li>
+<li>Respond to all review comments, even if to say “agreed, fixed” or “disagree because…”</li>
+</ul>
+<h3 id="473-automated-code-review"><a class="header" href="#473-automated-code-review">4.7.3 Automated Code Review</a></h3>
+<p>AI-powered tools (GitHub Copilot, CodeRabbit, Sourcery) can perform a first-pass review, catching mechanical issues before human reviewers see the code. These tools are most effective at:</p>
+<ul>
+<li>Identifying obvious bugs and null pointer issues</li>
+<li>Suggesting more idiomatic patterns</li>
+<li>Flagging inconsistency with the surrounding codebase</li>
+</ul>
+<p>They are least effective at:</p>
+<ul>
+<li>Understanding business context and domain logic</li>
+<li>Evaluating architectural decisions</li>
+<li>Catching subtle security vulnerabilities that require domain knowledge</li>
+</ul>
+<hr>
+<h2 id="48-continuous-integration-and-continuous-delivery-cicd"><a class="header" href="#48-continuous-integration-and-continuous-delivery-cicd">4.8 Continuous Integration and Continuous Delivery (CI/CD)</a></h2>
+<p>Continuous integration (CI) is the practice of merging all developer branches into the main branch frequently — at least daily — with each merge triggering an automated build and test run (<a href="https://martinfowler.com/articles/continuousIntegration.html">Fowler, 2006</a>).</p>
+<p>Continuous delivery (CD) extends CI to ensure that the software is always in a deployable state. Every passing build is a release candidate.</p>
+<h3 id="481-github-actions"><a class="header" href="#481-github-actions">4.8.1 GitHub Actions</a></h3>
+<p>GitHub Actions is a CI/CD platform built into GitHub. Workflows are defined as YAML files in <code>.github/workflows/</code>.</p>
+<pre><code class="language-yaml"># .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run linter
+        run: ruff check src/ tests/
+
+      - name: Run type checker
+        run: mypy src/ --strict
+
+      - name: Run tests with coverage
+        run: pytest tests/ --cov=src --cov-report=xml --cov-fail-under=80
+
+      - name: Run security scan
+        run: bandit -r src/ -ll
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+</code></pre>
+<p>This workflow runs on every push to <code>main</code> and on every pull request. It will fail if:</p>
+<ul>
+<li>The linter finds any issues</li>
+<li>The type checker finds any errors</li>
+<li>Any test fails</li>
+<li>Code coverage drops below 80%</li>
+<li>Bandit finds any medium or higher severity issues</li>
+</ul>
+<p>A failing CI pipeline blocks the pull request from being merged, enforcing quality standards automatically.</p>
+<h3 id="482-branch-protection"><a class="header" href="#482-branch-protection">4.8.2 Branch Protection</a></h3>
+<p>Configure your GitHub repository to require CI to pass before merging:</p>
+<ol>
+<li>Repository Settings → Branches → Branch protection rules</li>
+<li>Add a rule for <code>main</code></li>
+<li>Enable: “Require status checks to pass before merging”</li>
+<li>Select the CI workflow checks</li>
+</ol>
+<p>This ensures no code reaches the main branch without passing all automated checks.</p>
+<hr>
+<h2 id="49-ai-generated-tests-trust-but-verify"><a class="header" href="#49-ai-generated-tests-trust-but-verify">4.9 AI-Generated Tests: Trust but Verify</a></h2>
+<p>AI tools can generate test cases quickly, but AI-generated tests require the same critical evaluation as AI-generated implementation code.</p>
+<h3 id="491-what-ai-does-well"><a class="header" href="#491-what-ai-does-well">4.9.1 What AI Does Well</a></h3>
+<ul>
+<li>Generating boilerplate test structure</li>
+<li>Suggesting parametrised test cases for boundary values</li>
+<li>Generating tests for simple, pure functions</li>
+<li>Identifying equivalence partitions given a function signature</li>
+</ul>
+<h3 id="492-what-ai-does-poorly"><a class="header" href="#492-what-ai-does-poorly">4.9.2 What AI Does Poorly</a></h3>
+<ul>
+<li><strong>Asserting the right things</strong>: AI-generated tests often test that code runs without error rather than asserting specific output values.</li>
+<li><strong>Edge cases in business logic</strong>: AI does not know that “a task cannot be assigned to a user who has left the project” unless you tell it.</li>
+<li><strong>Integration behaviour</strong>: AI generates unit tests well but frequently misses the integration-level behaviours that cause production bugs.</li>
+<li><strong>Security testing</strong>: AI rarely generates tests for injection, authentication bypass, or other security concerns.</li>
+</ul>
+<h3 id="493-evaluating-ai-generated-tests"><a class="header" href="#493-evaluating-ai-generated-tests">4.9.3 Evaluating AI-Generated Tests</a></h3>
+<p>When reviewing AI-generated tests, ask:</p>
+<ol>
+<li><strong>Does each test assert something meaningful?</strong> A test that calls a function and asserts <code>result is not None</code> provides almost no value.</li>
+<li><strong>Are the boundary cases covered?</strong> Check that the tests cover the boundaries of input ranges, not just the happy path.</li>
+<li><strong>Is the test isolated?</strong> A test that depends on external state (time, filesystem, database) is fragile.</li>
+<li><strong>Is the test readable?</strong> The test name should describe exactly what scenario it tests.</li>
+<li><strong>Does the test failure message help diagnose the problem?</strong> A test named <code>test_task_1</code> that fails with <code>AssertionError</code> is useless; <code>test_create_task_raises_for_empty_title</code> that fails is immediately informative.</li>
+</ol>
+<hr>
+<h2 id="410-tutorial-full-testing-and-ci-setup-for-the-course-project"><a class="header" href="#410-tutorial-full-testing-and-ci-setup-for-the-course-project">4.10 Tutorial: Full Testing and CI Setup for the Course Project</a></h2>
+<h3 id="project-structure"><a class="header" href="#project-structure">Project Structure</a></h3>
+<pre><code>ai_native_project/
+├── src/
+│   ├── __init__.py
+│   ├── task_service.py
+│   ├── repository.py
+│   └── assignment_service.py
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── test_task_service.py
+│   ├── test_repository.py
+│   └── test_assignment_service.py
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── pyproject.toml
+├── requirements.txt
+└── .pre-commit-config.yaml
+</code></pre>
+<h3 id="running-the-full-quality-suite-locally"><a class="header" href="#running-the-full-quality-suite-locally">Running the Full Quality Suite Locally</a></h3>
+<pre><code class="language-bash"># Run all checks in order
+ruff check src/ tests/          # Linting
+ruff format --check src/ tests/ # Formatting
+mypy src/ --strict              # Type checking
+pytest tests/ -v --cov=src \
+  --cov-report=term-missing \
+  --cov-fail-under=80           # Tests + coverage
+bandit -r src/ -ll              # Security scan
+</code></pre>
+<p>Add a <code>Makefile</code> to run all checks with one command:</p>
+<pre><code class="language-makefile"># Makefile
+.PHONY: check test lint typecheck security
+
+check: lint typecheck test security
+
+lint:
+	ruff check src/ tests/
+	ruff format --check src/ tests/
+
+typecheck:
+	mypy src/ --strict
+
+test:
+	pytest tests/ -v --cov=src --cov-report=term-missing --cov-fail-under=80
+
+security:
+	bandit -r src/ -ll
+</code></pre>
+<pre><code class="language-bash">make check
+</code></pre>
+<hr>
+<h2 id="411-project-milestone-testing-and-cicd"><a class="header" href="#411-project-milestone-testing-and-cicd">4.11 Project Milestone: Testing and CI/CD</a></h2>
+<h3 id="this-weeks-deliverables"><a class="header" href="#this-weeks-deliverables">This Week’s Deliverables</a></h3>
+<ol>
+<li><strong>Unit tests</strong>: At least 20 unit tests covering your core domain logic, using pytest. Tests must include:
+<ul>
+<li>Happy path tests</li>
+<li>Boundary value tests</li>
+<li>Error case tests</li>
+<li>At least one parametrised test using <code>@pytest.mark.parametrize</code></li>
+</ul>
+</li>
+<li><strong>Integration tests</strong>: At least 5 integration tests using your <code>InMemoryTaskRepository</code>.</li>
+<li><strong>Code coverage</strong>: At least 80% statement coverage on <code>src/</code>.</li>
+<li><strong>CI/CD pipeline</strong>: A GitHub Actions workflow that runs lint, type check, tests, and security scan on every push.</li>
+<li><strong>Branch protection</strong>: The <code>main</code> branch requires the CI workflow to pass before merging.</li>
+</ol>
+<h3 id="bonus"><a class="header" href="#bonus">Bonus</a></h3>
+<p>Generate tests for one of your service functions using an AI assistant. Review the generated tests critically, document which tests you accepted, which you modified, and which you rejected — and explain why in each case.</p>
+<hr>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>Testing is not an optional quality gate at the end of development — it is a practice that runs throughout. Key takeaways:</p>
+<ul>
+<li>The testing pyramid guides the distribution of test types: many fast unit tests, fewer integration tests, minimal E2E tests.</li>
+<li>Black-box testing derives test cases from specifications; white-box testing derives them from code structure. Both are necessary.</li>
+<li>pytest provides fixtures, parametrisation, and mocking to write maintainable, expressive Python tests.</li>
+<li>Code coverage measures which lines are executed, not whether they are tested correctly. 80% is a useful minimum threshold, not a target ceiling.</li>
+<li>Static analysis tools — ruff, mypy, bandit — catch entire classes of bugs automatically, before code review or testing.</li>
+<li>CI/CD pipelines automate the full quality suite and enforce standards on every change.</li>
+<li>AI-generated tests require critical evaluation: check that they assert meaningful outcomes, cover boundary cases, and do not give false confidence.</li>
+</ul>
+<hr>
+<h2 id="review-questions"><a class="header" href="#review-questions">Review Questions</a></h2>
+<ol>
+<li>Explain the testing pyramid. Why is it generally preferable to have more unit tests than E2E tests?</li>
+<li>What is the difference between black-box and white-box testing? Give an example where each would be more appropriate.</li>
+<li>Write a pytest test function that verifies the following requirement using boundary value analysis: <em>“Task priority must be an integer between 1 and 4 inclusive.”</em></li>
+<li>What does 100% code coverage guarantee? What does it not guarantee? Give a concrete example of a bug that 100% coverage would not catch.</li>
+<li>Describe what a CI/CD pipeline does and why it is valuable. What checks would you include in a pipeline for a Python REST API?</li>
+<li>You ask an AI assistant to generate tests for a <code>calculate_late_fee(days_overdue, daily_rate)</code> function. The AI generates 3 tests: <code>test_zero_days</code>, <code>test_one_day</code>, and <code>test_many_days</code>. What important cases has the AI likely missed?</li>
+</ol>
+<hr>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li>Cohn, M. (2009). <em>Succeeding with Agile: Software Development Using Scrum</em>. Addison-Wesley. <a href="https://www.mountaingoatsoftware.com/books/succeeding-with-agile-software-development-using-scrum">https://www.mountaingoatsoftware.com/books/succeeding-with-agile-software-development-using-scrum</a></li>
+<li>Fagan, M. E. (1976). Design and Code Inspections to Reduce Errors in Program Development. <em>IBM Systems Journal</em>. <a href="https://ieeexplore.ieee.org/document/1702601">https://ieeexplore.ieee.org/document/1702601</a></li>
+<li>Fowler, M. (2006). Continuous Integration. <a href="https://martinfowler.com/articles/continuousIntegration.html">https://martinfowler.com/articles/continuousIntegration.html</a></li>
+<li>van Rossum, G., Lehtosalo, J., &amp; Langa, L. (2015). PEP 484 — Type Hints. <a href="https://peps.python.org/pep-0484/">https://peps.python.org/pep-0484/</a></li>
+<li>PyCQA. (2014). Bandit — A Python Security Linter. <a href="https://bandit.readthedocs.io/en/latest/">https://bandit.readthedocs.io/en/latest/</a></li>
+<li>Astral. (2023). Ruff — An extremely fast Python linter. <a href="https://docs.astral.sh/ruff/">https://docs.astral.sh/ruff/</a></li>
+<li>GitHub. (2019). GitHub Actions Documentation. <a href="https://docs.github.com/en/actions">https://docs.github.com/en/actions</a></li>
+<li>pytest Documentation. <a href="https://docs.pytest.org/">https://docs.pytest.org/</a></li>
+<li>pytest-cov Documentation. <a href="https://pytest-cov.readthedocs.io/">https://pytest-cov.readthedocs.io/</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_3.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="chapter_5.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_3.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="chapter_5.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>
