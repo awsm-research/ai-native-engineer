@@ -4,6 +4,8 @@
 > — Fred Brooks, *The Mythical Man-Month* (1975)
 
 ---
+## Summary
+
 
 ## Learning Objectives
 
@@ -14,7 +16,6 @@ By the end of this chapter, you will be able to:
 3. Distinguish between functional and non-functional requirements and write both clearly.
 4. Define epics, user stories, and acceptance criteria, and construct each for a realistic system.
 5. Write a Definition of Done for a software team.
-6. Use AI tools to assist with requirements generation and critique — and identify where AI assistance breaks down.
 
 ---
 
@@ -311,234 +312,134 @@ A DoD prevents "almost done" from becoming a permanent state and makes quality e
 
 ---
 
-<!-- ## 2.10 AI-Assisted Requirements Engineering
+## 2.10 Tutorial Activity: "AI As Your Client"
 
-AI tools are beginning to enter the requirements engineering process in meaningful ways. This section examines where they add value and where their limitations matter most.
+**Concepts covered:** Elicitation techniques, requirements specification, quality attributes, conflict resolution, scope management
 
-### 2.8.1 Generating Draft Requirements
-
-Given a brief system description, large language models can generate a first draft of requirements. This can accelerate early project stages by providing a concrete starting point for teams to critique and refine.
-
-A capable LLM will produce a reasonable draft, but AI-generated requirements should never be accepted uncritically. Common issues include:
-
-- **Missing domain-specific constraints**: The model cannot know about regulatory requirements, legacy integrations, or organisational policies.
-- **Hallucinated specificity**: Numbers (response times, user limits, data retention periods) will be plausibly invented rather than sourced from actual stakeholders.
-- **Missing edge cases**: Models generate obvious scenarios and may miss the edge cases that matter most in production.
-- **Lack of traceability**: AI-generated requirements have no stakeholder source — a critical weakness when requirements are disputed.
-
-### 2.8.2 Critiquing and Improving Requirements
-
-A more reliable use of AI is as a *critic* rather than an *author*. Given a set of human-written requirements, an LLM can check for common quality issues:
-
-```python
-import anthropic
-
-client = anthropic.Anthropic()
-
-requirements_document = """
-1. The system shall be fast.
-2. Users can create tasks.
-3. The system should be secure.
-4. Tasks can be assigned to users.
-5. The system shall send notifications.
-"""
-
-response = client.messages.create(
-    model="claude-opus-4-7",
-    max_tokens=1024,
-    messages=[
-        {
-            "role": "user",
-            "content": f"""Review the following requirements for quality issues.
-For each requirement, identify if it is: ambiguous, incomplete, or unverifiable.
-Suggest a rewritten version that addresses any issues.
-
-Requirements:
-{requirements_document}""",
-        }
-    ],
-)
-
-print(response.content[0].text)
-```
-
-This use of AI is lower risk because the human author retains ownership of the requirements and uses AI feedback as one input among several.
-
-### 2.8.3 Generating User Stories from Interview Notes
-
-Stakeholder interviews produce messy, unstructured notes. AI can help transform these into structured user stories:
-
-```python
-import anthropic
-
-client = anthropic.Anthropic()
-
-interview_notes = """
-Spoke with Sarah (project manager, 12-person dev team).
-Main frustrations: can't see at a glance who is overloaded,
-tasks fall through the cracks when someone is sick,
-no way to see what was completed last week for stand-ups.
-Wants to reassign tasks quickly when priorities change.
-Spends 30 mins every Monday just updating statuses in a spreadsheet.
-"""
-
-response = client.messages.create(
-    model="claude-opus-4-7",
-    max_tokens=1024,
-    messages=[
-        {
-            "role": "user",
-            "content": f"""You are a requirements engineer. Convert the following
-stakeholder interview notes into well-structured user stories using the format:
-"As a [role], I want [goal] so that [reason]."
-Include 2–3 acceptance criteria per story in Gherkin format.
-Only generate stories directly supported by the notes — do not invent requirements.
-
-Interview notes:
-{interview_notes}""",
-        }
-    ],
-)
-
-print(response.content[0].text)
-```
-
-The final instruction — "do not invent requirements" — is critical. Without it, models will helpfully generate plausible but unsupported requirements, which can mislead the team.
-
-### 2.8.4 Where AI Cannot Replace Human Judgment
-
-Despite these capabilities, requirements engineering remains fundamentally a human activity. AI cannot:
-
-- **Resolve political conflicts** between stakeholders with competing interests
-- **Understand organisational context** — why a constraint exists, who has authority to waive it, what previous attempts failed
-- **Elicit tacit knowledge** — the workarounds, unspoken norms, and tribal knowledge that experienced users hold
-- **Accept legal accountability** for requirements in regulated domains (healthcare, finance, aviation)
-- **Build trust** with stakeholders — the relationship component that makes people willing to share their real problems
-
-The engineer's role is not to be replaced by AI, but to use AI for routine structural tasks (formatting, checking, drafting) while investing their own time in the high-value, human-dependent work.
+**Format:** Individual or pairs | **Duration:** 2 hours | **Tool:** [Microsoft Copilot](https://copilot.microsoft.com/) (chat interface)
 
 ---
 
-## 2.11 Tutorial: Requirements Review Pipeline
+### Background
 
-This tutorial demonstrates a practical requirements quality review pipeline using the Anthropic API.
+In this activity, [Microsoft Copilot](https://copilot.microsoft.com/) plays the role of your client. You will conduct a requirements elicitation interview, produce specification artefacts, audit their quality, resolve stakeholder conflicts, and respond to scope creep — mirroring the full requirements engineering lifecycle from §2.1.
 
-### Setup
+---
 
-```bash
-pip install anthropic python-dotenv
+### Phase 1 — Elicitation Interview (25 min)
+
+Prime Copilot with the following system prompt at the start of your conversation:
+
+> *"You are Jordan, the founder of a small retail business. You want to build a new online shopping application to sell your products directly to customers, replacing your current manual order-taking process via phone and email. You have opinions and preferences but are not technical. You will only answer questions I ask — do not volunteer information I haven't asked for. If I ask a vague question, give a vague answer. Stay in character for the entire conversation."*
+
+Conduct a semi-structured interview with Jordan using the elicitation techniques from §2.2.1. Log every question and Copilot's response in a worksheet.
+
+**Requirements:**
+- Ask at least **8 questions**
+- Cover at least **3 stakeholder concerns** (e.g., product browsing, checkout and payment, order management)
+- Use at least **one follow-up question** that digs deeper into a vague answer
+
+> **Tip:** Copilot will not give you everything you need unless you ask the right questions. Vague questions will produce vague answers — just as in real stakeholder interviews.
+
+---
+
+### Phase 2 — Produce Artefacts (20 min)
+
+From your interview transcript, produce the following:
+
+1. **4 functional requirements** in "The system shall…" format
+2. **2 non-functional requirements** — each must be measurable (apply the test from §2.3.2)
+3. **2 user stories** in "As a [role]…" format
+4. **A MoSCoW table** with at least 5 features prioritised
+
+---
+
+### Phase 3 — Acceptance Criteria and Definition of Done (25 min)
+
+#### Part A — Acceptance Criteria (15 min)
+
+For each of your 2 user stories from Phase 2, write acceptance criteria in Gherkin format (§2.8). Each user story must have:
+
+- **1 happy path scenario** — the successful case
+- **1 error or edge case scenario** — invalid input, missing data, or unauthorised access
+
+**Example structure:**
+
+```gherkin
+Scenario: [descriptive name]
+  Given [initial context]
+  When  [action taken]
+  Then  [observable outcome]
 ```
 
-```bash
-# .env
-ANTHROPIC_API_KEY=your_key_here
-```
+> **Check:** Can each scenario be tested without ambiguity? If a tester cannot determine pass or fail from the scenario alone, rewrite it.
 
-### Requirements Review Pipeline
+#### Part B — Definition of Done (10 min)
 
-```python
-# requirements_review.py
-import os
-import anthropic
-from dotenv import load_dotenv
+Write a **Definition of Done** (§2.9) for your online shopping application project. It must include at least **6 items** covering:
 
-load_dotenv()
+- Functional correctness (acceptance criteria)
+- Code quality (testing, review)
+- Non-functional validation (performance, security)
+- Deployment and documentation
 
-client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+Compare your DoD with another pair. Identify one item they included that you missed, and add it with a one-sentence justification for why it belongs.
 
+---
 
-def review_requirement(requirement: str) -> dict[str, str]:
-    """Review a single requirement and return issues, improvement, and verdict."""
-    response = client.messages.create(
-        model="claude-opus-4-7",
-        max_tokens=512,
-        messages=[
-            {
-                "role": "user",
-                "content": f"""Analyse this software requirement for quality issues.
-Check for: ambiguity, lack of measurability, incompleteness, missing edge cases.
+### Phase 4 — Requirements Quality Audit (20 min)
 
-Requirement: "{requirement}"
+Swap your requirements artefacts with another pair. Audit each other's requirements against the IEEE quality criteria from §2.4:
 
-Respond in this exact format:
-ISSUES: [list specific issues, or "None" if well-formed]
-IMPROVED: [rewritten version, or original if no issues]
-VERDICT: [GOOD / NEEDS_IMPROVEMENT / POOR]""",
-            }
-        ],
-    )
+| Requirement | Correct | Unambiguous | Complete | Consistent | Verifiable | Traceable | Prioritised |
+|---|---|---|---|---|---|---|---|
+| FR-01 | | | | | | | |
+| FR-02 | | | | | | | |
+| FR-03 | | | | | | | |
+| FR-04 | | | | | | | |
+| NFR-01 | | | | | | | |
+| NFR-02 | | | | | | | |
 
-    text = response.content[0].text
-    result: dict[str, str] = {}
-    for line in text.strip().split("\n"):
-        for key in ("ISSUES", "IMPROVED", "VERDICT"):
-            if line.startswith(f"{key}:"):
-                result[key.lower()] = line[len(key) + 1 :].strip()
-    return result
+Mark each cell ✓ (satisfies the attribute), ✗ (fails), or ? (unclear). For every ✗, write a one-sentence explanation of the flaw and a corrected version of the requirement.
 
+---
 
-def review_requirements_document(requirements: list[str]) -> None:
-    """Review a list of requirements and print a quality report."""
-    print("=" * 60)
-    print("REQUIREMENTS QUALITY REVIEW")
-    print("=" * 60)
+### Phase 5 — Conflict Injection (20 min)
 
-    scores: dict[str, int] = {"GOOD": 0, "NEEDS_IMPROVEMENT": 0, "POOR": 0}
+Start a new Copilot conversation with this persona:
 
-    for i, req in enumerate(requirements, 1):
-        print(f"\n[{i}] {req}")
-        result = review_requirement(req)
-        verdict = result.get("verdict", "UNKNOWN")
-        scores[verdict] = scores.get(verdict, 0) + 1
+> *"You are Sam, a frequent online shopper in their late 20s. You shop on your phone and expect a fast, frictionless experience — ideally guest checkout with no account required. You find long forms and mandatory registration frustrating. Stay in character."*
 
-        print(f"    Verdict:  {verdict}")
-        if verdict != "GOOD":
-            print(f"    Issues:   {result.get('issues', 'N/A')}")
-            print(f"    Improved: {result.get('improved', 'N/A')}")
+Interview Sam for 10 minutes, then:
 
-    print("\n" + "=" * 60)
-    print("SUMMARY")
-    for label, count in scores.items():
-        print(f"  {label:<22} {count}")
-    print("=" * 60)
+1. Identify **at least 2 conflicts** between Jordan's requirements and Sam's
+2. Document each conflict explicitly — which requirement from each stakeholder, and why they are incompatible
+3. Propose a written resolution for each: either a requirement that satisfies both stakeholders, or a justified MoSCoW trade-off that explicitly records what was deferred and why
 
+---
 
-if __name__ == "__main__":
-    sample_requirements = [
-        "The system shall be fast.",
-        "The system shall respond to 95% of API requests within 200ms "
-        "under a load of 1,000 concurrent users.",
-        "Users can create tasks.",
-        "The system shall allow authenticated users to create tasks with a title "
-        "(required, max 200 characters), description (optional, max 2,000 characters), "
-        "due date (optional), and priority level (low, medium, high, critical).",
-        "The system should be secure.",
-        "All user passwords shall be stored as bcrypt hashes with a work factor of at least 12.",
-    ]
+### Phase 6 — Scope Creep Simulation (15 min)
 
-    review_requirements_document(sample_requirements)
-```
+Your instructor will send the following message, simulating a client email received mid-project:
 
-**Sample output:**
+> *"Hi team — Jordan here. I forgot to mention, we'd also love the app to integrate with our Instagram and Facebook pages so customers can buy directly from our social media posts. Also, can it support a loyalty points system? Oh, and my business partner just asked if we could add a B2B wholesale portal for bulk orders."*
 
-```
-============================================================
-REQUIREMENTS QUALITY REVIEW
-============================================================
+For each new request:
 
-[1] The system shall be fast.
-    Verdict:  POOR
-    Issues:   Ambiguous and unverifiable — "fast" has no defined threshold
-    Improved: The system shall respond to 95% of API requests within 200ms
-              under a load of 1,000 concurrent users.
+1. Classify it using MoSCoW — does it change any existing priorities?
+2. Determine whether it is **scope creep** or a legitimate missed requirement, and justify your decision
+3. Write a one-paragraph **change response** to Jordan that acknowledges all three requests, documents what is accepted or deferred, and explains why
 
-[2] The system shall respond to 95% of API requests within 200ms...
-    Verdict:  GOOD
+---
 
-[3] Users can create tasks.
-    Verdict:  NEEDS_IMPROVEMENT
-    Issues:   Incomplete — missing subject (who), authentication context,
-              and field constraints
-    Improved: The system shall allow authenticated users to create tasks...
-``` -->
+### Phase 7 — Reflection in EdStem (15 min)
 
+Answer the following questions individually in writing:
+
+1. After the quality audit, which quality attribute (§2.4) was hardest to satisfy in your requirements — and why?
+2. Could the conflict between Jordan and Sam have been discovered from a single stakeholder interview? What does this tell you about elicitation breadth?
+3. Which of Jordan's scope creep requests was hardest to classify — the social media integration, loyalty points, or B2B portal — and why?
+4. What does Copilot-as-client *cannot* replicate compared to a real stakeholder interview? Think about §2.2.3 (observation and tacit knowledge).
+5. Where in this activity did Copilot add genuine value — and where did it fall short?
+
+---
