@@ -1,7 +1,7 @@
-# Chapter 1: Software Engineering in the Age of AI
+# Chapter 1: Software Engineering Fundamentals and Processes
 
-> *"The tools we use have a profound influence on our thinking habits, and therefore on our thinking abilities."*
-> — Edsger W. Dijkstra
+> *"Software engineering is the establishment of and use of sound engineering principles in order to obtain economically software that is reliable and works efficiently on real machines."*
+> — Friedrich Bauer, 1968 NATO Conference
 
 ---
 
@@ -11,9 +11,7 @@ By the end of this chapter, you will be able to:
 
 1. Describe the historical evolution of software engineering from its origins to the present day.
 2. Explain the key software development lifecycle (SDLC) models: Waterfall, Agile, Scrum, and Kanban.
-3. Apply the MoSCoW framework to prioritise requirements and manage scope.
-4. Write basic user stories with story point estimates.
-5. Articulate how AI is reshaping each phase of the SDLC and what this means for the role of the software engineer.
+3. Articulate how AI is reshaping each phase of the SDLC and what this means for the role of the software engineer.
 
 ---
 
@@ -24,6 +22,9 @@ Software engineering is the disciplined application of engineering principles to
 The term was deliberately chosen. In 1968, NATO convened a conference in Garmisch, Germany, to address what organisers called the "software crisis" — a widespread recognition that software projects were routinely over budget, delivered late, and unreliable ([Naur & Randell, 1969](http://homepages.cs.ncl.ac.uk/brian.randell/NATO/nato1968.PDF)). The goal of using the word *engineering* was aspirational: to bring to software the same rigour, predictability, and professionalism that civil or mechanical engineers brought to bridges and engines.
 
 That aspiration has guided the field ever since — and it remains relevant today, even as the tools, languages, and collaborators (including AI systems) have changed dramatically.
+
+![Attendees at the 1968 NATO Software Engineering Conference in Garmisch, Germany](images/nato-conference-photo.png)
+*Photograph from 1968 NATO Software Engineering Conference (University of Newcastle photo)*
 
 ### Why Software Engineering Matters
 
@@ -83,11 +84,16 @@ This shift made the pipeline from code commit to production deployment a first-c
 
 ### 1.2.6 The AI Era (2020s–Present)
 
-In 2021, GitHub released Copilot, powered by OpenAI Codex — a large language model trained on billions of lines of public code. For the first time, AI could generate syntactically correct, contextually relevant code at the level of individual functions and files ([Chen et al., 2021](https://arxiv.org/abs/2107.03374)).
+In 2021, GitHub released Copilot, powered by OpenAI Codex — a large language model trained on billions of lines of public code. For the first time, AI could generate syntactically correct, contextually relevant code at the level of individual functions and files.
 
-By 2023, models like GPT-4 and Claude could engage in multi-turn conversations about software design, debug complex issues, write test suites, and generate entire application scaffolds from natural language descriptions. By 2024–2025, *agentic* systems — AI that can plan, use tools, and execute code autonomously — began to handle multi-step engineering tasks with minimal human intervention.
+By 2023, models like GPT-4 and Claude could engage in multi-turn conversations about software design, debug complex issues, write test suites, and generate entire application scaffolds from natural language descriptions. 
+
+By 2024–2025, *AI coding agents*, powered by agentic AI architecture, that can plan, use tools, and execute code autonomously - began to handle multi-step engineering tasks with minimal human intervention.
 
 This is where this book begins.
+
+![From Copilot to autonomous agents: AI has evolved from completing code to planning, building, testing, and delivering software end to end.](images/the-rise-of-ai-in-se.png)
+*From Copilot to autonomous agents: AI has evolved from completing code to planning, building, testing, and delivering software end to end. (Illustrated by AI)*
 
 ---
 
@@ -108,11 +114,10 @@ The Software Development Lifecycle (SDLC) is a structured process for planning, 
 
 The Waterfall model, introduced by Winston Royce in 1970 (though Royce actually presented it as a flawed approach in the same paper), organises development as a strict sequence of phases ([Royce, 1970](http://www-scf.usc.edu/~csci201/lectures/Lecture11/royce1970.pdf)):
 
-```
-Requirements → Design → Implementation → Testing → Deployment → Maintenance
-```
-
 Each phase must be completed before the next begins. The model assumes requirements can be fully and correctly specified at the start.
+
+![A Waterfall Software Development Process.](images/waterfall.png)
+*A Waterfall Software Development Process (Illustrated by AI)*
 
 **Strengths:**
 - Clear milestones and deliverables
@@ -203,125 +208,9 @@ Kanban suits teams with highly variable incoming work (e.g., support and mainten
 
 ---
 
-## 1.4 Scope Creep
+## 1.4 Tutorial: Setting Up Your Python Development Environment
 
-*Scope creep* refers to the gradual, uncontrolled expansion of a project's scope beyond its original boundaries. It is one of the most common causes of project failure in software engineering ([PMI, 2021](https://www.pmi.org/learning/library/scope-creep-causes-effects-solutions-6181)).
-
-Scope creep happens when:
-
-- Stakeholders request new features after the project has started
-- Requirements are poorly defined, leaving room for interpretation
-- The team adds features without formal approval
-- External factors force new work mid-project
-
-**Managing scope creep** requires:
-
-1. Clear initial scope definition — document what is in scope and explicitly what is *out* of scope
-2. Formal change control processes — structured mechanisms for requesting, evaluating, and approving scope changes
-3. Prioritisation frameworks — structured approaches for deciding what gets built and when
-4. Regular backlog grooming — reviewing and re-prioritising as understanding evolves
-
----
-
-## 1.5 User Stories and Story Points
-
-### 1.5.1 User Stories
-
-A *user story* is a short, simple description of a feature told from the perspective of the person who wants it. The standard format is:
-
-> **As a** [type of user], **I want** [some goal] **so that** [some reason].
-
-User stories originated in Extreme Programming ([Beck, 1999](https://www.oreilly.com/library/view/extreme-programming-explained/0201616416/)) and serve as placeholders for conversations rather than comprehensive specifications.
-
-**Examples:**
-
-> As a **registered user**, I want to **reset my password via email** so that **I can regain access to my account if I forget my password**.
-
-> As a **project manager**, I want to **filter tasks by assignee** so that **I can quickly see the workload of individual team members**.
-
-Good user stories follow the **INVEST** criteria ([Wake, 2003](https://xp123.com/articles/invest-in-good-stories-and-smart-tasks/)):
-
-| Letter | Meaning | Description |
-|---|---|---|
-| **I** | Independent | Stories can be developed in any order |
-| **N** | Negotiable | Details are open to discussion |
-| **V** | Valuable | Delivers value to users or stakeholders |
-| **E** | Estimable | The team can estimate the effort |
-| **S** | Small | Completable within a single sprint |
-| **T** | Testable | Acceptance criteria can be verified |
-
-### 1.5.2 Story Points
-
-*Story points* are a unit of measure for estimating the relative effort or complexity of user stories. They are intentionally abstract — they do not map directly to hours or days — encouraging teams to think about relative complexity rather than precise time estimates.
-
-Teams typically use a modified Fibonacci sequence: **1, 2, 3, 5, 8, 13, 21**. The increasing gaps reflect growing uncertainty in estimating large, complex work.
-
-**Planning Poker** is a common estimation technique ([Grenning, 2002](https://wingman-sw.com/articles/planning-poker)): each team member privately selects a card with their estimate; all cards are revealed simultaneously; significant discrepancies prompt discussion until the team reaches consensus.
-
-Story points enable **velocity tracking** — the total points completed per sprint gives the team's *velocity*, which predicts future throughput and informs release planning.
-
----
-
-## 1.6 Prioritisation: The MoSCoW Framework
-
-The **MoSCoW framework** ([Clegg & Barker, 1994](https://www.dsdm.org/)) provides a shared vocabulary for prioritisation:
-
-| Category | Meaning | Guideline |
-|---|---|---|
-| **M**ust Have | Non-negotiable; the system cannot launch without these | ~60% of effort |
-| **S**hould Have | Important but not vital; workarounds exist if omitted | ~20% of effort |
-| **C**ould Have | Nice to have; included only if time permits | ~20% of effort |
-| **W**on't Have | Explicitly excluded from this release | Documented, not built |
-
-The "Won't Have" category is often the most valuable: it makes explicit what is being deliberately deferred, preventing scope creep through shared agreement.
-
-**Example — a task management application:**
-
-| Feature | MoSCoW |
-|---|---|
-| Create, read, update, delete tasks | Must Have |
-| Assign tasks to team members | Must Have |
-| Email notifications on task assignment | Should Have |
-| Drag-and-drop task reordering | Could Have |
-| Integration with Slack | Won't Have (this release) |
-
----
-
-## 1.7 How AI Is Reshaping the SDLC
-
-Each SDLC phase is being transformed by AI tools. This section introduces the high-level picture; subsequent chapters examine each transformation in depth.
-
-### Requirements
-
-AI can help elicit requirements by analysing stakeholder interview transcripts, extracting themes from large documents, and generating draft user stories from rough natural language descriptions. However, AI cannot replace the human judgment required to resolve conflicting stakeholder needs or understand organisational context (Chapter 2).
-
-### Design
-
-Large language models can generate architectural diagrams, suggest design patterns, and produce code scaffolds from specifications. Chapter 3 examines how to use these capabilities critically.
-
-### Implementation
-
-This is where AI's current impact is most visible. AI coding assistants can complete functions, suggest API calls, translate between languages, and generate boilerplate. Studies suggest significant productivity gains for routine coding tasks ([Peng et al., 2023](https://arxiv.org/abs/2302.06590)). But AI-generated code requires the same critical evaluation as any unreviewed code — it can be subtly wrong, insecure, or incompatible with the surrounding system.
-
-### Testing
-
-AI can generate test cases, identify edge cases, and suggest fixes for failing tests. Chapters 4 and 7 address the critical question of how to evaluate AI-generated tests themselves.
-
-### Deployment and Maintenance
-
-AI-powered tools are beginning to automate parts of deployment (intelligent rollouts, anomaly detection) and maintenance (automated bug triage, code smell detection). These capabilities are still maturing.
-
-### The Shifting Role of the Engineer
-
-The cumulative effect is a shift in what software engineers spend their time on. The bottleneck is moving from *writing code* to *defining problems, specifying intent, and evaluating outcomes*. This is the core claim of AI-native engineering — and the reason this book focuses on thinking and evaluation skills, not just tool usage.
-
-As Andrej Karpathy observed, we may be entering an era of ["Software 2.0"](https://karpathy.medium.com/software-2-0-a64152b37c35) — where neural networks trained on data replace hand-written code for increasing classes of problems, and the engineer's job shifts to curating data, defining objectives, and evaluating model behaviour.
-
----
-
-## 1.8 Tutorial: Setting Up Your AI-Assisted Development Environment
-
-This tutorial walks through setting up a Python development environment with AI assistance integrated at key points.
+This tutorial walks through setting up a Python development environment.
 
 ### Prerequisites
 
@@ -333,8 +222,8 @@ This tutorial walks through setting up a Python development environment with AI 
 ### Step 1: Create a Virtual Environment
 
 ```bash
-mkdir ai_native_project
-cd ai_native_project
+mkdir my_project
+cd my_project
 
 # Create and activate a virtual environment
 python -m venv venv
@@ -402,13 +291,42 @@ pre-commit install
 
 ```python
 # src/calculator.py
+import argparse
+
+
 def add(a: float, b: float) -> float:
     return a + b
+
 
 def divide(a: float, b: float) -> float:
     if b == 0:
         raise ValueError("Cannot divide by zero")
     return a / b
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Simple calculator")
+    parser.add_argument("operation", choices=["add", "divide"], help="Operation to perform")
+    parser.add_argument("a", type=float, help="First number")
+    parser.add_argument("b", type=float, help="Second number")
+    args = parser.parse_args()
+
+    if args.operation == "add":
+        print(add(args.a, args.b))
+    elif args.operation == "divide":
+        print(divide(args.a, args.b))
+
+
+if __name__ == "__main__":
+    main()
+```
+
+Run it from the command line:
+
+```bash
+python src/calculator.py add 3 5       # Output: 8.0
+python src/calculator.py divide 10 2   # Output: 5.0
+python src/calculator.py divide 1 0    # Raises: ValueError
 ```
 
 ```python
@@ -442,67 +360,98 @@ tests/test_calculator.py::test_divide_by_zero PASSED
 
 This environment — version control, dependency isolation, linting, type checking, pre-commit hooks, and a test framework — is the foundation on which every subsequent chapter builds.
 
----
+### Step 7: Make Your First Meaningful Commit
 
-## 1.9 Project Milestone: Define Your Course Project
+With a passing test suite, you are ready to make a proper commit. Good commit practice starts here.
 
-### Project Brief
+**Stage only the files you intend to commit:**
 
-Throughout this course you will build a **Task Management API** — a backend system that allows users to create projects, manage tasks, assign them to team members, and track progress. This is a deliberately familiar problem domain: the focus is on *how* you build it using AI-native practices, not on inventing a novel application.
+```bash
+git add src/calculator.py tests/test_calculator.py pyproject.toml .pre-commit-config.yaml requirements.txt
+```
 
-The project grows across 12 weeks:
-- **Weeks 1–4**: Requirements, design, tests, and CI/CD for the core API
-- **Weeks 5–8**: AI-native development of features using agents and evaluation
-- **Weeks 9–12**: Security hardening, ethics review, productivity analysis, and reflection
+**Check what is staged before committing:**
 
-### This Week's Deliverables
+```bash
+git status
+git diff --staged
+```
 
-1. **Team charter** (if in a team): Names, agreed roles, and working norms.
-2. **Scope statement**: One paragraph describing what your system *will* do; one paragraph explicitly describing what it *will not* do.
-3. **MoSCoW list**: At least 10 features categorised as Must/Should/Could/Won't.
-4. **Development environment**: A GitHub repository with virtual environment, linter, pre-commit hooks, and at least one passing test.
+**Write a descriptive commit message.** A good message has a short subject line (under 72 characters) and, when needed, a body explaining *why* — not just what:
 
-Submit a `README.md` in the root of your repository containing the team charter, scope statement, and MoSCoW list.
+```bash
+git commit -m "Add calculator module with add and divide operations
 
----
+- Implements add() and divide() with type hints
+- divide() raises ValueError on division by zero
+- CLI entry point via argparse
+- Unit tests covering happy path and error cases"
+```
 
-## Summary
+**View your commit history:**
 
-This chapter traced software engineering from the 1968 NATO crisis through structured programming, object-oriented design, Agile, DevOps, and into the current AI era. Key takeaways:
+```bash
+git log --oneline
+```
 
-- Software engineering applies disciplined processes to manage the complexity of building reliable, maintainable systems at scale.
-- The SDLC provides a framework of phases that all development models address in different ways.
-- Waterfall is plan-driven and sequential; Agile is iterative and adaptive. Scrum and Kanban are specific Agile frameworks with distinct practices.
-- Scope creep is one of the most common causes of project failure; MoSCoW prioritisation is a practical tool for managing it.
-- User stories and story points are Agile tools for capturing requirements from the user's perspective and estimating relative effort.
-- AI is reshaping every phase of the SDLC, shifting the engineer's primary challenge from writing code to framing problems, specifying intent, and evaluating AI-generated outputs.
+Expected output:
+```
+a3f92c1 Add calculator module with add and divide operations
+e1b4d07 Initial commit: add .gitignore
+```
 
----
+### Step 8: Understand What Not to Commit
 
-## Review Questions
+Some files should never be committed. Your `.gitignore` already covers the most common cases, but it helps to understand why:
 
-1. What was the "software crisis" identified at the 1968 NATO conference, and what response did it prompt?
-2. Compare Waterfall and Agile: in what circumstances might each be more appropriate?
-3. What is the difference between Scrum and Kanban? Give an example of a team context that suits each.
-4. Write a user story for: *"Users should be able to export their task list as a PDF."* Include acceptance criteria.
-5. Apply the MoSCoW framework to a simple e-commerce website. List at least 8 features across the four categories.
-6. In your own words, explain how AI is changing the role of the software engineer. What skills become more important? What becomes less important?
+| File / Pattern | Why |
+|---|---|
+| `venv/` | Virtual environment — recreatable from `requirements.txt` |
+| `__pycache__/`, `*.pyc` | Python bytecode — generated automatically |
+| `.env` | API keys and secrets — never commit credentials |
+| `*.egg-info/` | Package build artefacts |
+| `.mypy_cache/`, `.ruff_cache/` | Tool caches — not part of the project |
 
----
+**Verify nothing sensitive is staged:**
 
-## References
+```bash
+git status
+git diff --staged --name-only
+```
 
-- Naur, P., & Randell, B. (Eds.). (1969). *Software Engineering: Report on a conference sponsored by the NATO Science Committee*. [http://homepages.cs.ncl.ac.uk/brian.randell/NATO/nato1968.PDF](http://homepages.cs.ncl.ac.uk/brian.randell/NATO/nato1968.PDF)
-- Brooks, F. P. (1975). *The Mythical Man-Month: Essays on Software Engineering*. Addison-Wesley. [https://en.wikipedia.org/wiki/The_Mythical_Man-Month](https://en.wikipedia.org/wiki/The_Mythical_Man-Month)
-- Gamma, E., Helm, R., Johnson, R., & Vlissides, J. (1994). *Design Patterns: Elements of Reusable Object-Oriented Software*. Addison-Wesley. [https://en.wikipedia.org/wiki/Design_Patterns](https://en.wikipedia.org/wiki/Design_Patterns)
-- Beck, K. et al. (2001). *Manifesto for Agile Software Development*. [https://agilemanifesto.org/](https://agilemanifesto.org/)
-- Schwaber, K., & Sutherland, J. (2020). *The Scrum Guide*. [https://scrumguides.org/scrum-guide.html](https://scrumguides.org/scrum-guide.html)
-- Anderson, D. J. (2010). *Kanban: Successful Evolutionary Change for Your Technology Business*. Blue Hole Press. [https://kanbanbooks.com/](https://kanbanbooks.com/)
-- Royce, W. W. (1970). Managing the Development of Large Software Systems. *Proceedings of IEEE WESCON*. [http://www-scf.usc.edu/~csci201/lectures/Lecture11/royce1970.pdf](http://www-scf.usc.edu/~csci201/lectures/Lecture11/royce1970.pdf)
-- Kim, G., Humble, J., Debois, P., & Willis, J. (2016). *The DevOps Handbook*. IT Revolution Press. [https://itrevolution.com/product/the-devops-handbook/](https://itrevolution.com/product/the-devops-handbook/)
-- Chen, M., et al. (2021). Evaluating Large Language Models Trained on Code. *arXiv*. [https://arxiv.org/abs/2107.03374](https://arxiv.org/abs/2107.03374)
-- Peng, S., et al. (2023). The Impact of AI on Developer Productivity: Evidence from GitHub Copilot. *arXiv*. [https://arxiv.org/abs/2302.06590](https://arxiv.org/abs/2302.06590)
-- Wake, B. (2003). INVEST in Good Stories, and SMART Tasks. [https://xp123.com/articles/invest-in-good-stories-and-smart-tasks/](https://xp123.com/articles/invest-in-good-stories-and-smart-tasks/)
-- Karpathy, A. (2017). Software 2.0. [https://karpathy.medium.com/software-2-0-a64152b37c35](https://karpathy.medium.com/software-2-0-a64152b37c35)
-- PMI. (2021). Scope Creep. Project Management Institute. [https://www.pmi.org/learning/library/scope-creep-causes-effects-solutions-6181](https://www.pmi.org/learning/library/scope-creep-causes-effects-solutions-6181)
-- Grenning, J. (2002). Planning Poker or How to avoid analysis paralysis while release planning. [https://wingman-sw.com/articles/planning-poker](https://wingman-sw.com/articles/planning-poker)
+If you accidentally stage a secret, remove it before committing:
+
+```bash
+git restore --staged .env
+```
+
+### Step 9: Activity — Extend and Commit
+
+Complete the following activity to practise the full edit-test-commit cycle:
+
+1. Add a `multiply(a, b)` function to `src/calculator.py` and a `subtract(a, b)` function.
+2. Add CLI support for both operations in `main()`.
+3. Write at least two tests for each new function in `tests/test_calculator.py`.
+4. Run the full check before committing:
+
+```bash
+ruff check src/ tests/
+mypy src/
+pytest tests/ -v
+```
+
+5. Stage and commit your changes with a meaningful message:
+
+```bash
+git add src/calculator.py tests/test_calculator.py
+git commit -m "Add multiply and subtract operations to calculator"
+```
+
+6. Verify the commit appears in your log:
+
+```bash
+git log --oneline
+```
+
+A clean log with descriptive messages is part of professional software engineering practice — and it becomes especially important when collaborating with teammates or reviewing AI-generated changes.
+

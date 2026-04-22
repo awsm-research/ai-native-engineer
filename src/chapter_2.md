@@ -183,7 +183,17 @@ Each epic decomposes into user stories — small, independently deliverable incr
 | US-04 | As a user, I want to mark a task as complete so that the team can see progress. |
 | US-05 | As a user, I want to add comments to a task so that I can communicate context without leaving the tool. |
 
-### 2.5.3 Tasks
+### 2.5.3 Story Points
+
+*Story points* are a unit of measure for estimating the relative effort or complexity of user stories. They are intentionally abstract — they do not map directly to hours or days — encouraging teams to think about relative complexity rather than precise time estimates.
+
+Teams typically use a modified Fibonacci sequence: **1, 2, 3, 5, 8, 13, 21**. The increasing gaps reflect growing uncertainty in estimating large, complex work.
+
+**Planning Poker** is a common estimation technique ([Grenning, 2002](https://wingman-sw.com/articles/planning-poker)): each team member privately selects a card with their estimate; all cards are revealed simultaneously; significant discrepancies prompt discussion until the team reaches consensus.
+
+Story points enable **velocity tracking** — the total points completed per sprint gives the team's *velocity*, which predicts future throughput and informs release planning.
+
+### 2.5.4 Tasks
 
 Each user story is implemented through one or more *tasks* — specific technical actions. Tasks are not user-visible; they are engineering sub-steps.
 
@@ -197,7 +207,47 @@ Each user story is implemented through one or more *tasks* — specific technica
 
 ---
 
-## 2.6 Acceptance Criteria
+## 2.6 Prioritisation: The MoSCoW Framework
+
+Once user stories are written, the team must decide which to build first. The **MoSCoW framework** ([Clegg & Barker, 1994](https://www.dsdm.org/)) provides a shared vocabulary for this:
+
+| Category | Meaning | Guideline |
+|---|---|---|
+| **M**ust Have | Non-negotiable; the system cannot launch without these | ~60% of effort |
+| **S**hould Have | Important but not vital; workarounds exist if omitted | ~20% of effort |
+| **C**ould Have | Nice to have; included only if time permits | ~20% of effort |
+| **W**on't Have | Explicitly excluded from this release | Documented, not built |
+
+The "Won't Have" category is often the most valuable: it makes explicit what is being deliberately deferred, turning unspoken assumptions into shared agreements.
+
+**Example — a task management application:**
+
+| Feature | MoSCoW |
+|---|---|
+| Create, read, update, delete tasks | Must Have |
+| Assign tasks to team members | Must Have |
+| Email notifications on task assignment | Should Have |
+| Drag-and-drop task reordering | Could Have |
+| Integration with Slack | Won't Have (this release) |
+
+---
+
+## 2.7 Scope Creep
+
+Even with user stories and prioritisation in place, projects face a persistent risk: *scope creep* — the gradual, uncontrolled expansion of scope beyond its original boundaries. It is one of the most common causes of project failure ([PMI, 2021](https://www.pmi.org/learning/library/scope-creep-causes-effects-solutions-6181)).
+
+Scope creep happens when:
+
+- Stakeholders request new features after the project has started
+- Requirements are poorly defined, leaving room for interpretation
+- The team adds features without formal approval
+- External factors force new work mid-project
+
+MoSCoW directly addresses this: by explicitly documenting what is *Won't Have*, teams create a shared boundary that makes adding new scope a visible, deliberate decision rather than a gradual drift. Combined with regular backlog grooming and formal change control, user stories, prioritisation, and scope discipline together form the core of agile requirements management.
+
+---
+
+## 2.8 Acceptance Criteria
 
 *Acceptance criteria* define the specific conditions that must be satisfied for a user story to be considered done. They bridge requirements and testing: each acceptance criterion should be directly testable.
 
@@ -242,7 +292,7 @@ Well-written acceptance criteria cover:
 
 ---
 
-## 2.7 Definition of Done
+## 2.9 Definition of Done
 
 The *Definition of Done* (DoD) is a shared agreement about what "complete" means for any piece of work. It is a quality gate: a story is not done until it satisfies every item on the DoD checklist ([Schwaber & Sutherland, 2020](https://scrumguides.org/scrum-guide.html)).
 
@@ -261,7 +311,7 @@ A DoD prevents "almost done" from becoming a permanent state and makes quality e
 
 ---
 
-## 2.8 AI-Assisted Requirements Engineering
+## 2.10 AI-Assisted Requirements Engineering
 
 AI tools are beginning to enter the requirements engineering process in meaningful ways. This section examines where they add value and where their limitations matter most.
 
@@ -369,7 +419,7 @@ The engineer's role is not to be replaced by AI, but to use AI for routine struc
 
 ---
 
-## 2.9 Tutorial: Requirements Review Pipeline
+## 2.11 Tutorial: Requirements Review Pipeline
 
 This tutorial demonstrates a practical requirements quality review pipeline using the Anthropic API.
 
@@ -492,60 +542,3 @@ REQUIREMENTS QUALITY REVIEW
     Improved: The system shall allow authenticated users to create tasks...
 ```
 
----
-
-## 2.10 Project Milestone: Requirements Specification
-
-### This Week's Deliverables
-
-Produce a requirements specification document for your Task Management API. Include:
-
-1. **Stakeholder list**: At least 3 stakeholder roles and their primary concerns.
-2. **Functional requirements**: At least 15 requirements in "The system shall..." format, covering your Must Have items.
-3. **Non-functional requirements**: At least 6 NFRs covering performance, security, reliability, and maintainability — all measurable.
-4. **Epic and story map**: At least 3 epics, each decomposed into 3–5 user stories.
-5. **Acceptance criteria**: Full Gherkin acceptance criteria for at least 5 user stories.
-6. **Definition of Done**: Your team's agreed DoD checklist.
-
-### Bonus
-
-Run your requirements through the review pipeline from the tutorial. Include the output as an appendix to your specification. Note which requirements were flagged, whether you agreed with the AI's assessment, and what you changed (or chose not to change) — and why.
-
----
-
-## Summary
-
-Requirements engineering is the process of discovering, documenting, and validating what a system must do. Key takeaways:
-
-- Elicitation techniques — interviews, workshops, observation, document analysis, and prototyping — each surface different types of requirements knowledge.
-- Functional requirements describe *what* the system does; non-functional requirements describe *how well* it does it. Both must be measurable.
-- Agile teams organise requirements as a hierarchy: epics decompose into user stories, which decompose into implementation tasks.
-- Acceptance criteria in Gherkin format make requirements directly testable and reduce ambiguity.
-- The Definition of Done is a shared quality gate that prevents "almost done" from becoming permanent.
-- AI can accelerate drafting and critique of requirements, but cannot replace human judgment for elicitation, conflict resolution, and accountability.
-
----
-
-## Review Questions
-
-1. Why does fixing a requirements defect become more expensive the later it is discovered? What does this imply about investment in requirements engineering?
-2. What is the difference between a functional and a non-functional requirement? Give two examples of each for a ride-sharing application.
-3. Write three acceptance criteria in Gherkin format for: *"As a user, I want to delete a task so that I can remove tasks that are no longer relevant."*
-4. What is the Definition of Done, and how does it differ from acceptance criteria for a specific user story?
-5. You are eliciting requirements for a new hospital patient record system. Which techniques would you use and why? What are the specific challenges in this domain?
-6. Describe two ways AI can assist with requirements engineering and two significant limitations of AI in this context.
-
----
-
-## References
-
-- Boehm, B., & Papaccio, P. (1988). Understanding and Controlling Software Costs. *IEEE Transactions on Software Engineering*, 14(10). [https://ieeexplore.ieee.org/document/12516](https://ieeexplore.ieee.org/document/12516)
-- Brooks, F. P. (1975). *The Mythical Man-Month*. Addison-Wesley. [https://en.wikipedia.org/wiki/The_Mythical_Man-Month](https://en.wikipedia.org/wiki/The_Mythical_Man-Month)
-- Beyer, H., & Holtzblatt, K. (1998). *Contextual Design: Defining Customer-Centered Systems*. Morgan Kaufmann. [https://www.elsevier.com/books/contextual-design/beyer/978-0-08-050612-3](https://www.elsevier.com/books/contextual-design/beyer/978-0-08-050612-3)
-- Grady, R. B. (1992). *Practical Software Metrics for Project Management and Process Improvement*. Prentice Hall. [https://dl.acm.org/doi/10.1145/155360.155361](https://dl.acm.org/doi/10.1145/155360.155361)
-- IEEE. (1998). *IEEE Recommended Practice for Software Requirements Specifications* (IEEE 830). [https://standards.ieee.org/ieee/830/1222/](https://standards.ieee.org/ieee/830/1222/)
-- ISO/IEC 25010. (2011). *Systems and software Quality Requirements and Evaluation (SQuaRE)*. [https://www.iso.org/standard/35733.html](https://www.iso.org/standard/35733.html)
-- ISO/IEC/IEEE 29148. (2018). *Systems and software engineering — Requirements engineering*. [https://www.iso.org/standard/72052.html](https://www.iso.org/standard/72052.html)
-- Schwaber, K., & Sutherland, J. (2020). *The Scrum Guide*. [https://scrumguides.org/scrum-guide.html](https://scrumguides.org/scrum-guide.html)
-- Wood, J., & Silver, D. (1995). *Joint Application Development*. Wiley. [https://www.wiley.com/en-us/Joint+Application+Development-p-9780471042075](https://www.wiley.com/en-us/Joint+Application+Development-p-9780471042075)
-- Wynne, M., & Hellesøy, A. (2012). *The Cucumber Book*. Pragmatic Bookshelf. [https://pragprog.com/titles/hwcuc/the-cucumber-book/](https://pragprog.com/titles/hwcuc/the-cucumber-book/)

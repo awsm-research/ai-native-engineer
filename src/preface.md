@@ -6,9 +6,9 @@ This book is about a shift in what software engineers actually do.
 
 For most of the history of the profession, the primary bottleneck in software development was *writing code*: turning a clear understanding of the problem into a working implementation. Tools, languages, and processes were all designed to help engineers write code faster, more reliably, and with fewer defects.
 
-That bottleneck is moving. AI coding systems — capable assistants that generate syntactically correct, contextually relevant code from natural language descriptions — are now widely available, fast, and good enough to handle a substantial fraction of routine implementation work. The bottleneck is shifting to the activities that surround implementation: defining problems precisely, specifying intent clearly, and evaluating whether what was generated is actually correct, secure, and appropriate.
+That bottleneck is moving. AI coding systems — capable assistants that generate syntactically correct, contextually relevant code from natural language descriptions — are now widely available, fast, and good enough to handle a substantial fraction of routine implementation work. The bottleneck is shifting to the activities that surround implementation: **defining problems precisely, specifying intent clearly, and evaluating whether what was generated is actually correct, secure, and appropriate.**
 
-This book teaches those surrounding activities. It is not a book about which tools to use or how to write clever prompts. It is a book about how to engineer software in an environment where AI is a first-class collaborator — and what that demands of the engineer.
+This book teaches those surrounding activities. It is not a book about which tools to use or how to write clever prompts. It is a book about how to engineer software in an environment where AI is a first-class teammate — and what that demands of the AI-native engineer.
 
 ---
 

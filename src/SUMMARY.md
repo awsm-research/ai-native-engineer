@@ -7,7 +7,7 @@
 
 # Part I: SE Foundations
 
-- [Chapter 1: Software Engineering in the Age of AI](./chapter_1.md)
+- [Chapter 1: Software Engineering Fundamentals and Processes](./chapter_1.md)
 - [Chapter 2: Requirements Engineering and Specification](./chapter_2.md)
 - [Chapter 3: Software Design, Architecture, and Patterns](./chapter_3.md)
 - [Chapter 4: Testing, Quality, and CI/CD](./chapter_4.md)
@@ -34,6 +34,7 @@
 - [Appendix B: Design Pattern Reference](./appendix_b.md)
 - [Appendix C: Applying These Practices in Other Languages](./appendix_c.md)
 - [Appendix D: Prompt Pattern Reference](./appendix_d.md)
+- [Project Milestones](./project_milestones.md)
 
 ---
 
