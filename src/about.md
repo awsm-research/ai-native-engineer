@@ -1,16 +1,17 @@
 # About the Author
 
 <div style="display:flex; gap:2.5rem; align-items:flex-start; flex-wrap:wrap; margin-bottom:2rem;">
-  <div style="flex:1; min-width:260px;">
+  <div style="flex-shrink:0;">
+    <img src="profile.png" alt="Kla Tantithamthavorn" width="160" style="border-radius:8px; box-shadow:0 4px 16px rgba(0,0,0,0.2);"/>
+  </div>
+  <div style="flex:1; min-width:220px;">
 
-## Kla Tantithamthavorn
+## A/Prof Kla Tantithamthavorn
 
 **Associate Professor in Software Engineering**  
 Faculty of Information Technology, Monash University, Australia
 
-**Academic Director of Research Coursework**, Monash University
-
-[chakkrit.com](https://chakkrit.com) · [Google Scholar](https://scholar.google.com.au/citations?user=idShgcoAAAAJ)
+[chakkrit.com](https://chakkrit.com) · [Google Scholar](https://scholar.google.com.au/citations?user=idShgcoAAAAJ) · [LinkedIn](https://www.linkedin.com/in/kla-tantithamthavorn-49ab0176/) · [X/Twitter](https://x.com/klainfo)
 
   </div>
 </div>
