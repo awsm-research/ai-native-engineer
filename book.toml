@@ -8,3 +8,8 @@ language = "en"
 default-theme = "light"
 preferred-dark-theme = "navy"
 site-url = "/ai-native-engineer/"
+
+[output.html.search]
+enable = true
+limit-results = 20
+use-boolean-and = true
