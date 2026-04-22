@@ -10,8 +10,9 @@
 By the end of this chapter, you will be able to:
 
 1. Describe the historical evolution of software engineering from its origins to the present day.
-2. Explain the key software development lifecycle (SDLC) models: Waterfall, Agile, Scrum, and Kanban.
-3. Articulate how AI is reshaping each phase of the SDLC and what this means for the role of the software engineer.
+2. Compare Waterfall, Agile, Scrum, and Kanban — explaining the strengths, weaknesses, and appropriate contexts for each.
+3. Set up a professional Python development environment including virtual environments, Git, Ruff, Mypy, pre-commit hooks, and Pytest.
+4. Apply good commit practices — writing descriptive messages, staging selectively, and understanding what never to commit.
 
 ---
 
