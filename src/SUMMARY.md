@@ -35,7 +35,4 @@
 - [Appendix C: Applying These Practices in Other Languages](./appendix_c.md)
 - [Appendix D: Prompt Pattern Reference](./appendix_d.md)
 - [Project Milestones](./project_milestones.md)
-
----
-
-[About the Author](./about.md)
+- [About the Author](./about.md)
