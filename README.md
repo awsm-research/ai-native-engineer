@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://klainfo.github.io/ai-native-engineer/"><strong>Read the Book →</strong></a>
+  <a href="https://awsm-research.github.io/ai-native-engineer/"><strong>Read the Book →</strong></a>
 </p>
 
 ---
