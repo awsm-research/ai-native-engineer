@@ -22,7 +22,7 @@ By the end of this chapter, you will be able to:
 
 Requirements engineering (RE) is the process of defining, documenting, and maintaining the requirements for a software system. It sits at the beginning of every software project, and its quality has an outsized effect on everything that follows: design decisions, implementation choices, testing strategies, and ultimately whether the system delivers value to its users.
 
-The cost of fixing a requirements defect grows dramatically as development progresses. Research by Boehm and Papaccio ([1988](https://ieeexplore.ieee.org/document/12516)) found that defects discovered during requirements cost roughly 1–2 units to fix; the same defect discovered during testing costs 10–100 units; discovered in production, it can cost 100–1000 units. Getting requirements right early is one of the highest-return investments in software engineering.
+The cost of fixing a requirements defect grows dramatically as development progresses. Research by Boehm, B. W., & Papaccio, P. N. ([1988](https://acolleoni.wordpress.com/wp-content/uploads/2012/02/boehm-papaccio-understanding-software-costs.pdf)) found that defects discovered during requirements cost roughly 1–2 units to fix; the same defect discovered during testing costs 10–100 units; discovered in production, it can cost 100–1000 units. Getting requirements right early is one of the highest-return investments in software engineering.
 
 Requirements engineering comprises four main activities:
 
@@ -103,7 +103,7 @@ Non-functional requirements (NFRs) describe *how* the system must behave — qua
 
 NFRs are often harder to specify precisely than functional requirements, but they are equally important. A system that does the right thing slowly, insecurely, or unreliably fails its users just as surely as one that does the wrong thing.
 
-Key categories of non-functional requirements ([ISO/IEC 25010, 2011](https://www.iso.org/standard/35733.html)):
+Key categories of non-functional requirements ([ISO/IEC 25002:2024](https://www.iso.org/standard/78175.html)):
 
 | Category | Description | Example |
 |---|---|---|
@@ -311,7 +311,7 @@ A DoD prevents "almost done" from becoming a permanent state and makes quality e
 
 ---
 
-## 2.10 AI-Assisted Requirements Engineering
+<!-- ## 2.10 AI-Assisted Requirements Engineering
 
 AI tools are beginning to enter the requirements engineering process in meaningful ways. This section examines where they add value and where their limitations matter most.
 
@@ -540,5 +540,5 @@ REQUIREMENTS QUALITY REVIEW
     Issues:   Incomplete — missing subject (who), authentication context,
               and field constraints
     Improved: The system shall allow authenticated users to create tasks...
-```
+``` -->
 
