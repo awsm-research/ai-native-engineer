@@ -137,7 +137,7 @@
 
   <!-- ── Title block ── -->
   <text x="50" y="578" fill="url(#titleGrad)" font-size="28" font-weight="800" letter-spacing="-0.5">Agentic Software Engineering</text>
-  <text x="50" y="612" fill="#8b949e" font-size="13" font-weight="400">Specify, Generate, Verify, Refine</text>
+  <text x="50" y="612" fill="#8b949e" font-size="13" font-weight="400">A Practical Guide for the AI-Native Engineer</text>
 
   <!-- ── Author block with orange left accent ── -->
   <rect x="50" y="690" width="3" height="46" fill="url(#accentGrad)" rx="1"/>

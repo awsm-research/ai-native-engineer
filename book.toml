@@ -1,7 +1,7 @@
 [book]
-title = "Agentic Software Engineering: Specify, Generate, Verify, Refine"
+title = "Agentic Software Engineering: A Practical Guide for the AI-Native Engineer"
 
-description = "The best engineers of the next decade won't be the fastest coders — they'll be the clearest thinkers. This Agentic SWE Handbook is a 12-week guide to the new SDLC: specify what to build, generate with AI agents, verify what was built, and refine until it's right. Built for everyone who builds software and wants to stay ahead of the Agentic AI era."
+description = "The best engineers of the next decade won't be the fastest coders — they'll be the clearest thinkers. This 12-week handbook reimagines software engineering for the agentic era: from requirements and design to testing, security, and CI/CD — then through agentic workflows, responsible AI, and the human skills that compound when implementation is automated. Built for everyone who want to stay ahead, not just keep up."
 authors = ["Kla Tantithamthavorn"]
 language = "en"
 

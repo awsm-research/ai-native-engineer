@@ -19,7 +19,7 @@
 - [Chapter 8: Emerging Security Concerns in Agentic Software Engineering](./chapter_8.md)
 - [Chapter 9: Configuring the Agent's World — Context, Skills, and Tools](./chapter_9.md)
 
-# Part III: Human-Aspects in Software Engineering
+# Part III: Engineering with Responsibility
 
 - [Chapter 10: Licenses, Ethics, and Responsible AI](./chapter_10.md)
 - [Chapter 11: Developer Productivity and Team Practices](./chapter_11.md)
