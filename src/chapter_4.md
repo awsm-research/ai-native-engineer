@@ -1,4 +1,4 @@
-# Chapter 4: Testing, Code Quality, Code Review, and CI/CD
+# Chapter 4: Software Testing, Code Quality, Code Review, and CI/CD
 
 > *"Testing shows the presence, not the absence of bugs."*
 > — Edsger W. Dijkstra
