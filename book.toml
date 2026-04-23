@@ -8,9 +8,15 @@ language = "en"
 [output.html]
 default-theme = "light"
 preferred-dark-theme = "navy"
-site-url = "/ai-native-engineer/"
+site-url = "/"
+additional-js = ["theme/mermaid.min.js", "theme/mermaid-init.js"]
 
 [output.html.search]
 enable = true
 limit-results = 20
 use-boolean-and = true
+
+[preprocessor]
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"

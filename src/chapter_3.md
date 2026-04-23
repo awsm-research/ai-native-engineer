@@ -14,7 +14,6 @@ By the end of this chapter, you will be able to:
 3. Identify and apply common Gang of Four design patterns.
 4. Apply SOLID principles and other design guidelines to produce maintainable code.
 5. Write clean, readable Python code following established conventions.
-6. Use AI tools to assist with design and scaffolding — and critically evaluate what they produce.
 
 ---
 
@@ -40,7 +39,11 @@ This chapter covers design at three levels:
 
 The Unified Modeling Language (UML) is a standardised notation for visualising software systems ([OMG, 2017](https://www.omg.org/spec/UML/2.5.1/)). It provides a shared vocabulary for communicating design decisions between developers, architects, and stakeholders.
 
-We focus on four diagram types that are most commonly used in practice.
+We focus on four diagram types that are most commonly used in practice. To make each diagram concrete and comparable, all four examples in this section are drawn from the same system — a project management tool whose requirements are described in the scenario below. Read the scenario once, then refer back to it as you study each diagram type.
+
+**Example — Project Management Tool:**
+
+**Scenario:** A project management tool has two human actors — a **User** and a **Manager** — and two external system actors — an **Email Service** (SendGrid) and an **SMS Service** (Twilio). The system is built as a REST API using FastAPI, stores data in a **PostgreSQL** database, and requires all requests to be authenticated via JWT tokens before reaching the service layer. Users can create projects, create tasks within those projects, add comments to tasks, close tasks, sort tasks by different strategies (due date or priority), and view a shared dashboard. Managers can assign tasks to users, view the dashboard, and generate reports. Whenever a manager assigns a task, the system looks up the recipient's notification preference and automatically sends a notification through either SendGrid or Twilio.
 
 ### 3.2.1 Use Case Diagrams
 
@@ -54,18 +57,39 @@ Use case diagrams show the interactions between *actors* (users or external syst
 
 **Example — Task Management System:**
 
-```
-┌─────────────────────────────────────────────────────┐
-│                 Task Management System               │
-│                                                      │
-│   (Create Task)    (Assign Task)    (Close Task)     │
-│                                                      │
-│   (View Dashboard)  (Generate Report)                │
-│                                                      │
-│   (Receive Notification)                             │
-└─────────────────────────────────────────────────────┘
-        │               │                │
-      User          Manager          Email Service
+The use case diagram below maps the scenario's four actors to the nine features they interact with. Notice how `Assign Task` includes `Send Notification` — capturing the rule that every assignment automatically triggers a notification.
+
+```mermaid
+flowchart LR
+    User(["👤 User"])
+    Manager(["👤 Manager"])
+    EmailService(["⚙️ Email Service"])
+    SMSService(["⚙️ SMS Service"])
+
+    subgraph boundary["Task Management System"]
+        UC1(["Create Project"])
+        UC2(["Create Task"])
+        UC3(["Add Comment"])
+        UC4(["Assign Task"])
+        UC5(["Close Task"])
+        UC6(["Sort Tasks"])
+        UC7(["View Dashboard"])
+        UC8(["Generate Report"])
+        UC9(["Send Notification"])
+    end
+
+    User --- UC1
+    User --- UC2
+    User --- UC3
+    User --- UC5
+    User --- UC6
+    User --- UC7
+    Manager --- UC4
+    Manager --- UC7
+    Manager --- UC8
+    UC4 -->|includes| UC9
+    EmailService --- UC9
+    SMSService --- UC9
 ```
 
 Use case diagrams intentionally omit implementation detail — they show *what* the system does, not *how*.
@@ -82,30 +106,83 @@ Class diagrams show the static structure of a system — the classes, their attr
 - **Interface implementation**: A implements B (dashed line with hollow triangle)
 - **Dependency**: A depends on B (dashed arrow)
 
-**Example — Task Management Domain Model:**
 
-```
-┌────────────────┐         ┌────────────────┐
-│    Project     │1      * │     Task       │
-│────────────────│─────────│────────────────│
-│ id: UUID       │         │ id: UUID       │
-│ name: str      │         │ title: str     │
-│ owner: User    │         │ description:str│
-│────────────────│         │ due_date: date │
-│ add_task()     │         │ priority: Enum │
-│ get_tasks()    │         │ status: Enum   │
-└────────────────┘         │────────────────│
-                           │ assign(user)   │
-                           │ complete()     │
-                           └───────┬────────┘
-                                   │* assignees
-                           ┌───────┴────────┐
-                           │      User      │
-                           │────────────────│
-                           │ id: UUID       │
-                           │ email: str     │
-                           │ role: Enum     │
-                           └────────────────┘
+The class diagram below models the scenario described above, showing how each relationship type appears in a real domain. Notice how composition is used where an entity cannot exist independently, aggregation where it can, and the Factory Method pattern is used to decouple notification creation from its concrete implementations.
+
+```mermaid
+classDiagram
+    class Project {
+        +id: UUID
+        +name: str
+        +created_at: datetime
+        +create_task(title: str) Task
+        +get_tasks() list~Task~
+    }
+    class Task {
+        +id: UUID
+        +title: str
+        +status: Enum
+        +due_date: date
+        +priority: Enum
+        +close()
+        +add_comment(text: str) Comment
+        +sort(strategy: SortStrategy) list~Task~
+    }
+    class User {
+        +id: UUID
+        +name: str
+        +email: str
+        +notification_preference: Enum
+        +view_dashboard()
+    }
+    class Manager {
+        +id: UUID
+        +name: str
+        +email: str
+        +assign_task(task: Task, user: User)
+        +generate_report() Report
+        +view_dashboard()
+    }
+    class Comment {
+        +id: UUID
+        +text: str
+        +created_at: datetime
+        +author: User
+    }
+    class SortStrategy {
+        <<abstract>>
+        +sort(tasks: list~Task~) list~Task~
+    }
+    class SortByDueDate {
+        +sort(tasks: list~Task~) list~Task~
+    }
+    class SortByPriority {
+        +sort(tasks: list~Task~) list~Task~
+    }
+    class NotificationFactory {
+        +create(channel: str) Notification
+    }
+    class Notification {
+        <<abstract>>
+        +send(message: str, recipient: str)
+    }
+    class EmailNotification {
+        +send(message: str, recipient: str)
+    }
+    class SMSNotification {
+        +send(message: str, recipient: str)
+    }
+
+    Project *-- Task : composition (Task cannot exist without Project)
+    Task --> User : association (assigned to)
+    Manager --> Task : association (assigns)
+    Task *-- Comment : composition (Comment cannot exist without Task)
+    EmailNotification --|> Notification : inheritance
+    SMSNotification --|> Notification : inheritance
+    NotificationFactory ..> Notification : dependency (creates)
+    Task ..> SortStrategy : dependency (Task depends on SortStrategy)
+    SortByDueDate --|> SortStrategy : inheritance
+    SortByPriority --|> SortStrategy : inheritance
 ```
 
 ### 3.2.3 Sequence Diagrams
@@ -114,23 +191,30 @@ Sequence diagrams show how objects interact over time to accomplish a specific u
 
 **Example — Assigning a task:**
 
-```
-Client       API Gateway    TaskService    UserService    NotificationService
-  │               │               │               │               │
-  │  POST /assign │               │               │               │
-  │──────────────>│               │               │               │
-  │               │ assign(id,email)              │               │
-  │               │──────────────>│               │               │
-  │               │               │ getUser(email)│               │
-  │               │               │──────────────>│               │
-  │               │               │   user        │               │
-  │               │               │<──────────────│               │
-  │               │               │                   notify(user)│
-  │               │               │──────────────────────────────>│
-  │               │               │                   email sent  │
-  │               │               │<──────────────────────────────│
-  │               │  200 OK       │               │               │
-  │<──────────────│               │               │               │
+The sequence diagram below traces the `Assign Task` use case end-to-end, showing how the API Gateway validates the JWT token, how `TaskService` delegates user lookup and notification creation to dedicated services, and how the Factory Method pattern selects the correct channel at runtime.
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant APIGateway as API Gateway
+    participant Auth as Auth (JWT)
+    participant TaskService
+    participant UserService
+    participant NotificationFactory
+    participant Notification
+
+    Client->>APIGateway: POST /assign
+    APIGateway->>Auth: validate JWT token
+    Auth-->>APIGateway: token valid
+    APIGateway->>TaskService: assign(task_id, user_email)
+    TaskService->>UserService: get_user(user_email)
+    UserService-->>TaskService: user (with notification_preference)
+    TaskService->>NotificationFactory: create(user.notification_preference)
+    NotificationFactory-->>TaskService: EmailNotification or SMSNotification
+    TaskService->>Notification: send(message, user.email)
+    Notification-->>TaskService: sent
+    TaskService-->>APIGateway: task assigned
+    APIGateway-->>Client: 200 OK
 ```
 
 ### 3.2.4 Component Diagrams
@@ -139,25 +223,26 @@ Component diagrams show the high-level organisation of a system into components 
 
 **Example — Task Management API components:**
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                     Task Management API                   │
-│                                                          │
-│  ┌─────────────┐    ┌──────────────┐   ┌─────────────┐  │
-│  │  REST API   │───>│   Service    │──>│  Repository │  │
-│  │  (FastAPI)  │    │   Layer      │   │  Layer      │  │
-│  └─────────────┘    └──────────────┘   └──────┬──────┘  │
-│                                               │         │
-│  ┌─────────────┐                      ┌───────┴──────┐  │
-│  │   Auth      │                      │  PostgreSQL  │  │
-│  │  (JWT)      │                      │  Database    │  │
-│  └─────────────┘                      └─────────────┘  │
-│                                                          │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │            Notification Service                  │    │
-│  │         (Email via SendGrid)                     │    │
-│  └─────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────┘
+The component diagram below shows how the system is decomposed into deployable components. Notice that all requests pass through the Auth component before reaching the Service Layer, and that the Service Layer fans out to both the Email and SMS external services — reflecting the two notification channels described in the scenario.
+
+```mermaid
+flowchart LR
+    subgraph API["Task Management API"]
+        REST["REST API\n(FastAPI)"]
+        Auth["Auth\n(JWT)"]
+        Service["Service Layer"]
+        Repo["Repository Layer"]
+        DB["PostgreSQL\nDatabase"]
+        Email["Email Service\n(SendGrid)"]
+        SMS["SMS Service\n(Twilio)"]
+    end
+
+    REST --> Auth
+    Auth --> Service
+    Service --> Repo
+    Repo --> DB
+    Service --> Email
+    Service --> SMS
 ```
 
 ---
@@ -170,16 +255,14 @@ An architectural pattern is a high-level strategy for organising the major compo
 
 The layered pattern organises a system into horizontal layers, where each layer serves the layer above it and depends only on the layer below it ([Buschmann et al., 1996](https://www.wiley.com/en-us/Pattern+Oriented+Software+Architecture%2C+Volume+1%2C+A+System+of+Patterns-p-9780471958697)).
 
-```
-┌─────────────────────────────┐
-│       Presentation Layer    │  (HTTP endpoints, request/response)
-├─────────────────────────────┤
-│       Business Logic Layer  │  (Services, domain logic, rules)
-├─────────────────────────────┤
-│       Data Access Layer     │  (Repositories, ORM, queries)
-├─────────────────────────────┤
-│       Database Layer        │  (PostgreSQL, Redis, etc.)
-└─────────────────────────────┘
+```mermaid
+flowchart TD
+    A["Presentation Layer\n(HTTP endpoints, request/response)"]
+    B["Business Logic Layer\n(Services, domain logic, rules)"]
+    C["Data Access Layer\n(Repositories, ORM, queries)"]
+    D["Database Layer\n(PostgreSQL, Redis, etc.)"]
+
+    A --> B --> C --> D
 ```
 
 **Strengths:** Simple to understand; good separation of concerns; easy to test each layer independently.
@@ -202,10 +285,12 @@ MVC is widely used in web frameworks: Django, Ruby on Rails, and Spring MVC all 
 
 In an event-driven architecture, components communicate by producing and consuming events rather than calling each other directly. An *event broker* (such as Apache Kafka or RabbitMQ) decouples producers from consumers.
 
-```
-Producer ──> [Event Broker] ──> Consumer A
-                            ──> Consumer B
-                            ──> Consumer C
+```mermaid
+flowchart LR
+    Producer --> EventBroker[Event Broker]
+    EventBroker --> ConsumerA[Consumer A]
+    EventBroker --> ConsumerB[Consumer B]
+    EventBroker --> ConsumerC[Consumer C]
 ```
 
 **Strengths:** High decoupling; components can scale independently; easy to add new consumers without modifying producers.
@@ -613,141 +698,164 @@ Key conventions:
 
 ---
 
-## 3.7 AI-Assisted Design
+## 3.7 Tutorial Activity: Design a System from Requirements
 
-AI tools can accelerate the design phase in several ways, but each requires critical evaluation.
+### Background
 
-### 3.7.1 Generating Architecture Diagrams from Specifications
+Reading diagrams is a passive skill; drawing them under constraint is where the learning happens. In this activity you are given a written requirement scenario — the kind you might receive from a product manager or a client — and asked to produce all four UML diagram types covered in this chapter: use case, class, sequence, and component. Each diagram forces a different design question: who interacts with the system, how the domain is structured, how a key flow unfolds at runtime, and how the components are wired together. Because all four diagrams describe the same system, inconsistencies between them are immediately visible and must be resolved — mirroring the design review process in professional practice.
 
-Given a requirements document, an LLM can suggest an initial architecture:
+The scenario is intentionally more complex than the chapter examples, requiring you to make judgment calls about actor boundaries, relationship types, and component responsibilities. There is no single correct answer, but every choice must be defensible against the scenario text.
 
-```python
-import anthropic
+### Part 1 — Diagram Creation (25 min)
 
-client = anthropic.Anthropic()
-
-requirements = """
-System: Task Management API
-- Multi-tenant SaaS for software teams (10–500 users per tenant)
-- REST API backend; no frontend in scope
-- Tasks can be created, assigned, updated, and completed
-- Email notifications on assignment
-- Must support 1,000 concurrent users, 200ms p95 response time
-- Data must be isolated per tenant
-"""
-
-response = client.messages.create(
-    model="claude-opus-4-7",
-    max_tokens=1024,
-    messages=[
-        {
-            "role": "user",
-            "content": f"""You are a software architect.
-Based on the following requirements, suggest an appropriate
-architectural pattern and explain your reasoning. Identify
-the key components and their responsibilities.
-Flag any requirements that represent significant architectural risk.
-
-Requirements:
-{requirements}""",
-        }
-    ],
-)
-
-print(response.content[0].text)
-```
-
-The output is a starting point for discussion, not a final decision. Treat it as a first draft from a knowledgeable junior architect who has not seen your organisation's constraints.
-
-### 3.7.2 Generating Code Scaffolds
-
-AI excels at generating boilerplate code from a class diagram or interface definition:
-
-```python
-response = client.messages.create(
-    model="claude-opus-4-7",
-    max_tokens=2048,
-    messages=[
-        {
-            "role": "user",
-            "content": """Generate a Python implementation of a TaskRepository
-using the Repository pattern. The concrete implementation should use
-a plain dictionary as an in-memory store (for testing).
-Use Python 3.11 type hints throughout. Include docstrings only where
-the behaviour is non-obvious. Follow PEP 8.""",
-        }
-    ],
-)
-```
-
-Always review AI-generated scaffolds for:
-- Correct use of type hints
-- Adherence to the interface contract
-- Missing edge cases (null handling, empty collections)
-- Security issues (SQL injection if a DB implementation is generated)
+Read the scenario below and draw all four UML diagram types covered in Section 3.2. Each diagram must be consistent with the others — the same actors, classes, and components should appear across all four.
 
 ---
 
-## 3.8 Tutorial: AI-Assisted System Design
+**Scenario — Online Learning Platform:**
 
-This tutorial walks through using AI to assist with the design of the course project API, then critically reviewing the output.
+An online learning platform has three human actors — a **Student**, an **Instructor**, and an **Admin** — and three external system actors — a **Payment Gateway** (Stripe), a **Video Storage Service** (AWS S3), and a **Notification Service** (SendGrid). The system is built as a REST API using FastAPI, stores data in a PostgreSQL database, and requires all requests to be authenticated via OAuth 2.0 tokens before reaching the service layer.
 
-### Step 1: Generate a Component Design
+Instructors can create courses, upload video lectures to AWS S3, publish or unpublish courses, add quizzes to lectures, and view an analytics dashboard showing enrolment and completion rates. Students can browse published courses, enrol in a course by paying through Stripe, watch lectures, submit quiz answers, track their progress, and post questions in a course discussion thread. Admins can manage user accounts, approve or reject courses submitted for review, and generate platform-wide revenue reports.
+
+Whenever a student enrols in a course, the system charges the student via Stripe and — if payment succeeds — sends a confirmation notification through SendGrid. If payment fails, the enrolment is cancelled and the student is notified. Instructors are also notified via SendGrid whenever a student enrols in one of their courses. Quiz submissions are automatically graded; students receive their result immediately and their progress record is updated. Course progress is calculated as the percentage of lectures watched and quizzes passed.
+
+---
+
+### Part 1 — Diagram Creation (25 min)
+
+Read the scenario below and draw all four UML diagram types covered in Section 3.2. Each diagram must be consistent with the others — the same actors, classes, and components should appear across all four.
+
+
+**Tasks:**
+
+1. **(Use Case Diagram)** Draw a use case diagram showing all actors, all use cases within the system boundary, and at least two `<<include>>` or `<<extend>>` relationships. Justify each relationship in one sentence.
+
+2. **(Class Diagram)** Draw a class diagram for the core domain. Include at least: `Course`, `Lecture`, `Quiz`, `Enrolment`, `Student`, `Instructor`, `Admin`, `Payment`. Show correct relationship types (composition, aggregation, association, inheritance, dependency) with multiplicity on each end. Add at least four attributes and two methods to each class.
+
+3. **(Sequence Diagram)** Draw a sequence diagram for the **Enrol in Course** use case, tracing the full flow from the student's HTTP request through payment, notification, and progress initialisation.
+
+4. **(Component Diagram)** Draw a component diagram showing all internal components and their dependencies, including the three external services. Show the auth layer explicitly.
+
+**After completing all four diagrams:** Check that the participants in your sequence diagram match classes in your class diagram, and that the components in your component diagram correspond to the layers implied by your class diagram. Note any inconsistencies and explain how you would resolve them.
+
+---
+
+### Part 2 — Architecture Decision (20 min)
+
+Read each scenario below and select the most appropriate architectural pattern from Section 3.3. Write a two-sentence justification for your choice.
+
+| Scenario | System description |
+|---|---|
+| **A** | A 2-person startup building a task management MVP with a 3-month deadline and no existing infrastructure. |
+| **B** | A 500-person enterprise replacing a legacy task tracking platform, with 8 independent product teams each owning a separate domain. |
+| **C** | A real-time task notification system that must process 100,000 events per minute and fan out to email, SMS, and audit log consumers. |
+
+Once you have written your justifications, compare with another group. Where you disagree, argue your case — both sides should be able to defend their choice using the strengths and weaknesses listed in the chapter.
+
+> **Hint:** There is no single correct answer for every scenario, but some choices are much harder to defend than others.
+
+<!-- <details>
+<summary>Suggested answers (instructor only — do not open until after discussion)</summary>
+
+**Scenario A → Monolith**
+Small team, tight deadline, no existing infrastructure. A monolith is simple to develop, test, and deploy in a single step. Microservices or event-driven would introduce operational complexity — service discovery, distributed tracing, network latency — that a 2-person team cannot absorb. Apply the "Monolith First" principle from Section 3.3.5.
+
+**Scenario B → Microservices**
+Eight independent teams each owning a separate domain maps directly to the microservices model: each team deploys their service independently, owns its database, and cannot break other teams' releases. The significant operational overhead is justified because the organisational structure demands it (Section 3.3.4).
+
+**Scenario C → Event-Driven Architecture**
+High-throughput fan-out to multiple consumers (email, SMS, audit log) is the textbook event-driven use case. Producers publish to a broker; each consumer subscribes and scales independently. Synchronous direct calls at 100,000 events/minute would create tight coupling and bottlenecks (Section 3.3.3).
+
+**Defensible alternatives:**
+- Scenario A: Layered/MVC is also acceptable — it is a structured monolith. The key argument to reject is microservices.
+- Scenario B: A layered monolith can be defended if teams are co-located and domains are not truly independent, but it is the harder argument.
+- Scenario C: Microservices with synchronous APIs would require queueing infrastructure to handle this throughput — which is effectively event-driven anyway.
+
+</details> -->
+
+---
+
+### Part 3 — Design Pattern Analysis (40 min)
+
+The following code is taken from a broken codebase. Read it carefully and annotate every problem you find, labelling each one with the relevant principle or pattern name from Sections 3.4 and 3.5.
 
 ```python
-# design_assistant.py
-import anthropic
-
-client = anthropic.Anthropic()
-
-
-def generate_component_design(requirements: str) -> str:
-    response = client.messages.create(
-        model="claude-opus-4-7",
-        max_tokens=2048,
-        messages=[
-            {
-                "role": "user",
-                "content": f"""You are a software architect designing a Python
-REST API. Based on the requirements below, produce:
-1. A list of the main components (services, repositories, models)
-2. The key interface (method signatures) for each component
-3. A brief rationale for any significant design decision
-
-Use Python 3.11 type hints in all interface definitions.
-Do not generate implementation code — interfaces only.
-
-Requirements:
-{requirements}""",
-            }
-        ],
-    )
-    return response.content[0].text
+# task_service.py
+import smtplib
+import psycopg2
 
 
-requirements = """
-Task Management API:
-- Users can create, read, update, and delete tasks
-- Tasks belong to projects; projects belong to organisations
-- Tasks have: title, description, due_date, priority, status, assignee
-- Project managers can assign tasks; regular users can only update their own
-- Email notification sent when a task is assigned
-- All endpoints require JWT authentication
-"""
+class TaskService:
+    def __init__(self):
+        self.conn = psycopg2.connect("host=localhost dbname=tasks")    # (?)
 
-design = generate_component_design(requirements)
-print(design)
+    def process(self, t, f, uid):                                      # (?)
+        if t == "" or t == None:                                       # (?)
+            print("bad title")
+            return None
+        cur = self.conn.cursor()
+        cur.execute(f"INSERT INTO tasks VALUES ('{t}', '{uid}')")      # (?)
+        self.conn.commit()
+        smtp = smtplib.SMTP('smtp.gmail.com')                          # (?)
+        smtp.sendmail('app@co.com', uid, f'Task {t} created')
+        if f == True:                                                  # (?)
+            cur.execute(f"SELECT * FROM tasks WHERE uid='{uid}'")
+            return cur.fetchall()
+        return {"title": t, "user": uid}
+
+    def process(self, tasks, reverse):                                 # (?)
+        if reverse == True:
+            return sorted(tasks, key=lambda x: x['date'], reverse=True)
+        else:
+            return sorted(tasks, key=lambda x: x['date'])
 ```
 
-### Step 2: Critically Review the Output
+Replace each `(?)` marker with the name of the violation (e.g., *SRP violation*, *DIP violation*, *poor naming*).
 
-When reviewing AI-generated design, ask:
+<!-- **Expected findings:**
 
-1. **Does each component have a single responsibility?** If a service is described as doing X, Y, *and* Z, it needs to be split.
-2. **Are dependencies pointing the right direction?** High-level business logic should not depend on low-level infrastructure.
-3. **Is the interface testable?** Can you write a test without a real database or email server?
-4. **Are edge cases represented?** What happens when a task is assigned to a user who has left the project?
-5. **Is the interface consistent?** Do all repository methods follow the same conventions?
+| Marker | Violation |
+|---|---|
+| Line 7 | DIP — `TaskService` directly instantiates a concrete `psycopg2` connection rather than accepting an injected abstraction |
+| Line 10 | Clean Code / naming — `process`, `t`, `f`, `uid` reveal no intent |
+| Line 11 | Clean Code — `t == None` should be `t is None`; the empty-string check is a separate concern |
+| Lines 13–14 | Security — SQL injection via f-string interpolation |
+| Lines 15–16 | SRP — email sending belongs in a dedicated notification service, not in `TaskService` |
+| Line 17 | Clean Code — `if f == True` should be `if f` |
+| Lines 20–23 | OCP + Strategy — sorting logic is hardcoded; new sort orders require modifying this class. Also, the duplicate method name silently shadows the first `process` method |
 
-Document your review findings and revise the design before implementing.
+**Sub-task (15 min):** Rewrite `__init__` and the first `process` method to fix the DIP, SRP, and naming violations. You do not need a full working implementation — correct method signatures, type annotations, and injected dependencies are sufficient. -->
 
+---
+
+### Part 4 — Clean Code Refactor (25 min)
+
+Refactor the following function in two rounds.
+
+```python
+def proc(d, f, x):
+    r = []
+    for i in d:
+        if i[2] == 1:
+            if f:
+                r.append(i)
+            elif i[3] <= x:
+                r.append(i)
+    return r
+```
+
+**Round 1 — Rename only (10 min):**
+- Give the function and all parameters meaningful names
+- Add type annotations to the signature
+- Add one comment where it is genuinely needed (explain *why*, not *what*)
+- Do not change any logic
+
+**Round 2 — Restructure (15 min):**
+- Flatten the nested `if` statements
+- Replace the loop with a list comprehension if it improves clarity
+- Extract any implicit concept (e.g., the condition `i[2] == 1`) into a named variable or helper
+
+Swap your refactored code with another pair and critique their naming choices. Would a new developer understand the function's intent from the name and signature alone, without reading the body?
+
+---
