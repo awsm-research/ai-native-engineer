@@ -68,18 +68,18 @@ This book is written for a 12-week university course at Monash University, but i
 Follow the chapters in order, one per week. Each chapter builds on the previous and contributes one milestone to the running course project — a Task Management API that grows from a scope statement (Week 1) to a complete AI-native system (Week 12).
 
 ```
-Weeks 1–4:  SE Foundations (Chapters 1–4)
-Weeks 5–8:  AI-Native Practice (Chapters 5–8)
-Weeks 9–12: Security, Ethics, Productivity, Future (Chapters 9–12)
+Weeks 1–5:  SE Fundamentals (Chapters 1–5)
+Weeks 6–9:  Agentic Software Engineering (Chapters 6–9)
+Weeks 10–12: Engineering with Responsibility (Chapters 10–12)
 ```
 
 The project milestones at the end of each chapter are the primary assessment vehicle. Submit them on a weekly cadence and use peer review to compare approaches.
 
 ### Path B: Practitioner Self-Study
 
-If you are an experienced engineer who wants to develop AI-native skills specifically, start with Chapter 5 (The AI-Native Development Paradigm) to calibrate where you are, then read Chapters 6–8 in order. Use Chapters 1–4 as reference when the foundations feel shaky, and Chapters 9–12 for the governance and strategy dimensions.
+If you are an experienced engineer who wants to develop AI-native skills specifically, start with Chapter 6 (Agentic Software Engineering: A New Paradigm) to calibrate where you are, then read Chapters 7–9 in order. Use Chapters 1–5 as reference when the foundations feel shaky, and Chapters 10–12 for the governance and strategy dimensions.
 
-Recommended reading order: 5 → 6 → 7 → 8 → 9 → 10 → 1–4 (reference) → 11 → 12
+Recommended reading order: 6 → 7 → 8 → 9 → 10 → 1–5 (reference) → 11 → 12
 
 ### Path C: Team Reference
 
@@ -87,10 +87,11 @@ If your team is adopting AI tools and you want to use this as a shared reference
 
 | Need | Chapter |
 |---|---|
-| Writing better AI specifications | 6 |
-| Evaluating AI-generated code | 7 |
-| Setting up agents for development tasks | 8 |
-| Security review of AI-generated code | 9 |
+| Software security and threat modelling foundations | 5 |
+| Adopting an agentic engineering paradigm | 6 |
+| Hands-on agentic SDLC practices | 7 |
+| Security risks in agentic workflows | 8 |
+| Configuring agents with context, skills, and tools | 9 |
 | AI use policies and ethics | 10 |
 | Measuring team productivity | 11 |
 
