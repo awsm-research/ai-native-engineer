@@ -1,4 +1,4 @@
-# Chapter 4: Testing, Quality, and CI/CD
+# Chapter 4: Testing, Code Quality, Code Review, and CI/CD
 
 > *"Testing shows the presence, not the absence of bugs."*
 > — Edsger W. Dijkstra
@@ -358,42 +358,114 @@ Bandit flags issues like SQL injection risks, hardcoded passwords, use of weak c
 
 ---
 
-## 4.7 Code Review
+## 4.7 Pull Requests and Code Review
 
-Code review is the practice of having another developer read and evaluate your code before it is merged into the main branch. It is one of the most effective defect-detection techniques in software engineering ([Fagan, 1976](https://ieeexplore.ieee.org/document/1702601)).
+Before code reaches the main branch, it passes through two gates: a *pull request* (PR), which is the mechanism for proposing and discussing a change, and *code review*, which is the human evaluation of that change. Together they are among the most effective defect-detection and knowledge-sharing practices in software engineering ([Fagan, 1976](https://ieeexplore.ieee.org/document/1702601); [Rigby & Bird, 2013](https://dl.acm.org/doi/10.1145/2491411.2491428)).
 
-### 4.7.1 What to Look for in a Code Review
+### 4.7.1 What Is a Pull Request?
+
+A pull request is a request to merge a set of commits from one branch into another — typically from a feature branch into `main`. It serves as a structured checkpoint that combines:
+
+- **Change visibility**: a diff showing exactly what changed and why
+- **Discussion space**: a thread where reviewers can ask questions, raise concerns, and suggest improvements
+- **Automated gate**: a trigger for CI checks (tests, linting, security scans) that must pass before merging
+- **Audit trail**: a permanent record of what was changed, who reviewed it, and what was discussed
+
+PRs are not just a technical mechanism — they are a communication artefact. A well-written PR description gives reviewers the context they need to evaluate the change without having to reconstruct it from the diff.
+
+### 4.7.2 Why Pull Requests Matter
+
+Without a PR discipline, several things tend to go wrong:
+
+- **Bugs accumulate**: changes that look correct in isolation often reveal problems only when another developer reads them with fresh eyes
+- **Knowledge silos form**: when code is never reviewed, only the author understands it
+- **Standards drift**: without a review gate, style, architecture, and quality standards erode incrementally
+- **Security vulnerabilities ship**: many common vulnerabilities (injection, broken auth, unsafe defaults) are easy to catch in review and expensive to fix in production
+
+The PR process imposes a small cost per change — typically 30–60 minutes of reviewer time — in exchange for substantially lower defect rates and better collective code ownership.
+
+### 4.7.3 Writing an Effective Pull Request
+
+A good PR is small, focused, and self-explanatory. The title and description should answer three questions:
+
+1. **What changed?** — a one-line summary that a reader can understand without opening the diff
+2. **Why?** — the motivation: the bug being fixed, the requirement being met, the tech debt being addressed
+3. **How should reviewers test it?** — the steps to verify the change works as intended
+
+```markdown
+## What
+Add pagination to the task list endpoint (`GET /tasks`).
+
+## Why
+The endpoint currently returns all tasks in a single response. With >10,000 tasks 
+in staging, response times exceed 5 s and memory usage spikes. Fixes #142.
+
+## How to test
+1. Run `pytest tests/test_task_endpoint.py -k pagination`
+2. Manually: `curl "localhost:8000/tasks?page=2&page_size=20"` — should return 
+   tasks 21–40 with `X-Total-Count` header set correctly.
+3. Edge case: `page=0` should return HTTP 422.
+```
+
+**Keep PRs small.** A PR touching 10 files is reviewed carefully; a PR touching 50 files is rubber-stamped. Aim for changes that can be reviewed in under 20 minutes. If a feature requires large changes, break it into sequential PRs: data model first, then business logic, then API layer.
+
+### 4.7.4 The Code Review Process
+
+Code review is the practice of having another developer read and evaluate your code before it is merged. A standard review cycle proceeds as follows:
+
+```mermaid
+flowchart TD
+    A[Author opens PR] --> B[CI runs automatically\ntests · lint · type check · security scan]
+    B --> C{CI passes?}
+    C -- No --> D[Author fixes failures] --> B
+    C -- Yes --> E[Reviewer reads diff and description]
+    E --> F[Leaves inline comments\nmust-fix · suggestion · question]
+    F --> G[Author responds to all comments\nand makes changes]
+    G --> H{Reviewer satisfied?}
+    H -- No --> F
+    H -- Yes --> I[Reviewer approves]
+    I --> J[PR merged\nsquash or merge commit]
+```
+
+### 4.7.5 What to Look for in a Code Review
 
 An effective reviewer checks:
 
-- **Correctness**: Does the code do what it is supposed to do? Are there edge cases the author missed?
-- **Tests**: Are there sufficient tests? Do they cover the important cases?
-- **Design**: Does the change fit the existing architecture? Does it introduce unnecessary complexity?
-- **Security**: Does the change introduce any security vulnerabilities?
+- **Correctness**: Does the code do what the description claims? Are there edge cases the author missed?
+- **Tests**: Are there sufficient tests? Do they cover the important cases, not just the happy path?
+- **Design**: Does the change fit the existing architecture? Does it introduce unnecessary coupling or complexity?
+- **Security**: Does the change introduce any security vulnerabilities? (See Chapter 5.)
 - **Readability**: Can you understand the code without asking the author?
-- **Performance**: Are there obvious performance issues (e.g., N+1 queries)?
+- **Performance**: Are there obvious performance issues — N+1 queries, unbounded loops, unnecessary allocations?
 
-### 4.7.2 Code Review Etiquette
+Reviewers are not responsible for finding every bug — that is what tests are for. The goal is a second pair of eyes that catches what the author's familiarity with their own code conceals.
+
+### 4.7.6 Code Review Etiquette
 
 Effective code review requires clear, respectful communication:
 
 - Review the code, not the person: "This function is hard to follow" not "You wrote this poorly"
 - Be specific: "Line 42: extracting this into a helper function would make it easier to test" not "this is messy"
 - Distinguish must-fix from suggestions: prefix non-blocking suggestions with "nit:" or "optional:"
-- Respond to all review comments, even if to say "agreed, fixed" or "disagree because..."
+- Respond to all review comments, even briefly: "agreed, fixed" or "I disagree because X — open to discussion"
+- Approve when it is good enough to ship, not when it is perfect
 
-### 4.7.3 Automated Code Review
+### 4.7.7 Automated Code Review
 
-AI-powered tools (GitHub Copilot, CodeRabbit, Sourcery) can perform a first-pass review, catching mechanical issues before human reviewers see the code. These tools are most effective at:
+AI-powered tools (GitHub Copilot code review, CodeRabbit, Sourcery) can perform a first-pass review, catching mechanical issues before human reviewers see the code. These tools are most effective at:
 
 - Identifying obvious bugs and null pointer issues
 - Suggesting more idiomatic patterns
 - Flagging inconsistency with the surrounding codebase
+- Checking for common security anti-patterns
 
 They are least effective at:
 - Understanding business context and domain logic
 - Evaluating architectural decisions
 - Catching subtle security vulnerabilities that require domain knowledge
+- Judging whether a change is the *right* change
+
+Use automated review as a pre-filter, not a replacement for human review. Run it before the human reviewer sees the PR so reviewers can focus on what tools cannot catch.
 
 ---
 
@@ -464,53 +536,33 @@ A failing CI pipeline blocks the pull request from being merged, enforcing quali
 
 ### 4.8.2 Branch Protection
 
-Configure your GitHub repository to require CI to pass before merging:
+Configuring branch protection ensures no code reaches the main branch without passing all automated checks.
+
+**GitHub**
 
 1. Repository Settings → Branches → Branch protection rules
 2. Add a rule for `main`
 3. Enable: "Require status checks to pass before merging"
 4. Select the CI workflow checks
+5. Optionally enable "Require approvals" to enforce peer review before merge
 
-This ensures no code reaches the main branch without passing all automated checks.
+**GitLab**
 
----
-
-## 4.9 AI-Generated Tests: Trust but Verify
-
-AI tools can generate test cases quickly, but AI-generated tests require the same critical evaluation as AI-generated implementation code.
-
-### 4.9.1 What AI Does Well
-
-- Generating boilerplate test structure
-- Suggesting parametrised test cases for boundary values
-- Generating tests for simple, pure functions
-- Identifying equivalence partitions given a function signature
-
-### 4.9.2 What AI Does Poorly
-
-- **Asserting the right things**: AI-generated tests often test that code runs without error rather than asserting specific output values.
-- **Edge cases in business logic**: AI does not know that "a task cannot be assigned to a user who has left the project" unless you tell it.
-- **Integration behaviour**: AI generates unit tests well but frequently misses the integration-level behaviours that cause production bugs.
-- **Security testing**: AI rarely generates tests for injection, authentication bypass, or other security concerns.
-
-### 4.9.3 Evaluating AI-Generated Tests
-
-When reviewing AI-generated tests, ask:
-
-1. **Does each test assert something meaningful?** A test that calls a function and asserts `result is not None` provides almost no value.
-2. **Are the boundary cases covered?** Check that the tests cover the boundaries of input ranges, not just the happy path.
-3. **Is the test isolated?** A test that depends on external state (time, filesystem, database) is fragile.
-4. **Is the test readable?** The test name should describe exactly what scenario it tests.
-5. **Does the test failure message help diagnose the problem?** A test named `test_task_1` that fails with `AssertionError` is useless; `test_create_task_raises_for_empty_title` that fails is immediately informative.
+1. Settings → Repository → Protected Branches
+2. Add `main` as a protected branch
+3. Set "Allowed to merge" to *Maintainers* (or your team's policy)
+4. Set "Allowed to push" to *No one* to prevent direct pushes
+5. Navigate to Settings → CI/CD → General pipelines and enable "Pipelines must succeed" under Merge Requests
+6. Optionally set "Require approval from code owners" under Settings → Merge Requests
 
 ---
 
-## 4.10 Tutorial: Full Testing and CI Setup for the Course Project
+## 4.9 Tutorial: Full Testing and CI Setup for the Course Project
 
 ### Project Structure
 
 ```
-ai_native_project/
+online-shopping/
 ├── src/
 │   ├── __init__.py
 │   ├── task_service.py

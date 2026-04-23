@@ -9,18 +9,39 @@
 - [Chapter 1: Software Engineering Fundamentals](./chapter_1.md)
 - [Chapter 2: Requirements Engineering](./chapter_2.md)
 - [Chapter 3: Software Design, Architecture, and Patterns](./chapter_3.md)
-- [Chapter 4: Testing, Quality, and CI/CD](./chapter_4.md)
+- [Chapter 4: Testing, Code Quality, Code Review, and CI/CD](./chapter_4.md)
+- [Chapter 5: Software Security, AI Security, Threat Modeling](./chapter_5.md)
 
-# Part II: Agentic AI for Software Teams
-<!-- 
-- [Chapter 5: The AI-Native Development Paradigm](./chapter_5.md)
-- [Chapter 6: Prompt Engineering and Context Design](./chapter_6.md)
-- [Chapter 7: Evaluation-Driven Development](./chapter_7.md)
-- [Chapter 8: Agentic Systems and Multi-Agent Workflows](./chapter_8.md)
-- [Chapter 9: AI Security Risks and Threat Modeling](./chapter_9.md)
+# Part II: Agentic Software Engineering
+
+- [Chapter 6: Agentic Software Engineering: A New Paradigm](./chapter_6.md)
+- [Chapter 7: Configuring the Agent's World — Context, Skills, and Tools](./chapter_7.md)
+- [Chapter 8: Emerging Security Concerns in Agentic Software Engineering](./chapter_8.md)
+
+
+# Part III: Advanced Topics in Software V&V and Testing
+
+
+
+
+<!-- - [Chapter 6: Spec — Specification-Driven Development with AI](./chapter_6.md)
+- [Chapter 7: Generate — Using AI Coding Agents to Build Software](./chapter_7.md)
+- [Chapter 8: Verify — Ensuring Correctness in AI-Generated Software](./chapter_8.md)
+- [Chapter 9: Refine — Iterative Improvement with AI Coding Agents](./chapter_9.md) -->
+
+
+# Part IV: Advanced Topics in SE
+
 - [Chapter 10: Licenses, Ethics, and Responsible AI](./chapter_10.md)
 - [Chapter 11: Developer Productivity and Team Practices](./chapter_11.md)
-- [Chapter 12: The Future of AI-Native Engineering](./chapter_12.md) -->
+- [Chapter 12: The Future of AI-Native Engineering](./chapter_12.md)
+<!-- - [Chapter 12: Human-Aspects in Software Engineering]() -->
+
+# Part V: Building Agentic AI
+
+
+
+
 
 <!-- # Part III: Engineering Agentic AI Systems (SE 3.0) -->
 
