@@ -16,7 +16,5 @@ enable = true
 limit-results = 20
 use-boolean-and = true
 
-[preprocessor]
-
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
