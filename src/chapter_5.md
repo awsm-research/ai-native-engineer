@@ -5,10 +5,6 @@
 
 ---
 
-In Chapter 6 we defined four evaluation strategies for AI-generated code: functional correctness, edge-case coverage, specification alignment, and regression safety. Security review is the fifth — and the most overlooked when AI generates code quickly. An AI assistant that produces syntactically correct, well-tested code can still introduce SQL injection, hardcoded credentials, or unsafe deserialization without a single test failing. This chapter treats security not as a separate audit phase bolted on at the end, but as a mandatory evaluation lens applied every time you accept AI-generated output into your codebase.
-
----
-
 ## Learning Objectives
 
 By the end of this chapter, you will be able to:
