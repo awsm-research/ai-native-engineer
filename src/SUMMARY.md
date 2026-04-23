@@ -15,43 +15,29 @@
 # Part II: Agentic Software Engineering
 
 - [Chapter 6: Agentic Software Engineering: A New Paradigm](./chapter_6.md)
-- [Chapter 7: Configuring the Agent's World — Context, Skills, and Tools](./chapter_7.md)
+- [Chapter 7: Agentic SWE in SDLC: Hands-on Activities](./chapter_7.md)
 - [Chapter 8: Emerging Security Concerns in Agentic Software Engineering](./chapter_8.md)
+- [Chapter 9: Configuring the Agent's World — Context, Skills, and Tools](./chapter_9.md)
 
-
-# Part III: Advanced Topics in Software V&V and Testing
-
-
-
-
-<!-- - [Chapter 6: Spec — Specification-Driven Development with AI](./chapter_6.md)
-- [Chapter 7: Generate — Using AI Coding Agents to Build Software](./chapter_7.md)
-- [Chapter 8: Verify — Ensuring Correctness in AI-Generated Software](./chapter_8.md)
-- [Chapter 9: Refine — Iterative Improvement with AI Coding Agents](./chapter_9.md) -->
-
-
-# Part IV: Advanced Topics in SE
+# Part III: Human-Aspects in Software Engineering
 
 - [Chapter 10: Licenses, Ethics, and Responsible AI](./chapter_10.md)
 - [Chapter 11: Developer Productivity and Team Practices](./chapter_11.md)
 - [Chapter 12: The Future of AI-Native Engineering](./chapter_12.md)
-<!-- - [Chapter 12: Human-Aspects in Software Engineering]() -->
 
-# Part V: Building Agentic AI
-
+<!-- # Part IV: Advanced Topics in Software Testing -->
 
 
+<!-- # Part V: Building Agentic AI -->
 
-
-<!-- # Part III: Engineering Agentic AI Systems (SE 3.0) -->
 
 ---
 
 # Appendices
-<!-- 
+ 
 - [Appendix A: Recommended Tools and Environments](./appendix_a.md)
 - [Appendix B: Design Pattern Reference](./appendix_b.md)
 - [Appendix C: Applying These Practices in Other Languages](./appendix_c.md)
 - [Appendix D: Prompt Pattern Reference](./appendix_d.md)
-- [Project Milestones](./project_milestones.md) -->
+<!-- - [Project Milestones](./project_milestones.md) -->
 

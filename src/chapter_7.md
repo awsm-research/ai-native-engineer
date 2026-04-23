@@ -1,6 +1,6 @@
-# Chapter 7: Configuring the Agent's World — Context, Skills, and Tools
+# Chapter 7: Agentic SWE in SDLC: Hands-on Activities
 
-> *"An agent is only as good as the world it can see. What you choose to put in front of it — and what you keep out — is an engineering decision, not a configuration detail."*
+> *"The real leverage of AI in software engineering is not that it writes code faster — it is that it compresses the feedback loop between an idea and a working, tested, reviewed artefact."*
 
 ---
 
@@ -8,604 +8,710 @@
 
 By the end of this chapter, you will be able to:
 
-1. Explain the purpose of `AGENTS.md` and why it serves as a cross-tool context standard.
-2. Define subagents and configure them with appropriate model selection, tool allowlists, permission modes, and turn limits.
-3. Describe what Skills are in Claude Code and how they differ from retrieval-based approaches.
-4. Create custom Skills as directories with `SKILL.md` files.
-5. Connect external tools to an agent using MCP servers.
-6. Reason about token cost when enabling MCP tools and make deliberate trade-offs.
+1. Apply AI coding agents across every phase of the SDLC using a single, evolving scenario.
+2. Use prompting techniques to refine vague requirements into well-formed specifications.
+3. Direct an AI agent to analyse requirement quality and generate Gherkin acceptance criteria.
+4. Use an AI agent to produce UML diagrams from a requirement document and critique their design quality.
+5. Generate implementation code from a specification and design artefact using an AI agent.
+6. Generate a complete, meaningful unit test suite from AI-produced code and evaluate its quality.
 
 ---
 
-## 7.1 The Agent Configuration Problem
+## 7.1 The Running Scenario
 
-When you first run a coding agent on a large codebase, it faces a fundamental problem: it can read any file, run any command, and potentially take any action — but it has no idea what it *should* do, what conventions to follow, what tools are sanctioned, or what parts of the system are off-limits.
+Every activity in this chapter builds on the same system and the same vague, realistic starting point — a request that mirrors what engineers actually receive from non-technical stakeholders.
 
-Left unconfigured, an agent will make its best guesses. It may use a testing framework you abandoned two years ago, commit without signing, push to a branch that triggers a production deployment, or generate code in a style that conflicts with your team's standards. These are not AI failures — they are *configuration failures*.
+### 7.1.1 The Starting Brief
 
-The central insight of this chapter is that configuring the agent's world is itself an engineering task. It requires the same rigour as writing code: deliberate decisions about what information the agent should have, what it is allowed to do, and what external systems it can reach.
+> *"We need a system where field technicians can log repair jobs from their phones. A manager should be able to see all the jobs and assign them to technicians. We also want some kind of notification when a job gets assigned. It should be fast and work offline sometimes."*
 
-Three mechanisms serve this purpose in modern agent tooling:
+This brief is intentionally incomplete. It contains:
 
-1. **Context files** (`AGENTS.md`, `CLAUDE.md`) — what the agent knows about your project
-2. **Subagent definitions** — how agents are composed, scoped, and constrained
-3. **Tools** — what external capabilities the agent can invoke
+- **Ambiguous actors**: who exactly is a "field technician"? Can a technician also be a manager?
+- **Vague behaviour**: what does "log a repair job" mean? What fields are required?
+- **Unresolved constraints**: "work offline sometimes" is not a testable requirement
+- **Missing error cases**: what happens when a job is assigned to an unavailable technician?
+- **No non-functional measurability**: "fast" is not a requirement
+
+This is the raw material for the activities that follow. By the end of the chapter, the brief will have been transformed into a fully specified, designed, implemented, and tested feature — using AI agents at every step.
+
+### 7.1.2 The System: Field Repair Tracker
+
+For context, here is the system as it will exist after the activities are complete:
+
+| Property | Value |
+|---|---|
+| **System name** | Field Repair Tracker |
+| **Domain** | Field service management |
+| **Primary actors** | Field Technician, Service Manager |
+| **External systems** | Push Notification Service (FCM/APNs), PostgreSQL database |
+| **Stack** | Python 3.12, FastAPI, PostgreSQL, pytest |
+| **Target deployment** | Cloud-hosted API; mobile clients connect over HTTPS |
 
 ---
 
-## 7.2 `AGENTS.md`: The Cross-Tool Context Standard
+## 7.2 Activity 1 — AI for Requirements Engineering
 
-### 7.2.1 What It Is
+**Concepts covered:** Requirement elicitation, quality analysis, user story generation, acceptance criteria
 
-`AGENTS.md` is a plain Markdown file, typically placed at the root of a repository, that describes your project to an AI coding agent. Think of it as the onboarding document you would write for a new engineer joining the team — except the new engineer reads it every time it starts a task.
+**Format:** Individual | **Duration:** 45 min | **Tool:** Claude Code or any chat-based AI assistant
 
-The file is an emerging cross-tool standard. It is recognised by:
+### 7.2.1 Background
 
-- **Claude Code** (reads `CLAUDE.md` or `AGENTS.md`)
-- **Cursor** (reads `.cursor/rules` and `AGENTS.md`)
-- **OpenAI Codex CLI** (reads `AGENTS.md`)
-- **Gemini CLI** (reads `AGENTS.md`)
-- **GitHub Copilot Workspace** (reads `AGENTS.md`)
+In Chapter 2, you learned to elicit requirements from stakeholders and write them in structured formats. In this activity, you will use an AI agent to perform three requirements engineering tasks on the starting brief:
 
-Using a standard filename means the same instructions apply consistently regardless of which tool your team members use. You write the context once; every agent respects it.
+1. **Refinement** — ask the AI to identify ambiguities, ask clarifying questions, and produce a refined requirement set
+2. **Quality analysis** — ask the AI to audit the refined requirements against the IEEE 830 quality attributes (correct, unambiguous, complete, consistent, verifiable, traceable, prioritised)
+3. **Acceptance criteria generation** — ask the AI to generate Gherkin scenarios for the most important user stories
 
-### 7.2.2 What to Put in It
+### 7.2.2 Phase 1 — Elicitation and Refinement (15 min)
 
-A well-structured `AGENTS.md` answers five questions:
+Paste the starting brief into your AI agent and use the following prompt:
 
-1. **What is this project?** — One paragraph on the domain, the users, and the business purpose.
-2. **How is it structured?** — Key directories, the technology stack, and the data flow at a high level.
-3. **How do I build and test it?** — The exact commands to build, run tests, check types, and lint.
-4. **What are the conventions?** — Naming, code style, commit message format, branch strategy.
-5. **What should I never do?** — Explicit constraints: things that will break production, violate policy, or require human sign-off.
+> *"You are an experienced requirements engineer. I will give you a raw client brief for a software system. Your job is to:*
+> *1. Identify every ambiguity, gap, or assumption hidden in the brief.*
+> *2. For each gap, ask a clarifying question that a real stakeholder could answer.*
+> *3. After I answer your questions, produce a refined set of requirements: at least 5 functional requirements in 'The system shall…' format, and at least 3 non-functional requirements that are measurable.*
+>
+> *Here is the brief: [paste the starting brief from §7.1.1]*"
+
+Answer the AI's clarifying questions using the following stakeholder answers:
+
+- A field technician can only view and update their own jobs; they cannot assign jobs to others
+- A service manager can view all jobs, assign any job to any technician, and generate a daily summary report
+- "Log a repair job" means: create a job record with a site address, fault description, priority (low / medium / high / critical), and an optional photo attachment
+- "Work offline sometimes" means: technicians must be able to view their currently assigned jobs when there is no network connection; creating new jobs requires connectivity
+- "Fast" means: the API shall respond to 95% of requests within 300 ms under a load of 200 concurrent users
+
+**Expected output:** A refined requirement set. Save it — you will use it in every subsequent activity.
+
+**Check your output:** Apply the quality attribute table from Chapter 2, §2.4. Can you identify any remaining ambiguities or non-measurable NFRs? Fix them before moving on.
+
+> See [Sample Answer: Activity 1 — Acceptance Criteria](#sample-answer-activity-1--acceptance-criteria) at the end of this chapter.
+
+### 7.2.3 Phase 2 — Quality Analysis (10 min)
+
+Ask the AI to audit the requirements it just produced:
+
+> *"Now audit the requirements you just wrote against the IEEE 830 quality attributes: correct, unambiguous, complete, consistent, verifiable, traceable, and prioritised. For each attribute, give a score of Pass / Partial / Fail and a one-sentence justification. Then list the top 3 requirements most at risk of causing problems downstream if left as-is."*
+
+Review the AI's audit. Do you agree with its assessment? Note any requirements you would rewrite based on its feedback.
+
+> **Important:** AI quality audits are often too generous. The AI produced the requirements and tends to score its own output highly. Read each "Pass" verdict critically — could a developer interpret that requirement in two different ways?
+
+### 7.2.4 Phase 3 — User Stories and Acceptance Criteria (20 min)
+
+Ask the AI to generate structured work items:
+
+> *"From the refined requirements, produce:*
+> *1. An epic breakdown — group the requirements into 3–4 epics.*
+> *2. For the epic 'Job Lifecycle Management', produce 4 user stories in 'As a [role], I want to [action] so that [benefit]' format.*
+> *3. For the user story 'assign a job to a field technician', write acceptance criteria in Gherkin format. Include: one happy-path scenario, one error scenario (technician not available), and one authorisation scenario (a regular technician attempts to assign a job)."*
+
+**Check your output:** Are all three acceptance criteria scenarios testable without ambiguity? Could a tester determine pass or fail from each scenario alone, without asking the author?
+
+> See [Sample Answer: Activity 1 — Acceptance Criteria](#sample-answer-activity-1--acceptance-criteria) at the end of this chapter.
+
+---
+
+## 7.3 Activity 2 — AI for Software Design
+
+**Concepts covered:** UML diagrams, class design, sequence diagrams, design critique
+
+**Format:** Individual | **Duration:** 45 min | **Tool:** Claude Code or any AI assistant with Mermaid support
+
+### 7.3.1 Background
+
+In Chapter 3, you learned to read and produce UML diagrams and to apply design patterns. In this activity, you will direct an AI agent to produce design artefacts from the refined requirements — then critique whether those artefacts reflect good design.
+
+### 7.3.2 Phase 1 — Use Case Diagram (10 min)
+
+Provide the AI with your refined requirements and ask:
+
+> *"You are a software architect. Given the requirements below, produce a UML use case diagram in Mermaid syntax. Include all actors (human and system), all use cases, and any include or extend relationships. Follow the style from the example below.*
+>
+> *Requirements: [paste your refined requirements from Activity 1]*"
+
+**Review questions:**
+- Are all actors from the requirements represented?
+- Is every use case traceable to at least one requirement?
+- Does the `includes` relationship correctly capture mandatory sub-behaviours?
+
+> See [Sample Answer: Activity 2 — Use Case Diagram](#sample-answer-activity-2--use-case-diagram) at the end of this chapter.
+
+### 7.3.3 Phase 2 — Class Diagram (15 min)
+
+Ask the AI to produce a class diagram:
+
+> *"Now produce a UML class diagram in Mermaid syntax for the core domain model. Include: all domain classes with their key attributes and methods, all relationships (association, composition, aggregation, inheritance) with labels, and at least one design pattern. Justify your choice of pattern."*
+
+**Design critique prompt:** After the AI produces its class diagram, ask:
+
+> *"Critique the class diagram you just produced. Identify any violations of SOLID principles, any missing abstractions, and any relationships that could cause problems as the system scales. Suggest two concrete improvements."*
+
+Compare the AI's self-critique with your own reading. Do you agree? Is the `Manager` class doing too much? Should job assignment be delegated to a service layer rather than placed on the `Manager` entity?
+
+> See [Sample Answer: Activity 2 — Class Diagram](#sample-answer-activity-2--class-diagram) at the end of this chapter.
+
+### 7.3.4 Phase 3 — Sequence Diagram (20 min)
+
+Ask the AI to trace the most complex use case end-to-end:
+
+> *"Produce a UML sequence diagram in Mermaid syntax for the 'Assign Job' use case. The system uses a layered architecture: API Gateway → Service Layer → Repository Layer → Database. The API Gateway validates a JWT token before passing the request to the service layer. After a successful assignment, the service sends a push notification asynchronously."*
+
+**Review questions:**
+- Does the diagram show the asynchronous notification correctly — not blocking the HTTP response?
+- Is JWT validation happening at the right layer?
+- Are all components visible in the sequence traceable to the component diagram from Chapter 3?
+
+> See [Sample Answer: Activity 2 — Sequence Diagram](#sample-answer-activity-2--sequence-diagram) at the end of this chapter.
+
+---
+
+## 7.4 Activity 3 — AI for Coding
+
+**Concepts covered:** Specification-driven code generation, code review of AI output, layered architecture
+
+**Format:** Individual | **Duration:** 45 min | **Tool:** Claude Code (CLI)
+
+### 7.4.1 Background
+
+In Chapter 6, you learned that code generation is only as good as the specification that drives it. In this activity, you will use Claude Code to generate the implementation of the `assign_job` feature — the most complex use case in the system — from the requirements and design artefacts produced in Activities 1 and 2.
+
+### 7.4.2 Preparing the Specification
+
+Before invoking the agent, assemble a specification document. Save it as `spec_assign_job.md`:
 
 ```markdown
-# AGENTS.md
-
-## Project: Meridian Task API
-
-Meridian is a task-management REST API used by field technicians to log and 
-assign repair jobs. It processes ~50,000 requests per day from mobile clients.
-
-## Stack
-- Runtime: Python 3.12, FastAPI
-- Database: PostgreSQL 16 (managed by Supabase)
-- Testing: pytest + httpx (async)
-- CI: GitHub Actions (see .github/workflows/)
-
-## Build & Test
-```bash
-uv run pytest                   # run all tests
-uv run ruff check .             # lint
-uv run mypy src/                # type-check
-```
-
-## Conventions
-- All endpoints must have corresponding tests in tests/
-- Use snake_case for Python identifiers; kebab-case for URL segments
-- Commit messages: feat/fix/chore/docs followed by a colon and imperative verb
-  Example: `feat: add pagination to task list endpoint`
-- Never commit directly to main — open a PR
-
-## Do Not
-- Never drop or truncate tables without a reviewed migration
-- Never add a new dependency without updating pyproject.toml and uv.lock
-- Never disable type checking for a whole module (per-line ignores are acceptable)
-```
-
-### 7.2.3 Hierarchical Context Files
-
-Both Claude Code and Cursor support *nested* context files. If a file `src/api/CLAUDE.md` exists, its contents are added to the agent's context when it is working inside `src/api/`. This allows you to:
-
-- Set project-wide conventions at the root
-- Add module-specific conventions at subdirectory level
-- Override or supplement root instructions without duplicating them
-
-```
-project-root/
-├── AGENTS.md              ← project-wide: stack, global conventions
-├── src/
-│   ├── api/
-│   │   └── CLAUDE.md      ← API-specific: endpoint conventions, auth rules
-│   └── workers/
-│       └── CLAUDE.md      ← Worker-specific: retry policies, idempotency rules
-└── tests/
-    └── CLAUDE.md          ← Test conventions: fixtures, mocking policy
-```
-
-The agent automatically merges these files as it navigates the codebase. You get targeted context without polluting the global configuration.
-
-### 7.2.4 Context Files as Living Documentation
-
-A practical benefit of `AGENTS.md` is that it forces the team to articulate conventions that often exist only in senior engineers' heads. When you write "never disable type checking for a whole module," you are not just instructing the agent — you are documenting a team decision that a new human engineer also needs to know.
-
-Treat `AGENTS.md` as a first-class document: review it in pull requests, update it when conventions change, and version it with the code. It is not a configuration file — it is documentation that happens to be machine-readable.
-
----
-
-## 7.3 Subagents: Composing Scoped, Specialised Agents
-
-### 7.3.1 Why Subagents
-
-A single general-purpose agent can handle many tasks, but it has limitations:
-
-- It must operate within a single permission boundary — either all tools are allowed or none are
-- Long tasks risk hitting context limits, with early context "falling out" of the window
-- There is no way to run tasks in parallel unless multiple agent instances are launched
-- A bug-fixing agent and a deployment agent should not have the same permissions
-
-*Subagents* address these problems. A subagent is a specialised agent, with its own model, tool allowlist, and permission mode, that can be invoked by an orchestrator agent to handle a specific kind of work.
-
-Claude Code implements subagents via Markdown definition files in `.claude/agents/`.
-
-### 7.3.2 Subagent Definition Files
-
-A subagent definition file is a Markdown file with a YAML frontmatter block that specifies configuration, followed by a natural-language description of the subagent's purpose and behaviour.
-
-```
-.claude/
-└── agents/
-    ├── code-reviewer.md
-    ├── test-runner.md
-    └── db-migrator.md
-```
-
-**Example: A read-only code review subagent**
-
-```markdown
----
-name: code-reviewer
-description: Reviews code for quality, security, and style. Use when the user asks for a review or after implementing a feature.
-model: claude-opus-4-7
-tools: [read_file, list_files, grep]
-permission_mode: read_only
-maxTurns: 20
----
-
-You are a rigorous code reviewer. Your job is to:
-1. Read the changed files and their surrounding context
-2. Check for security vulnerabilities, edge cases, and style violations
-3. Produce a structured review with: Summary, Issues (blocker / warning / suggestion), and Verdict
-
-You have read-only access. You cannot modify files or run commands.
-Always check: input validation, error handling, SQL injection, and test coverage.
-```
-
-### 7.3.3 Configuration Parameters
-
-Each parameter in the frontmatter is a deliberate engineering decision:
-
-**`model`** — Which language model to use for this subagent. Subagents are not required to use the same model as the orchestrator. A common pattern:
-
-| Subagent role | Recommended model | Rationale |
-|---|---|---|
-| Code review | Opus (most capable) | Requires nuanced judgment |
-| Test generation | Sonnet (balanced) | Predictable, formulaic output |
-| Docstring writer | Haiku (fast/cheap) | Simple, high-volume task |
-| Database migration | Sonnet | Correctness matters; speed less so |
-
-**`tools`** — An explicit allowlist of tools this subagent may invoke. This is the *principle of least privilege* applied to agents: give each subagent only the tools it needs to do its job. A code reviewer needs `read_file` and `grep` — it does not need `run_command` or `write_file`.
-
-Common tool categories:
-
-| Category | Examples | Risk level |
-|---|---|---|
-| Read | `read_file`, `list_files`, `grep` | Low |
-| Write | `write_file`, `edit_file` | Medium |
-| Execute | `run_command`, `bash` | High |
-| Network | `fetch_url`, `call_api` | High |
-| Agent | `spawn_agent` | High |
-
-**`permission_mode`** — Controls whether the subagent can take actions that affect the environment:
-
-- `read_only` — Can read files and search the codebase; cannot modify anything
-- `sandboxed` — Can read and write files in a temporary workspace; changes are discarded
-- `restricted` — Can read and write; cannot execute shell commands
-- `normal` — Full access to allowed tools
-- `auto` — Full access with no confirmation prompts (use with caution)
-
-**`maxTurns`** — The maximum number of tool-call cycles before the subagent stops. This is a safety mechanism. Without a turn limit, a subagent that encounters an unexpected state can loop indefinitely, consuming tokens and potentially taking unintended actions. Start with a conservative limit (10–20 turns) and increase it only if the subagent genuinely needs more.
-
-### 7.3.4 Background Tasks
-
-Subagents can be invoked as *background tasks* — running concurrently while the orchestrator continues other work. This is particularly useful for:
-
-- Running a test suite while implementing the next feature
-- Performing a security scan while writing documentation
-- Parallelising independent code generation tasks
-
-In Claude Code, background subagents are launched via the `--background` flag or the `spawn_agent` tool with `background: true`. GitHub's Copilot Workspace uses a similar model for parallelising code review.
-
-Background subagents introduce coordination complexity: the orchestrator must eventually collect results, handle failures, and reconcile conflicting changes. Design background tasks to be *independent* — they should not write to the same files or depend on each other's outputs.
-
-```
-Orchestrator
-    │
-    ├── [background] test-runner: run the full test suite
-    ├── [background] code-reviewer: review the last commit
-    │
-    └── [foreground] Continue: implement the next feature
-                                    │
-                                    └── Wait for background results
-                                        → If tests failed, fix before proceeding
-```
-
----
-
-## 7.4 Skills: On-Demand Knowledge Injection
-
-### 7.4.1 The Retrieval Temptation
-
-A common approach to giving agents specialised knowledge is *retrieval-augmented generation* (RAG): index a corpus of documents, embed the user's query, find the nearest neighbours in the vector space, and inject the matching chunks into the prompt.
-
-RAG works well for large, unstructured corpora — customer support knowledge bases, research literature, product documentation. For software engineering tasks, it has a significant limitation: *semantic similarity is not the same as relevance*. The code chunk most similar to your query embedding may not be the code the agent actually needs. Retrieval introduces non-determinism: the same task may inject different context on different runs, producing inconsistent results.
-
-### 7.4.2 What Skills Are
-
-A *Skill* in Claude Code is a different mechanism. It is a curated, deterministic knowledge injection — a Markdown document that contains exactly the information an agent needs for a specific class of task, loaded on demand when a matching command is invoked.
-
-When you type `/security-review` in Claude Code, a Skill file is loaded into the agent's context verbatim. No embedding. No retrieval. No probability. The exact content you wrote is what the agent receives.
-
-The key properties of Skills:
-
-- **Deterministic**: The same command always injects the same content
-- **Curated**: A human engineer decides what goes in the Skill, not a retrieval algorithm
-- **On-demand**: Content is only injected when explicitly invoked, not pre-loaded for every task
-- **Composable**: Skills can invoke other Skills and spawn subagents
-
-This makes Skills appropriate for *process knowledge* — how to perform a specific type of task — rather than *factual knowledge* — what something is. Use Skills for: "how we do code reviews on this team," "how we write database migrations," "our checklist for releasing to production." Use RAG (or context files) for: "what does this library's API look like," "what are the features of this third-party service."
-
-### 7.4.3 Creating Custom Skills
-
-Skills are stored as directories in `.claude/skills/`. Each Skill is a directory containing at minimum a `SKILL.md` file.
-
-```
-.claude/
-└── skills/
-    ├── security-review/
-    │   └── SKILL.md
-    ├── db-migration/
-    │   ├── SKILL.md
-    │   └── migration_template.sql
-    └── release-checklist/
-        └── SKILL.md
-```
-
-The `SKILL.md` file contains the instructions and context the agent receives when the Skill is invoked. It is plain Markdown — write it as if you are writing a process guide for a capable engineer who is unfamiliar with your specific conventions.
-
-**Example: A database migration Skill**
-
-```markdown
-# Skill: db-migration
-
-Invoked as: /db-migration
-
-## Purpose
-Generate and validate Alembic database migrations for the Meridian project.
+# Specification: Assign Job to Technician
 
 ## Context
-- We use Alembic for migrations; never hand-write raw SQL for schema changes
-- Migrations live in db/migrations/
-- Always include both upgrade() and downgrade() functions
-- All migrations must be reversible unless explicitly annotated otherwise
+Field Repair Tracker REST API. Layered architecture: FastAPI → Service Layer → 
+Repository Layer → PostgreSQL. Authentication via JWT middleware already implemented.
 
-## Process
-1. Read the current model in src/models/ to understand the target schema
-2. Read the most recent migration to understand the current state
-3. Generate an Alembic migration using `alembic revision --autogenerate`
-4. Review the generated migration — autogenerate is not always correct, especially for:
-   - Column type changes (may drop and recreate)
-   - Index naming conflicts
-   - Constraint naming
-5. Verify the downgrade function is correct
-6. Run `alembic upgrade head` in a test environment and confirm success
+## Endpoint
+POST /jobs/{job_id}/assign
 
-## Output
-Return the migration file path and a summary of what changed.
+## Access Control
+- Only users with role=manager may call this endpoint
+- A 403 response is returned for any other role
 
-## Do Not
-- Never use `--autogenerate` for data migrations — write those manually
-- Never drop a column without confirming it is not in use in the application code
-```
-
-The Skill directory can contain additional files — templates, checklists, example outputs — that the `SKILL.md` can reference or that the agent can read directly.
-
-### 7.4.4 Invoking Skills
-
-Skills are invoked using the slash command syntax in Claude Code:
-
-```
-/db-migration Add a not-null column for assignee_id to the tasks table
-/security-review Review the authentication module
-/release-checklist Prepare the v2.3.1 release
-```
-
-The Skill is loaded, the agent reads the instructions, and then applies them to the specific request. The result is a *structured, repeatable process* — the agent behaves like an engineer who has been trained in your specific workflows, not a general-purpose assistant guessing at conventions.
-
----
-
-## 7.5 MCP Servers: Connecting the Agent to External Tools
-
-### 7.5.1 The Model Context Protocol
-
-The *Model Context Protocol* (MCP) is an open standard, introduced by Anthropic in 2024, that defines how AI agents communicate with external tools and data sources. An MCP server is a process that exposes tools, resources, and prompts to any MCP-compatible agent.
-
-Before MCP, each AI tool had its own bespoke integration format: a plugin system, a custom API wrapper, or a proprietary tool definition format. MCP standardises this: if you write an MCP server for your company's internal ticketing system, it works with Claude Code, Cursor, Gemini CLI, and any other MCP-compatible client without modification.
-
-The architecture is straightforward:
-
-```
-Agent (Claude Code)
-    │
-    └── MCP Client ──── [stdio or HTTP] ──── MCP Server
-                                                 │
-                                                 ├── Tool: create_issue(title, body, labels)
-                                                 ├── Tool: get_issue(id)
-                                                 ├── Resource: issues://open
-                                                 └── Prompt: triage_issue
-```
-
-### 7.5.2 Categories of MCP Servers
-
-MCP servers fall into several broad categories:
-
-**Project management and communication**
-- Notion (read/write pages and databases)
-- Linear (create and update issues)
-- GitHub (pull requests, issues, code search)
-- Jira (tickets, sprints, boards)
-- Slack (send messages, read channels)
-
-**Design and assets**
-- Figma (read design specs, extract tokens, inspect component properties)
-- Storybook (browse component library)
-
-**Databases and data**
-- PostgreSQL (run queries, read schema)
-- Supabase (tables, storage, auth)
-- BigQuery (analytics queries)
-- Redis (read/write cache)
-
-**Infrastructure and observability**
-- AWS (EC2, S3, Lambda operations)
-- Kubernetes (pod management, logs)
-- Datadog (metrics, alerts, dashboards)
-- Sentry (error tracking, stack traces)
-
-**Internal tools**
-- Custom REST APIs
-- Internal documentation systems
-- Company-specific data pipelines
-
-### 7.5.3 Configuring MCP in Claude Code
-
-MCP servers are configured in Claude Code's settings file (`.claude/settings.json` for project-level, `~/.claude/settings.json` for user-level):
-
-```json
+## Request Body
 {
-  "mcpServers": {
-    "github": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
-      }
-    },
-    "postgres": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres"],
-      "env": {
-        "DATABASE_URL": "${DATABASE_URL}"
-      }
-    },
-    "figma": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-figma"],
-      "env": {
-        "FIGMA_ACCESS_TOKEN": "${FIGMA_TOKEN}"
-      }
-    }
-  }
+  "assignee_email": "string"   // email address of the technician
 }
-```
 
-Once configured, the tools exposed by these servers are available to the agent like any built-in tool. The agent can call `github_create_issue(title, body)` or `postgres_query(sql)` as naturally as it calls `read_file(path)`.
+## Business Rules
+1. The job must exist. Return 404 if not found.
+2. The technician must exist and have availability=AVAILABLE. Return 409 if not available.
+3. On success: update job.assignee_id, set job.status = 'assigned', persist to database.
+4. After a successful assignment, send a push notification to the technician 
+   asynchronously (do not await — must not block the HTTP response).
 
-### 7.5.4 What Agents Can Do with MCP
-
-The combination of MCP servers transforms an agent from a code-generation tool into an active participant in the full engineering workflow:
-
-```
-User: "The login endpoint is throwing 500 errors in production. Fix it."
-
-Agent (with MCP):
-  1. [Sentry MCP] Fetch the latest 500 errors from the login endpoint
-  2. [GitHub MCP] Find the last commit that touched src/auth/login.py
-  3. [Read file] Read the current login.py implementation
-  4. [Postgres MCP] Query the auth_attempts table to check for patterns
-  5. Identify the bug: null pointer on missing device_fingerprint field
-  6. [Write file] Fix the null check in login.py
-  7. [Run tests] pytest tests/test_auth.py
-  8. [GitHub MCP] Create a pull request with the fix and the Sentry error ID in the description
-  9. [Linear MCP] Update the linked ticket to "In Review"
-```
-
-Without MCP, steps 1, 2, 4, 8, and 9 require the engineer to fetch information manually and paste it into the agent. With MCP, the agent handles the full workflow autonomously.
-
----
-
-## 7.6 Token Cost: The Hidden Tax on MCP
-
-### 7.6.1 How MCP Tools Consume Context
-
-Each MCP server you enable adds *tool descriptions* to the agent's context at the start of every interaction. These descriptions tell the model what tools are available, what parameters they accept, and what they return. They are necessary — without them, the model cannot use the tools — but they are not free.
-
-A typical MCP tool description consumes 200–800 tokens. A server with 20 tools consumes 4,000–16,000 tokens before the agent has read a single file or received a single instruction. With multiple servers enabled, this overhead compounds:
-
-| MCP Server | Approximate tools | Approximate tokens |
-|---|---|---|
-| GitHub | 30 tools | ~12,000 tokens |
-| Linear | 15 tools | ~6,000 tokens |
-| Figma | 10 tools | ~4,000 tokens |
-| PostgreSQL | 8 tools | ~3,000 tokens |
-| Sentry | 12 tools | ~5,000 tokens |
-| **Total** | **75 tools** | **~30,000 tokens** |
-
-At Claude Sonnet pricing (roughly $3 per million input tokens), 30,000 tokens of tool descriptions costs approximately $0.09 per agent interaction. Across a team of 20 engineers running 30 agent interactions per day, this is ~$1,600 per month — just for tool descriptions, before any actual work is done.
-
-More importantly: a context window loaded with 75 tool descriptions is a context window with 30,000 fewer tokens available for code, specifications, test results, and reasoning. This directly reduces the agent's effectiveness on complex tasks.
-
-### 7.6.2 The Principle: Enable What You Need
-
-The correct approach is *task-appropriate tool selection*:
-
-- **Do not enable all MCP servers globally.** Configure servers at the project level (`.claude/settings.json`) only when they are relevant to that project.
-- **Disable servers when not in use.** Uncheck an MCP server in Claude Code's settings during sessions where it is not needed.
-- **Use subagents with constrained tool sets.** Instead of giving the main orchestrator access to all tools, give each subagent only the tools its role requires.
-- **Prefer file-based context for static information.** If the information you need from a tool does not change (e.g., a design spec you fetched yesterday), save it to a file and read the file rather than re-fetching it via MCP on every interaction.
-
-```json
+## Response (200 OK)
 {
-  "mcpServers": {
-    "github": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": { "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}" },
-      "enabled": true
-    },
-    "figma": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-figma"],
-      "env": { "FIGMA_ACCESS_TOKEN": "${FIGMA_TOKEN}" },
-      "enabled": false
-    }
-  }
+  "job_id": "uuid",
+  "assignee_email": "string",
+  "status": "assigned"
 }
+
+## Error Responses
+| Code | Condition |
+|------|-----------|
+| 400  | Request body missing or malformed |
+| 403  | Caller is not a manager |
+| 404  | Job not found |
+| 409  | Technician not found or not available |
+
+## Constraints
+- Use dependency injection for the repository and notification service
+- All functions must have type annotations
+- Do not use global state
+- The notification call must be non-blocking (use asyncio.create_task or BackgroundTasks)
 ```
 
-### 7.6.3 Auditing Tool Use
+### 7.4.3 Invoking Claude Code
 
-Periodically audit which MCP tools your agents actually invoke. Most teams find that:
+Open a terminal in your project directory and run:
 
-- 20% of enabled tools account for 80% of actual calls
-- Several servers are enabled but never used in practice
-- Some tools can be replaced by simpler file reads with no loss in quality
-
-Claude Code's session logs record every tool call. Review them after a sprint to identify unused tools and disable the corresponding servers.
-
----
-
-## 7.7 Putting It Together: A Configured Agent Workspace
-
-A well-configured agent workspace looks like this:
-
-```
-project-root/
-├── AGENTS.md                        ← Cross-tool context: stack, conventions, constraints
-├── .claude/
-│   ├── settings.json                ← MCP servers (only what this project needs)
-│   ├── agents/
-│   │   ├── code-reviewer.md         ← Read-only, Opus, maxTurns: 20
-│   │   ├── test-runner.md           ← Execute, Sonnet, maxTurns: 30
-│   │   └── db-migrator.md           ← Write, Sonnet, maxTurns: 15
-│   └── skills/
-│       ├── security-review/
-│       │   └── SKILL.md
-│       ├── db-migration/
-│       │   ├── SKILL.md
-│       │   └── migration_template.sql
-│       └── release-checklist/
-│           └── SKILL.md
-└── src/
-    ├── api/
-    │   └── CLAUDE.md                ← API-specific context
-    └── workers/
-        └── CLAUDE.md                ← Worker-specific context
+```bash
+claude
 ```
 
-Each layer serves a distinct purpose:
+Then give Claude Code the following prompt:
 
-| Layer | What it controls | Changes how often |
-|---|---|---|
-| `AGENTS.md` | What the agent knows | When conventions change |
-| `settings.json` | What tools the agent can reach | When new integrations are added |
-| `agents/*.md` | What specialised agents can do | When roles are defined or refined |
-| `skills/*.md` | How specific tasks are performed | When processes are improved |
-| Nested `CLAUDE.md` | Module-specific conventions | When module conventions change |
+> *"Read spec_assign_job.md. Implement the assign job feature for the Field Repair Tracker API. Produce:*
+> *1. `src/domain/repair_job.py` — the RepairJob and Technician domain models as dataclasses*
+> *2. `src/repository/job_repository.py` — a JobRepository with find_by_id and update_assignee methods; use an abstract base class*
+> *3. `src/service/job_service.py` — an AssignJobService with an assign method that enforces all business rules from the spec*
+> *4. `src/api/job_router.py` — the FastAPI router with the POST /jobs/{job_id}/assign endpoint*
+>
+> *Follow the constraints in the spec exactly. Use Python 3.12 type annotations throughout."*
 
----
+### 7.4.4 Reviewing the Generated Code
 
-## 7.8 Summary
+After generation, review the output against the following checklist. For each item, either confirm it is satisfied or ask the AI to fix it:
 
-Effective agent configuration is not boilerplate — it is engineering. The decisions you make about what context to provide, what tools to allow, and how to scope subagents directly determine the quality and safety of what your agents produce.
+| Check | What to look for |
+|---|---|
+| **Correctness** | Does `assign` raise the right exception for each error condition? |
+| **Type safety** | Are all function signatures fully annotated, including return types? |
+| **Dependency injection** | Are repository and notification service injected, not imported directly? |
+| **Non-blocking notification** | Is the notification call wrapped in `BackgroundTasks` or `asyncio.create_task`? |
+| **Status code accuracy** | Does the router return 409 (not 400) for an unavailable technician? |
+| **No global state** | Are there any module-level variables that hold mutable state? |
 
-The key ideas from this chapter:
+If the AI missed any of these, use a follow-up prompt:
 
-- **`AGENTS.md`** is the cross-tool standard for giving agents project context. It works across Claude Code, Cursor, Codex CLI, Gemini CLI, and others. Treat it as living documentation.
-- **Subagents** are specialised agents with explicit model selection, tool allowlists, permission modes, and turn limits. Apply the principle of least privilege: give each subagent only what it needs.
-- **Skills** are deterministic, curated knowledge injections — not retrieval. They encode process knowledge (how your team does a specific type of task) and are invoked by slash commands.
-- **MCP servers** connect agents to external tools. They enable genuinely autonomous workflows across the full engineering lifecycle.
-- **Token cost is real.** Each MCP tool description consumes context. Enable only what is needed for the current project; audit usage regularly.
+> *"The notification send is currently blocking the HTTP response. Refactor it to use FastAPI's BackgroundTasks so the response is returned before the notification is sent."*
 
----
+### 7.4.5 What AI Does Well and Poorly Here
 
-## Tutorial Activity: Configuring an Agent Workspace
+After reviewing the output, reflect on the following:
 
-In this activity, you will configure a complete agent workspace for the course project you specified in Chapter 5.
+**AI tends to do well at:**
+- Generating boilerplate (dataclasses, Pydantic models, router structure)
+- Applying patterns it has seen many times (repository pattern, dependency injection in FastAPI)
+- Consistent naming and type annotation when the spec is precise
 
-### Part A: Write Your `AGENTS.md`
+**AI tends to do poorly at:**
+- Distinguishing between 400 and 409 status codes without explicit instruction
+- Making notification calls truly non-blocking without being prompted
+- Handling subtle business rules ("availability must be AVAILABLE at the time of assignment, not at the time the technician record was last updated")
 
-Create an `AGENTS.md` file at the root of your course project repository. It should include:
-
-1. A one-paragraph description of the project (domain, users, purpose)
-2. The technology stack and key directory structure
-3. The commands to build, run tests, lint, and type-check
-4. At least four team conventions (naming, commit style, PR process, etc.)
-5. At least three explicit constraints ("never do X")
-
-### Part B: Define a Subagent
-
-Create `.claude/agents/code-reviewer.md` for your project. Configure it with:
-
-- `model`: `claude-opus-4-7` (full review capability)
-- `tools`: read-only tools only (no write or execute)
-- `permission_mode`: `read_only`
-- `maxTurns`: `15`
-- A description of what the reviewer should check, specific to your project's language and framework
-
-### Part C: Create a Skill
-
-Create `.claude/skills/test-generation/SKILL.md` that describes your team's process for writing tests:
-
-- Which testing framework and libraries you use
-- The conventions for test file naming and placement
-- The types of test cases always required (happy path, edge cases, error cases)
-- Any mocking or fixture conventions specific to your project
-
-### Part D: Evaluate Token Cost
-
-List the MCP servers you would realistically use for your course project. For each:
-
-1. State what workflow it enables
-2. Estimate the number of tools it exposes
-3. Estimate the token cost per interaction
-4. Decide whether the benefit justifies the cost for a student project (with limited API budget)
-
-Justify your final list of enabled MCP servers.
-
-### Reflection Questions
-
-1. What information in your `AGENTS.md` would you not have known to write before taking this course?
-2. What is the difference between putting a convention in `AGENTS.md` and creating a Skill for it?
-3. A teammate proposes enabling 12 MCP servers "so the agent can do everything." How would you respond?
-4. Which subagent permission mode would you use for a subagent that needs to run tests but should not be able to push code to GitHub? Why?
+These are not AI failures — they are specification gaps. Every item the AI gets wrong points to a place where the specification was ambiguous.
 
 ---
 
-## Further Reading
+## 7.5 Activity 4 — AI for Testing
 
-- Anthropic. (2024). *Model Context Protocol specification*. [https://modelcontextprotocol.io](https://modelcontextprotocol.io)
-- Anthropic. (2024). *Claude Code documentation: Subagents*. Anthropic Developer Docs.
-- Anthropic. (2024). *Claude Code documentation: Skills*. Anthropic Developer Docs.
-- Weng, L. (2023). LLM-powered autonomous agents. *Lil'Log*. [https://lilianweng.github.io/posts/2023-06-23-agent/](https://lilianweng.github.io/posts/2023-06-23-agent/)
-- Shinn, N., Cassano, F., Labash, A., Gopalan, A., Narasimhan, K., & Yao, S. (2023). Reflexion: Language agents with verbal reinforcement learning. *Advances in Neural Information Processing Systems, 36*.
+**Concepts covered:** Test generation, test quality evaluation, coverage analysis
+
+**Format:** Individual | **Duration:** 45 min | **Tool:** Claude Code (CLI)
+
+### 7.5.1 Background
+
+In Chapter 4, you learned to write unit tests with pytest, to evaluate coverage, and to critically assess AI-generated tests. In this activity, you will use Claude Code to generate a full unit test suite for the `AssignJobService` produced in Activity 3 — and then apply the evaluation criteria from Chapter 4, §4.9.3 to assess its quality.
+
+### 7.5.2 Generating the Test Suite
+
+In your Claude Code session, give the following prompt:
+
+> *"Read `src/service/job_service.py`. Generate a complete pytest test suite in `tests/test_job_service.py` for the AssignJobService.assign method. Requirements for the test suite:*
+> *1. Use pytest fixtures for all shared setup (mock repository, mock notification service, sample job, sample technician)*
+> *2. Cover all business rules from the specification: happy path, job not found (404), technician not found (409), technician not available (409), caller not a manager (403)*
+> *3. Verify that the notification service is called exactly once on a successful assignment*
+> *4. Verify that the notification service is NOT called when assignment fails*
+> *5. Use unittest.mock.MagicMock for all external dependencies — do not use a real database*
+> *6. Each test method name must describe the scenario it tests (not 'test_1', 'test_assign', etc.)"*
+
+### 7.5.3 Evaluating the Generated Tests
+
+Apply the evaluation checklist from Chapter 4, §4.9.3 to the AI-generated suite:
+
+**1. Does each test assert something meaningful?**
+
+Look for tests that call `assign(...)` and only assert `result is not None`. These provide no value. Every test should assert a specific outcome: the returned job has the correct status, the repository's `update_assignee` was called with the correct arguments, or a specific exception was raised.
+
+**2. Are the boundary cases covered?**
+
+The specification has three error conditions. Count how many the AI tested. If any are missing, add them manually — do not ask the AI to fix this, so you can experience the gap directly.
+
+**3. Is the notification call verified correctly?**
+
+A common AI mistake is to assert `mock_notifier.send.assert_called()` (was it called at all?) rather than `mock_notifier.send.assert_called_once_with(expected_email, expected_message)`. The latter is a much stronger assertion.
+
+**4. Are the tests isolated?**
+
+Check that no test depends on the order in which tests run. If a fixture is modified inside a test (e.g., a list is appended to), subsequent tests may receive different state.
+
+> See [Sample Answer: Activity 4 — Unit Test Suite](#sample-answer-activity-4--unit-test-suite) at the end of this chapter.
+
+### 7.5.4 Coverage Analysis
+
+Run the test suite with coverage:
+
+```bash
+pytest tests/test_job_service.py -v --cov=src/service --cov-report=term-missing
+```
+
+If coverage is below 90% for `job_service.py`, identify the uncovered lines and ask the AI to explain what scenario each uncovered line represents. Then write a test for each gap — by hand, not by AI — so you experience what it means to design a test for a specific scenario rather than generate tests in bulk.
+
+### 7.5.5 Reflection
+
+After completing all four activities, consider:
+
+1. **Where did AI save the most time?** Generating boilerplate (models, routers, fixtures) is typically where AI provides the highest leverage.
+2. **Where did AI create the most risk?** Missing error conditions, non-blocking behaviour, and test assertions that check presence but not content are the most common gaps.
+3. **What did the specification do?** Compare the quality of AI output in Activity 3 (where you provided a structured spec) with what you would have received from the raw starting brief. The difference is not the AI — it is the specification.
+4. **What would the starting brief have produced?** Try asking the AI to generate a class diagram from the raw brief (§7.1.1) without any refinement. Compare it to the output from Activity 2. This difference is the value of requirements engineering.
+
+---
+
+## Chapter Summary
+
+This chapter applied AI coding agents to all four phases of the SDLC using a single evolving scenario — from a vague client brief to a tested, reviewable feature:
+
+| Phase | Activity | AI Role | Human Role |
+|---|---|---|---|
+| **Requirements** | Activity 1 | Identify ambiguities, draft requirements, generate acceptance criteria | Answer clarifying questions, audit quality, reject vague NFRs |
+| **Design** | Activity 2 | Produce use case, class, and sequence diagrams | Verify design against requirements, critique SOLID violations |
+| **Implementation** | Activity 3 | Generate layered implementation from a structured spec | Write the spec, review for business rule correctness |
+| **Testing** | Activity 4 | Generate pytest fixtures and test cases | Evaluate assertion quality, fill coverage gaps by hand |
+
+The pattern that emerges is consistent: AI compresses the time to a first draft, but the quality of that draft is determined by the precision of the input. Vague briefs produce vague designs; precise specifications produce implementations that need only targeted corrections.
+
+---
+
+## Review Questions
+
+1. The starting brief contained the constraint "work offline sometimes." How did you translate this into a testable non-functional requirement? What made the original phrasing unusable as a requirement?
+
+2. In Activity 2, you were asked to critique the AI's class diagram for SOLID violations. Identify one likely violation in the `Manager` class and explain which principle it violates and how you would fix it.
+
+3. In Activity 3, the AI was likely to make the notification call blocking unless explicitly instructed otherwise. Why is this a specification problem rather than an AI problem?
+
+4. Compare the test `assert result is not None` with `assert result.status == StatusEnum.ASSIGNED`. Why is the second assertion stronger? What specific bug could the first test miss?
+
+5. If you were to add a fifth activity covering deployment (Chapter 4, §4.8), what would you ask the AI to generate, and what would you review manually before merging the generated pipeline configuration?
+
+---
+
+## Sample Answers
+
+*Attempt each activity fully before expanding these answers. The value of the exercises comes from comparing your AI's output against a reference — not from reading the reference first.*
+
+---
+
+### Sample Answer: Activity 1 — Acceptance Criteria
+
+<details>
+<summary>Click to reveal sample Gherkin acceptance criteria for the Assign Job user story</summary>
+
+```gherkin
+Scenario: Successfully assigning a job to an available technician
+  Given I am authenticated as a Service Manager
+  And a job with ID "job-42" exists with status "unassigned"
+  And a technician "alex@fieldco.com" exists and is available
+  When I send POST /jobs/job-42/assign with body {"assignee": "alex@fieldco.com"}
+  Then the response status is 200
+  And the job's assignee is updated to "alex@fieldco.com"
+  And the job status changes to "assigned"
+  And alex receives a push notification within 10 seconds
+
+Scenario: Attempting to assign a job to an unavailable technician
+  Given I am authenticated as a Service Manager
+  And a job with ID "job-42" exists
+  And technician "alex@fieldco.com" has status "on_leave"
+  When I send POST /jobs/job-42/assign with body {"assignee": "alex@fieldco.com"}
+  Then the response status is 409
+  And the response body contains {"error": "Technician is not available"}
+
+Scenario: Field technician attempts to assign a job
+  Given I am authenticated as a Field Technician (not a manager)
+  When I send POST /jobs/job-42/assign with body {"assignee": "sam@fieldco.com"}
+  Then the response status is 403
+  And the response body contains {"error": "Insufficient permissions"}
+```
+
+**What to look for in your own output:**
+- Each scenario has exactly one `When` — scenarios with multiple actions are testing more than one behaviour
+- The happy-path scenario asserts both the data change *and* the side effect (notification)
+- The error scenarios assert the specific HTTP status code and error message body, not just "an error occurred"
+
+</details>
+
+---
+
+### Sample Answer: Activity 2 — Use Case Diagram
+
+<details>
+<summary>Click to reveal sample use case diagram in Mermaid</summary>
+
+```mermaid
+flowchart LR
+    Technician(["👤 Field Technician"])
+    Manager(["👤 Service Manager"])
+    PushService(["⚙️ Push Notification Service"])
+
+    subgraph boundary["Field Repair Tracker"]
+        UC1(["Log Repair Job"])
+        UC2(["View Assigned Jobs"])
+        UC3(["Update Job Status"])
+        UC4(["Assign Job"])
+        UC5(["View All Jobs"])
+        UC6(["Generate Daily Report"])
+        UC7(["Send Push Notification"])
+    end
+
+    Technician --- UC1
+    Technician --- UC2
+    Technician --- UC3
+    Manager --- UC4
+    Manager --- UC5
+    Manager --- UC6
+    UC4 -->|includes| UC7
+    PushService --- UC7
+```
+
+**What to look for in your own output:**
+- The `includes` arrow from Assign Job → Send Push Notification captures that notification is *mandatory*, not optional
+- The Field Technician should not have a line to UC4 (Assign Job) — that is a manager-only action
+- View All Jobs (UC5) is manager-only; View Assigned Jobs (UC2) is technician-only — these are distinct use cases even though both involve "viewing jobs"
+
+</details>
+
+---
+
+### Sample Answer: Activity 2 — Class Diagram
+
+<details>
+<summary>Click to reveal sample class diagram in Mermaid</summary>
+
+```mermaid
+classDiagram
+    class RepairJob {
+        +id: UUID
+        +site_address: str
+        +fault_description: str
+        +priority: PriorityEnum
+        +status: StatusEnum
+        +photo_url: str | None
+        +created_at: datetime
+        +assign(technician: Technician)
+        +update_status(status: StatusEnum)
+    }
+    class Technician {
+        +id: UUID
+        +name: str
+        +email: str
+        +availability: AvailabilityEnum
+        +get_assigned_jobs() list~RepairJob~
+    }
+    class Manager {
+        +id: UUID
+        +name: str
+        +email: str
+        +assign_job(job: RepairJob, tech: Technician)
+        +generate_report(date: date) DailyReport
+    }
+    class NotificationService {
+        <<abstract>>
+        +send(recipient: str, message: str)
+    }
+    class PushNotificationService {
+        +send(recipient: str, message: str)
+    }
+    class DailyReport {
+        +date: date
+        +total_jobs: int
+        +completed_jobs: int
+        +pending_jobs: int
+    }
+
+    RepairJob --> Technician : assigned to
+    Manager --> RepairJob : manages
+    Manager --> NotificationService : uses
+    PushNotificationService --|> NotificationService : inheritance
+    Manager *-- DailyReport : generates
+```
+
+**Known design weaknesses to discuss:**
+- The `Manager` class violates the Single Responsibility Principle — it handles both assignment logic and report generation. In a production system, these would move to a `JobAssignmentService` and a `ReportingService`.
+- `assign_job` on `Manager` means the Manager entity knows about the NotificationService — this couples a domain object to an infrastructure concern. Assignment logic belongs in a service layer, not on a domain entity.
+- `DailyReport` using composition (`*--`) is correct only if a report is generated fresh each time; if reports are persisted, the relationship should be association.
+
+</details>
+
+---
+
+### Sample Answer: Activity 2 — Sequence Diagram
+
+<details>
+<summary>Click to reveal sample sequence diagram in Mermaid</summary>
+
+```mermaid
+sequenceDiagram
+    participant Client as Mobile Client
+    participant API as API Gateway (FastAPI)
+    participant Auth as Auth (JWT)
+    participant JobService as Job Service
+    participant TechRepo as Technician Repository
+    participant JobRepo as Job Repository
+    participant Notify as Notification Service
+    participant DB as PostgreSQL
+
+    Client->>API: POST /jobs/{id}/assign {"assignee": "alex@fieldco.com"}
+    API->>Auth: validate JWT token
+    Auth-->>API: token valid, role=manager
+    API->>JobService: assign_job(job_id, assignee_email)
+    JobService->>TechRepo: find_by_email("alex@fieldco.com")
+    TechRepo->>DB: SELECT * FROM technicians WHERE email=?
+    DB-->>TechRepo: technician record
+    TechRepo-->>JobService: Technician(availability=AVAILABLE)
+    JobService->>JobRepo: update_assignee(job_id, technician_id)
+    JobRepo->>DB: UPDATE jobs SET assignee_id=?, status='assigned'
+    DB-->>JobRepo: updated
+    JobRepo-->>JobService: RepairJob (updated)
+    JobService-->>API: job assigned successfully
+    API-->>Client: 200 OK {job_id, status: "assigned"}
+    JobService-)Notify: send_async("alex@fieldco.com", "New job assigned")
+    Note over Notify: Asynchronous — does not block the response
+```
+
+**What to look for in your own output:**
+- The `->>` arrow to Notify should be `--)` or use a `Note` to indicate the call is asynchronous and does not block the response path
+- The 200 OK response to the client should appear *before* the notification call in the sequence — if your diagram shows the notification completing before the response is sent, the design is blocking
+- JWT validation should happen at the API Gateway layer, not inside the Job Service
+
+</details>
+
+---
+
+### Sample Answer: Activity 4 — Unit Test Suite
+
+<details>
+<summary>Click to reveal sample pytest test suite for AssignJobService</summary>
+
+```python
+# tests/test_job_service.py
+import pytest
+from unittest.mock import MagicMock
+from uuid import uuid4
+
+from src.service.job_service import AssignJobService, JobNotFoundError, TechnicianNotAvailableError
+from src.domain.repair_job import RepairJob, Technician, StatusEnum, AvailabilityEnum
+
+
+@pytest.fixture
+def mock_job_repo():
+    return MagicMock()
+
+
+@pytest.fixture
+def mock_tech_repo():
+    return MagicMock()
+
+
+@pytest.fixture
+def mock_notifier():
+    return MagicMock()
+
+
+@pytest.fixture
+def service(mock_job_repo, mock_tech_repo, mock_notifier):
+    return AssignJobService(
+        job_repo=mock_job_repo,
+        tech_repo=mock_tech_repo,
+        notifier=mock_notifier,
+    )
+
+
+@pytest.fixture
+def available_technician():
+    return Technician(
+        id=uuid4(),
+        name="Alex Chen",
+        email="alex@fieldco.com",
+        availability=AvailabilityEnum.AVAILABLE,
+    )
+
+
+@pytest.fixture
+def unassigned_job():
+    return RepairJob(
+        id=uuid4(),
+        site_address="123 Main St",
+        fault_description="Power outage",
+        priority="high",
+        status=StatusEnum.UNASSIGNED,
+    )
+
+
+class TestAssignJob:
+    def test_assigns_job_to_available_technician(
+        self, service, mock_job_repo, mock_tech_repo,
+        unassigned_job, available_technician
+    ) -> None:
+        mock_job_repo.find_by_id.return_value = unassigned_job
+        mock_tech_repo.find_by_email.return_value = available_technician
+
+        result = service.assign(job_id=unassigned_job.id, assignee_email="alex@fieldco.com")
+
+        assert result.status == StatusEnum.ASSIGNED
+        assert result.assignee_id == available_technician.id
+        mock_job_repo.update_assignee.assert_called_once_with(
+            unassigned_job.id, available_technician.id
+        )
+
+    def test_sends_notification_on_successful_assignment(
+        self, service, mock_job_repo, mock_tech_repo, mock_notifier,
+        unassigned_job, available_technician
+    ) -> None:
+        mock_job_repo.find_by_id.return_value = unassigned_job
+        mock_tech_repo.find_by_email.return_value = available_technician
+
+        service.assign(job_id=unassigned_job.id, assignee_email="alex@fieldco.com")
+
+        mock_notifier.send.assert_called_once_with(
+            recipient="alex@fieldco.com",
+            message=f"You have been assigned job {unassigned_job.id}",
+        )
+
+    def test_raises_job_not_found_when_job_does_not_exist(
+        self, service, mock_job_repo
+    ) -> None:
+        mock_job_repo.find_by_id.return_value = None
+
+        with pytest.raises(JobNotFoundError):
+            service.assign(job_id=uuid4(), assignee_email="alex@fieldco.com")
+
+    def test_does_not_send_notification_when_job_not_found(
+        self, service, mock_job_repo, mock_notifier
+    ) -> None:
+        mock_job_repo.find_by_id.return_value = None
+
+        with pytest.raises(JobNotFoundError):
+            service.assign(job_id=uuid4(), assignee_email="alex@fieldco.com")
+
+        mock_notifier.send.assert_not_called()
+
+    def test_raises_technician_not_available_when_on_leave(
+        self, service, mock_job_repo, mock_tech_repo, unassigned_job
+    ) -> None:
+        on_leave_tech = Technician(
+            id=uuid4(),
+            name="Sam Rivera",
+            email="sam@fieldco.com",
+            availability=AvailabilityEnum.ON_LEAVE,
+        )
+        mock_job_repo.find_by_id.return_value = unassigned_job
+        mock_tech_repo.find_by_email.return_value = on_leave_tech
+
+        with pytest.raises(TechnicianNotAvailableError):
+            service.assign(job_id=unassigned_job.id, assignee_email="sam@fieldco.com")
+
+    def test_does_not_send_notification_when_technician_not_available(
+        self, service, mock_job_repo, mock_tech_repo, mock_notifier, unassigned_job
+    ) -> None:
+        on_leave_tech = Technician(
+            id=uuid4(),
+            name="Sam Rivera",
+            email="sam@fieldco.com",
+            availability=AvailabilityEnum.ON_LEAVE,
+        )
+        mock_job_repo.find_by_id.return_value = unassigned_job
+        mock_tech_repo.find_by_email.return_value = on_leave_tech
+
+        with pytest.raises(TechnicianNotAvailableError):
+            service.assign(job_id=unassigned_job.id, assignee_email="sam@fieldco.com")
+
+        mock_notifier.send.assert_not_called()
+```
+
+**What to look for in your own output:**
+- Does your AI generate `assert result is not None` instead of `assert result.status == StatusEnum.ASSIGNED`? The former passes even if the assignment logic sets the wrong status.
+- Does your AI use `assert_called()` instead of `assert_called_once_with(...)`? The former does not verify the arguments passed to the notifier.
+- Is the "notification not called on failure" test present? AI frequently omits this negative assertion, leaving a gap where a buggy implementation that always notifies would still pass.
+
+</details>
