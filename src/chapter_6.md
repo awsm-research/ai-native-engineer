@@ -512,3 +512,376 @@ Regenerate, re-evaluate. The cycle terminates when all examples pass and all con
 
 Regenerate and verify the fix.
 
+
+
+
+
+<!-- ## 2.10 AI-Assisted Requirements Engineering
+
+AI tools are beginning to enter the requirements engineering process in meaningful ways. This section examines where they add value and where their limitations matter most.
+
+### 2.8.1 Generating Draft Requirements
+
+Given a brief system description, large language models can generate a first draft of requirements. This can accelerate early project stages by providing a concrete starting point for teams to critique and refine.
+
+A capable LLM will produce a reasonable draft, but AI-generated requirements should never be accepted uncritically. Common issues include:
+
+- **Missing domain-specific constraints**: The model cannot know about regulatory requirements, legacy integrations, or organisational policies.
+- **Hallucinated specificity**: Numbers (response times, user limits, data retention periods) will be plausibly invented rather than sourced from actual stakeholders.
+- **Missing edge cases**: Models generate obvious scenarios and may miss the edge cases that matter most in production.
+- **Lack of traceability**: AI-generated requirements have no stakeholder source — a critical weakness when requirements are disputed.
+
+### 2.8.2 Critiquing and Improving Requirements
+
+A more reliable use of AI is as a *critic* rather than an *author*. Given a set of human-written requirements, an LLM can check for common quality issues:
+
+```python
+import anthropic
+
+client = anthropic.Anthropic()
+
+requirements_document = """
+1. The system shall be fast.
+2. Users can create tasks.
+3. The system should be secure.
+4. Tasks can be assigned to users.
+5. The system shall send notifications.
+"""
+
+response = client.messages.create(
+    model="claude-opus-4-7",
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": f"""Review the following requirements for quality issues.
+For each requirement, identify if it is: ambiguous, incomplete, or unverifiable.
+Suggest a rewritten version that addresses any issues.
+
+Requirements:
+{requirements_document}""",
+        }
+    ],
+)
+
+print(response.content[0].text)
+```
+
+This use of AI is lower risk because the human author retains ownership of the requirements and uses AI feedback as one input among several.
+
+### 2.8.3 Generating User Stories from Interview Notes
+
+Stakeholder interviews produce messy, unstructured notes. AI can help transform these into structured user stories:
+
+```python
+import anthropic
+
+client = anthropic.Anthropic()
+
+interview_notes = """
+Spoke with Sarah (project manager, 12-person dev team).
+Main frustrations: can't see at a glance who is overloaded,
+tasks fall through the cracks when someone is sick,
+no way to see what was completed last week for stand-ups.
+Wants to reassign tasks quickly when priorities change.
+Spends 30 mins every Monday just updating statuses in a spreadsheet.
+"""
+
+response = client.messages.create(
+    model="claude-opus-4-7",
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": f"""You are a requirements engineer. Convert the following
+stakeholder interview notes into well-structured user stories using the format:
+"As a [role], I want [goal] so that [reason]."
+Include 2–3 acceptance criteria per story in Gherkin format.
+Only generate stories directly supported by the notes — do not invent requirements.
+
+Interview notes:
+{interview_notes}""",
+        }
+    ],
+)
+
+print(response.content[0].text)
+```
+
+The final instruction — "do not invent requirements" — is critical. Without it, models will helpfully generate plausible but unsupported requirements, which can mislead the team.
+
+### 2.8.4 Where AI Cannot Replace Human Judgment
+
+Despite these capabilities, requirements engineering remains fundamentally a human activity. AI cannot:
+
+- **Resolve political conflicts** between stakeholders with competing interests
+- **Understand organisational context** — why a constraint exists, who has authority to waive it, what previous attempts failed
+- **Elicit tacit knowledge** — the workarounds, unspoken norms, and tribal knowledge that experienced users hold
+- **Accept legal accountability** for requirements in regulated domains (healthcare, finance, aviation)
+- **Build trust** with stakeholders — the relationship component that makes people willing to share their real problems
+
+The engineer's role is not to be replaced by AI, but to use AI for routine structural tasks (formatting, checking, drafting) while investing their own time in the high-value, human-dependent work.
+
+---
+
+## 2.11 Tutorial: Requirements Review Pipeline
+
+This tutorial demonstrates a practical requirements quality review pipeline using the Anthropic API.
+
+### Setup
+
+```bash
+pip install anthropic python-dotenv
+```
+
+```bash
+# .env
+ANTHROPIC_API_KEY=your_key_here
+```
+
+### Requirements Review Pipeline
+
+```python
+# requirements_review.py
+import os
+import anthropic
+from dotenv import load_dotenv
+
+load_dotenv()
+
+client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+
+
+def review_requirement(requirement: str) -> dict[str, str]:
+    """Review a single requirement and return issues, improvement, and verdict."""
+    response = client.messages.create(
+        model="claude-opus-4-7",
+        max_tokens=512,
+        messages=[
+            {
+                "role": "user",
+                "content": f"""Analyse this software requirement for quality issues.
+Check for: ambiguity, lack of measurability, incompleteness, missing edge cases.
+
+Requirement: "{requirement}"
+
+Respond in this exact format:
+ISSUES: [list specific issues, or "None" if well-formed]
+IMPROVED: [rewritten version, or original if no issues]
+VERDICT: [GOOD / NEEDS_IMPROVEMENT / POOR]""",
+            }
+        ],
+    )
+
+    text = response.content[0].text
+    result: dict[str, str] = {}
+    for line in text.strip().split("\n"):
+        for key in ("ISSUES", "IMPROVED", "VERDICT"):
+            if line.startswith(f"{key}:"):
+                result[key.lower()] = line[len(key) + 1 :].strip()
+    return result
+
+
+def review_requirements_document(requirements: list[str]) -> None:
+    """Review a list of requirements and print a quality report."""
+    print("=" * 60)
+    print("REQUIREMENTS QUALITY REVIEW")
+    print("=" * 60)
+
+    scores: dict[str, int] = {"GOOD": 0, "NEEDS_IMPROVEMENT": 0, "POOR": 0}
+
+    for i, req in enumerate(requirements, 1):
+        print(f"\n[{i}] {req}")
+        result = review_requirement(req)
+        verdict = result.get("verdict", "UNKNOWN")
+        scores[verdict] = scores.get(verdict, 0) + 1
+
+        print(f"    Verdict:  {verdict}")
+        if verdict != "GOOD":
+            print(f"    Issues:   {result.get('issues', 'N/A')}")
+            print(f"    Improved: {result.get('improved', 'N/A')}")
+
+    print("\n" + "=" * 60)
+    print("SUMMARY")
+    for label, count in scores.items():
+        print(f"  {label:<22} {count}")
+    print("=" * 60)
+
+
+if __name__ == "__main__":
+    sample_requirements = [
+        "The system shall be fast.",
+        "The system shall respond to 95% of API requests within 200ms "
+        "under a load of 1,000 concurrent users.",
+        "Users can create tasks.",
+        "The system shall allow authenticated users to create tasks with a title "
+        "(required, max 200 characters), description (optional, max 2,000 characters), "
+        "due date (optional), and priority level (low, medium, high, critical).",
+        "The system should be secure.",
+        "All user passwords shall be stored as bcrypt hashes with a work factor of at least 12.",
+    ]
+
+    review_requirements_document(sample_requirements)
+```
+
+**Sample output:**
+
+```
+============================================================
+REQUIREMENTS QUALITY REVIEW
+============================================================
+
+[1] The system shall be fast.
+    Verdict:  POOR
+    Issues:   Ambiguous and unverifiable — "fast" has no defined threshold
+    Improved: The system shall respond to 95% of API requests within 200ms
+              under a load of 1,000 concurrent users.
+
+[2] The system shall respond to 95% of API requests within 200ms...
+    Verdict:  GOOD
+
+[3] Users can create tasks.
+    Verdict:  NEEDS_IMPROVEMENT
+    Issues:   Incomplete — missing subject (who), authentication context,
+              and field constraints
+    Improved: The system shall allow authenticated users to create tasks...
+```
+
+<!-- ## 3.7 AI-Assisted Design
+
+AI tools can accelerate the design phase in several ways, but each requires critical evaluation.
+
+### 3.7.1 Generating Architecture Diagrams from Specifications
+
+Given a requirements document, an LLM can suggest an initial architecture:
+
+```python
+import anthropic
+
+client = anthropic.Anthropic()
+
+requirements = """
+System: Task Management API
+- Multi-tenant SaaS for software teams (10–500 users per tenant)
+- REST API backend; no frontend in scope
+- Tasks can be created, assigned, updated, and completed
+- Email notifications on assignment
+- Must support 1,000 concurrent users, 200ms p95 response time
+- Data must be isolated per tenant
+"""
+
+response = client.messages.create(
+    model="claude-opus-4-7",
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": f"""You are a software architect.
+Based on the following requirements, suggest an appropriate
+architectural pattern and explain your reasoning. Identify
+the key components and their responsibilities.
+Flag any requirements that represent significant architectural risk.
+
+Requirements:
+{requirements}""",
+        }
+    ],
+)
+
+print(response.content[0].text)
+```
+
+The output is a starting point for discussion, not a final decision. Treat it as a first draft from a knowledgeable junior architect who has not seen your organisation's constraints.
+
+### 3.7.2 Generating Code Scaffolds
+
+AI excels at generating boilerplate code from a class diagram or interface definition:
+
+```python
+response = client.messages.create(
+    model="claude-opus-4-7",
+    max_tokens=2048,
+    messages=[
+        {
+            "role": "user",
+            "content": """Generate a Python implementation of a TaskRepository
+using the Repository pattern. The concrete implementation should use
+a plain dictionary as an in-memory store (for testing).
+Use Python 3.11 type hints throughout. Include docstrings only where
+the behaviour is non-obvious. Follow PEP 8.""",
+        }
+    ],
+)
+```
+
+Always review AI-generated scaffolds for:
+- Correct use of type hints
+- Adherence to the interface contract
+- Missing edge cases (null handling, empty collections)
+- Security issues (SQL injection if a DB implementation is generated)
+
+---
+
+## 3.8 Tutorial: AI-Assisted System Design
+
+This tutorial walks through using AI to assist with the design of the course project API, then critically reviewing the output.
+
+### Step 1: Generate a Component Design
+
+```python
+# design_assistant.py
+import anthropic
+
+client = anthropic.Anthropic()
+
+
+def generate_component_design(requirements: str) -> str:
+    response = client.messages.create(
+        model="claude-opus-4-7",
+        max_tokens=2048,
+        messages=[
+            {
+                "role": "user",
+                "content": f"""You are a software architect designing a Python
+REST API. Based on the requirements below, produce:
+1. A list of the main components (services, repositories, models)
+2. The key interface (method signatures) for each component
+3. A brief rationale for any significant design decision
+
+Use Python 3.11 type hints in all interface definitions.
+Do not generate implementation code — interfaces only.
+
+Requirements:
+{requirements}""",
+            }
+        ],
+    )
+    return response.content[0].text
+
+
+requirements = """
+Task Management API:
+- Users can create, read, update, and delete tasks
+- Tasks belong to projects; projects belong to organisations
+- Tasks have: title, description, due_date, priority, status, assignee
+- Project managers can assign tasks; regular users can only update their own
+- Email notification sent when a task is assigned
+- All endpoints require JWT authentication
+"""
+
+design = generate_component_design(requirements)
+print(design)
+```
+
+### Step 2: Critically Review the Output
+
+When reviewing AI-generated design, ask:
+
+1. **Does each component have a single responsibility?** If a service is described as doing X, Y, *and* Z, it needs to be split.
+2. **Are dependencies pointing the right direction?** High-level business logic should not depend on low-level infrastructure.
+3. **Is the interface testable?** Can you write a test without a real database or email server?
+4. **Are edge cases represented?** What happens when a task is assigned to a user who has left the project?
+5. **Is the interface consistent?** Do all repository methods follow the same conventions?
+
+Document your review findings and revise the design before implementing.
+ -->
