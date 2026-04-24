@@ -41,21 +41,26 @@ The agent's power — its ability to take multi-step, autonomous actions across 
 
 A *threat model* is a structured analysis of who might attack a system, what assets they want, and how they might get them. The standard framework — STRIDE (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege) ([Howard & LeBlanc, 2002](https://www.microsoft.com/en-us/security/blog/)) — remains useful, but agentic systems introduce several threat vectors that deserve dedicated treatment.
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Trust Boundaries                      │
-│                                                         │
-│  Developer  ──►  Orchestrator Agent  ──►  Subagents     │
-│     │                   │                    │          │
-│     │              Tool calls           Tool calls      │
-│     │                   │                    │          │
-│     │            ┌──────▼──────┐      ┌──────▼──────┐  │
-│     │            │  File system │      │  External    │  │
-│     │            │  Git / CI    │      │  APIs / MCP  │  │
-│     └────────────►  Web content │      │  Databases   │  │
-│                  │  User input  │◄─────│  Issue trackers│ │
-│                  └─────────────┘      └─────────────┘  │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    Dev[Developer]
+    Orch[Orchestrator Agent]
+    Sub[Subagents]
+
+    subgraph LocalTools["Local Tools"]
+        FS["File system\nGit / CI\nWeb content\nUser input"]
+    end
+
+    subgraph ExternalTools["External Tools"]
+        Ext["External APIs / MCP\nDatabases\nIssue trackers"]
+    end
+
+    Dev -->|instructions| Orch
+    Orch -->|delegates| Sub
+    Orch -->|tool calls| LocalTools
+    Sub -->|tool calls| ExternalTools
+    ExternalTools -->|responses| LocalTools
+    Dev -->|direct access| LocalTools
 ```
 
 The arrows represent information flows. Every arrow is a potential injection point. The agent trusts — and acts on — information flowing in from all of these sources.
