@@ -333,24 +333,26 @@ A DoD prevents "almost done" from becoming a permanent state and makes quality e
 
 **Concepts covered:** Elicitation techniques, requirements specification, quality attributes, conflict resolution, scope management
 
-**Format:** Individual or pairs | **Duration:** 2 hours | **Tool:** [Microsoft Copilot](https://copilot.microsoft.com/) (chat interface)
+**Format:** Individual or pairs | **Duration:** 2 hours | **Tool:** AI Assistant
 
 ---
 
 ### Background
 
-In this activity, [Microsoft Copilot](https://copilot.microsoft.com/) plays the role of your client. You will conduct a requirements elicitation interview, produce specification artefacts, audit their quality, resolve stakeholder conflicts, and respond to scope creep — mirroring the full requirements engineering lifecycle from §2.1.
+In this activity, AI Assistant plays the role of your client. You will conduct a requirements elicitation interview, produce specification artefacts, audit their quality, resolve stakeholder conflicts, and respond to scope creep — mirroring the full requirements engineering lifecycle from §2.1.
 
 ---
 
 ### Phase 1 — Elicitation Interview (25 min)
 
-Prime Copilot with the following system prompt at the start of your conversation:
+Prompt AI Assistant with the following system prompt at the start of your conversation:
 
-> *"You are Jordan, the founder of a small retail business. You want to build a new online shopping application to sell your products directly to customers, replacing your current manual order-taking process via phone and email. You have opinions and preferences but are not technical. You will only answer questions I ask — do not volunteer information I haven't asked for. If I ask a vague question, give a vague answer. Stay in character for the entire conversation."*
+<div class="admonish-prompt">
+You are Jordan, the founder of a small retail business. You want to build a new online shopping application to sell your products directly to customers, replacing your current manual order-taking process via phone and email. You have opinions and preferences but are not technical. You will only answer questions I ask — do not volunteer information I haven't asked for. If I ask a vague question, give a vague answer. Stay in character for the entire conversation.
+</div>
 
 ![An example UI when using Microsoft Copilot as an AI Client](images/chapter2-copilot-ui.png)
-*An example UI when using Microsoft Copilot as an AI Client*
+*An example UI of [Microsoft Copilot](https://copilot.microsoft.com/) as an AI Client.*
 
 Conduct a semi-structured interview with Jordan using the elicitation techniques from §2.2.1. Log every question and Copilot's response in a worksheet.
 
@@ -452,7 +454,7 @@ For each new request:
 
 ---
 
-### Phase 7 — Reflection in EdStem (15 min)
+### Phase 7 — Reflection (15 min)
 
 Answer the following questions individually in writing:
 

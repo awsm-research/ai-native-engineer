@@ -54,7 +54,7 @@ For context, here is the system as it will exist after the activities are comple
 
 **Concepts covered:** Requirement elicitation, quality analysis, user story generation, acceptance criteria
 
-**Format:** Individual | **Duration:** 45 min | **Tool:** Claude Code or any chat-based AI assistant
+**Format:** Individual | **Duration:** 45 min | **Tool:** AI Assistant
 
 ### 7.2.1 Background
 
@@ -68,12 +68,17 @@ In Chapter 2, you learned to elicit requirements from stakeholders and write the
 
 Paste the starting brief into your AI agent and use the following prompt:
 
-> *"You are an experienced requirements engineer. I will give you a raw client brief for a software system. Your job is to:*
-> *1. Identify every ambiguity, gap, or assumption hidden in the brief.*
-> *2. For each gap, ask a clarifying question that a real stakeholder could answer.*
-> *3. After I answer your questions, produce a refined set of requirements: at least 5 functional requirements in 'The system shall…' format, and at least 3 non-functional requirements that are measurable.*
->
-> *Here is the brief: [paste the starting brief from §7.1.1]*"
+<div class="admonish-prompt">
+
+You are an experienced requirements engineer. I will give you a raw client brief for a software system. Your job is to:
+
+1. Identify every ambiguity, gap, or assumption hidden in the brief.
+2. For each gap, ask a clarifying question that a real stakeholder could answer.
+3. After I answer your questions, produce a refined set of requirements: at least 5 functional requirements in 'The system shall…' format, and at least 3 non-functional requirements that are measurable.
+
+Here is the brief: [paste the starting brief from §7.1.1]
+
+</div>
 
 Answer the AI's clarifying questions using the following stakeholder answers:
 
@@ -93,7 +98,11 @@ Answer the AI's clarifying questions using the following stakeholder answers:
 
 Ask the AI to audit the requirements it just produced:
 
-> *"Now audit the requirements you just wrote against the IEEE 830 quality attributes: correct, unambiguous, complete, consistent, verifiable, traceable, and prioritised. For each attribute, give a score of Pass / Partial / Fail and a one-sentence justification. Then list the top 3 requirements most at risk of causing problems downstream if left as-is."*
+<div class="admonish-prompt">
+
+Now audit the requirements you just wrote against the IEEE 830 quality attributes: correct, unambiguous, complete, consistent, verifiable, traceable, and prioritised. For each attribute, give a score of Pass / Partial / Fail and a one-sentence justification. Then list the top 3 requirements most at risk of causing problems downstream if left as-is.
+
+</div>
 
 Review the AI's audit. Do you agree with its assessment? Note any requirements you would rewrite based on its feedback.
 
@@ -103,10 +112,15 @@ Review the AI's audit. Do you agree with its assessment? Note any requirements y
 
 Ask the AI to generate structured work items:
 
-> *"From the refined requirements, produce:*
-> *1. An epic breakdown — group the requirements into 3–4 epics.*
-> *2. For the epic 'Job Lifecycle Management', produce 4 user stories in 'As a [role], I want to [action] so that [benefit]' format.*
-> *3. For the user story 'assign a job to a field technician', write acceptance criteria in Gherkin format. Include: one happy-path scenario, one error scenario (technician not available), and one authorisation scenario (a regular technician attempts to assign a job)."*
+<div class="admonish-prompt">
+
+From the refined requirements, produce:
+
+1. An epic breakdown — group the requirements into 3–4 epics.
+2. For the epic 'Job Lifecycle Management', produce 4 user stories in 'As a [role], I want to [action] so that [benefit]' format.
+3. For the user story 'assign a job to a field technician', write acceptance criteria in Gherkin format. Include: one happy-path scenario, one error scenario (technician not available), and one authorisation scenario (a regular technician attempts to assign a job).
+
+</div>
 
 **Check your output:** Are all three acceptance criteria scenarios testable without ambiguity? Could a tester determine pass or fail from each scenario alone, without asking the author?
 
@@ -118,7 +132,7 @@ Ask the AI to generate structured work items:
 
 **Concepts covered:** UML diagrams, class design, sequence diagrams, design critique
 
-**Format:** Individual | **Duration:** 45 min | **Tool:** Claude Code or any AI assistant with Mermaid support
+**Format:** Individual | **Duration:** 45 min | **Tool:** AI Assistant
 
 ### 7.3.1 Background
 
@@ -128,9 +142,13 @@ In Chapter 3, you learned to read and produce UML diagrams and to apply design p
 
 Provide the AI with your refined requirements and ask:
 
-> *"You are a software architect. Given the requirements below, produce a UML use case diagram in Mermaid syntax. Include all actors (human and system), all use cases, and any include or extend relationships. Follow the style from the example below.*
->
-> *Requirements: [paste your refined requirements from Activity 1]*"
+<div class="admonish-prompt">
+
+You are a software architect. Given the requirements below, produce a UML use case diagram in Mermaid syntax. Include all actors (human and system), all use cases, and any include or extend relationships. Follow the style from the example below.
+
+Requirements: [paste your refined requirements from Activity 1]
+
+</div>
 
 **Review questions:**
 - Are all actors from the requirements represented?
@@ -143,11 +161,19 @@ Provide the AI with your refined requirements and ask:
 
 Ask the AI to produce a class diagram:
 
-> *"Now produce a UML class diagram in Mermaid syntax for the core domain model. Include: all domain classes with their key attributes and methods, all relationships (association, composition, aggregation, inheritance) with labels, and at least one design pattern. Justify your choice of pattern."*
+<div class="admonish-prompt">
+
+Now produce a UML class diagram in Mermaid syntax for the core domain model. Include: all domain classes with their key attributes and methods, all relationships (association, composition, aggregation, inheritance) with labels, and at least one design pattern. Justify your choice of pattern.
+
+</div>
 
 **Design critique prompt:** After the AI produces its class diagram, ask:
 
-> *"Critique the class diagram you just produced. Identify any violations of SOLID principles, any missing abstractions, and any relationships that could cause problems as the system scales. Suggest two concrete improvements."*
+<div class="admonish-prompt">
+
+Critique the class diagram you just produced. Identify any violations of SOLID principles, any missing abstractions, and any relationships that could cause problems as the system scales. Suggest two concrete improvements.
+
+</div>
 
 Compare the AI's self-critique with your own reading. Do you agree? Is the `Manager` class doing too much? Should job assignment be delegated to a service layer rather than placed on the `Manager` entity?
 
@@ -157,7 +183,11 @@ Compare the AI's self-critique with your own reading. Do you agree? Is the `Mana
 
 Ask the AI to trace the most complex use case end-to-end:
 
-> *"Produce a UML sequence diagram in Mermaid syntax for the 'Assign Job' use case. The system uses a layered architecture: API Gateway → Service Layer → Repository Layer → Database. The API Gateway validates a JWT token before passing the request to the service layer. After a successful assignment, the service sends a push notification asynchronously."*
+<div class="admonish-prompt">
+
+Produce a UML sequence diagram in Mermaid syntax for the 'Assign Job' use case. The system uses a layered architecture: API Gateway → Service Layer → Repository Layer → Database. The API Gateway validates a JWT token before passing the request to the service layer. After a successful assignment, the service sends a push notification asynchronously.
+
+</div>
 
 **Review questions:**
 - Does the diagram show the asynchronous notification correctly — not blocking the HTTP response?
@@ -172,11 +202,11 @@ Ask the AI to trace the most complex use case end-to-end:
 
 **Concepts covered:** Specification-driven code generation, code review of AI output, layered architecture
 
-**Format:** Individual | **Duration:** 45 min | **Tool:** Claude Code (CLI)
+**Format:** Individual | **Duration:** 45 min | **Tool:** AI Assistant (CLI)
 
 ### 7.4.1 Background
 
-In Chapter 6, you learned that code generation is only as good as the specification that drives it. In this activity, you will use Claude Code to generate the implementation of the `assign_job` feature — the most complex use case in the system — from the requirements and design artefacts produced in Activities 1 and 2.
+In Chapter 6, you learned that code generation is only as good as the specification that drives it. In this activity, you will use AI Assistant to generate the implementation of the `assign_job` feature — the most complex use case in the system — from the requirements and design artefacts produced in Activities 1 and 2.
 
 ### 7.4.2 Preparing the Specification
 
@@ -230,7 +260,7 @@ POST /jobs/{job_id}/assign
 - The notification call must be non-blocking (use asyncio.create_task or BackgroundTasks)
 ```
 
-### 7.4.3 Invoking Claude Code
+### 7.4.3 Invoking AI Assistant
 
 Open a terminal in your project directory and run:
 
@@ -238,15 +268,20 @@ Open a terminal in your project directory and run:
 claude
 ```
 
-Then give Claude Code the following prompt:
+Then give AI Assistant the following prompt:
 
-> *"Read spec_assign_job.md. Implement the assign job feature for the Field Repair Tracker API. Produce:*
-> *1. `src/domain/repair_job.py` — the RepairJob and Technician domain models as dataclasses*
-> *2. `src/repository/job_repository.py` — a JobRepository with find_by_id and update_assignee methods; use an abstract base class*
-> *3. `src/service/job_service.py` — an AssignJobService with an assign method that enforces all business rules from the spec*
-> *4. `src/api/job_router.py` — the FastAPI router with the POST /jobs/{job_id}/assign endpoint*
->
-> *Follow the constraints in the spec exactly. Use Python 3.12 type annotations throughout."*
+<div class="admonish-prompt">
+
+Read spec_assign_job.md. Implement the assign job feature for the Field Repair Tracker API. Produce:
+
+1. `src/domain/repair_job.py` — the RepairJob and Technician domain models as dataclasses
+2. `src/repository/job_repository.py` — a JobRepository with find_by_id and update_assignee methods; use an abstract base class
+3. `src/service/job_service.py` — an AssignJobService with an assign method that enforces all business rules from the spec
+4. `src/api/job_router.py` — the FastAPI router with the POST /jobs/{job_id}/assign endpoint
+
+Follow the constraints in the spec exactly. Use Python 3.12 type annotations throughout.
+
+</div>
 
 ### 7.4.4 Reviewing the Generated Code
 
@@ -263,7 +298,11 @@ After generation, review the output against the following checklist. For each it
 
 If the AI missed any of these, use a follow-up prompt:
 
-> *"The notification send is currently blocking the HTTP response. Refactor it to use FastAPI's BackgroundTasks so the response is returned before the notification is sent."*
+<div class="admonish-prompt">
+
+The notification send is currently blocking the HTTP response. Refactor it to use FastAPI's BackgroundTasks so the response is returned before the notification is sent.
+
+</div>
 
 ### 7.4.5 What AI Does Well and Poorly Here
 
@@ -287,23 +326,28 @@ These are not AI failures — they are specification gaps. Every item the AI get
 
 **Concepts covered:** Test generation, test quality evaluation, coverage analysis
 
-**Format:** Individual | **Duration:** 45 min | **Tool:** Claude Code (CLI)
+**Format:** Individual | **Duration:** 45 min | **Tool:** AI Assistant (CLI)
 
 ### 7.5.1 Background
 
-In Chapter 4, you learned to write unit tests with pytest, to evaluate coverage, and to critically assess AI-generated tests. In this activity, you will use Claude Code to generate a full unit test suite for the `AssignJobService` produced in Activity 3 — and then apply the evaluation criteria from Chapter 4, §4.9.3 to assess its quality.
+In Chapter 4, you learned to write unit tests with pytest, to evaluate coverage, and to critically assess AI-generated tests. In this activity, you will use AI Assistant to generate a full unit test suite for the `AssignJobService` produced in Activity 3 — and then apply the evaluation criteria from Chapter 4, §4.9.3 to assess its quality.
 
 ### 7.5.2 Generating the Test Suite
 
-In your Claude Code session, give the following prompt:
+In your AI Assistant session, give the following prompt:
 
-> *"Read `src/service/job_service.py`. Generate a complete pytest test suite in `tests/test_job_service.py` for the AssignJobService.assign method. Requirements for the test suite:*
-> *1. Use pytest fixtures for all shared setup (mock repository, mock notification service, sample job, sample technician)*
-> *2. Cover all business rules from the specification: happy path, job not found (404), technician not found (409), technician not available (409), caller not a manager (403)*
-> *3. Verify that the notification service is called exactly once on a successful assignment*
-> *4. Verify that the notification service is NOT called when assignment fails*
-> *5. Use unittest.mock.MagicMock for all external dependencies — do not use a real database*
-> *6. Each test method name must describe the scenario it tests (not 'test_1', 'test_assign', etc.)"*
+<div class="admonish-prompt">
+
+Read `src/service/job_service.py`. Generate a complete pytest test suite in `tests/test_job_service.py` for the AssignJobService.assign method. Requirements for the test suite:
+
+1. Use pytest fixtures for all shared setup (mock repository, mock notification service, sample job, sample technician)
+2. Cover all business rules from the specification: happy path, job not found (404), technician not found (409), technician not available (409), caller not a manager (403)
+3. Verify that the notification service is called exactly once on a successful assignment
+4. Verify that the notification service is NOT called when assignment fails
+5. Use unittest.mock.MagicMock for all external dependencies — do not use a real database
+6. Each test method name must describe the scenario it tests (not 'test_1', 'test_assign', etc.)
+
+</div>
 
 ### 7.5.3 Evaluating the Generated Tests
 

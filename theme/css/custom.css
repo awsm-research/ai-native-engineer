@@ -1,0 +1,63 @@
+.blockquote-tag-tip {
+  background-color: #f5f7ff;
+  border-left: 4px solid #5c6bc0;
+  border-radius: 0 6px 6px 0;
+  padding: 0.75rem 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.blockquote-tag-tip .blockquote-tag-title {
+  color: #3949ab;
+}
+
+.blockquote-tag-tip p {
+  margin: 0.25rem 0;
+  color: #1a1a2e;
+}
+
+/* Custom PROMPT admonition — Claude chat bubble style */
+.admonish-prompt {
+  background: #fef9f0;
+  border: 1px solid #e3e3e3;
+  border-radius: 16px;
+  padding: 1rem 1.25rem 1rem 1.25rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  font-size: 0.95em;
+  line-height: 1.65;
+}
+
+.admonish-prompt::before {
+  content: "Prompt";
+  display: block;
+  width: fit-content;
+  background: #d97706;
+  color: #ffffff;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.2em 0.7em;
+  border-radius: 99px;
+  margin-bottom: 0.75rem;
+}
+
+.admonish-prompt p {
+  margin: 0.3rem 0;
+  color: #111827;
+}
+
+/* Dark themes */
+.navy .admonish-prompt,
+.ayu .admonish-prompt,
+.coal .admonish-prompt {
+  background: #1e2030;
+  border-color: #3a3d55;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+}
+
+.navy .admonish-prompt p,
+.ayu .admonish-prompt p,
+.coal .admonish-prompt p {
+  color: #e2e8f0;
+}

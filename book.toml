@@ -10,6 +10,7 @@ default-theme = "light"
 preferred-dark-theme = "navy"
 site-url = "/"
 additional-js = ["theme/mermaid.min.js", "theme/mermaid-init.js"]
+additional-css = ["theme/css/custom.css"]
 
 [output.html.search]
 enable = true
@@ -18,3 +19,4 @@ use-boolean-and = true
 
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
+after = ["links"]
