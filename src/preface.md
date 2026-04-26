@@ -97,6 +97,9 @@ If your team is adopting AI tools and you want to use this as a shared reference
 
 ---
 
+## On the Use of AI in Writing This Book
+Parts of this book were developed in active collaboration with AI agents. Claude served as an intellectual sparring partner throughout — used to stress-test arguments, surface counterexamples, sharpen explanations, and pressure-check the framing of new ideas. Several figures and conceptual illustrations were produced with the assistance of AI image generation tools (ChatGPT and Gemini). This is intentional, not incidental: a book about working alongside AI agents should, in practice, reflect that collaboration honestly. Every claim, conclusion, and piece of code has been reviewed, verified, and is the author's own responsibility. AI acted as a rigorous interlocutor and creative collaborator — not a ghostwriter. 
+
 ## Disclaimers
 
 All code examples in this book use Python. This choice is deliberate and transparent, not an endorsement.
