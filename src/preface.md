@@ -34,6 +34,12 @@ This loop replaces the old SDLC — not by discarding its principles, but by red
 
 This book teaches that move. It is not a book about which AI tools to use or how to write clever prompts. It is a book about the new skills that matter when coding is automated: problem decomposition, system thinking, critical verification, and judgment under uncertainty. Skills that compound. Skills that do not expire when the next model is released.
 
+
+<div align="center">
+  <img src="images/banner.png" alt="Agentic Software Engineering: A Practical Guide for the AI-Native Engineer" />
+</div>
+
+
 ---
 
 ## Why This Book

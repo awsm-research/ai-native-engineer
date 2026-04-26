@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="src/cover.svg" alt="Agentic Software Engineering: A Practical Guide for the AI-Native Engineer" width="340"/>
+  <img src="src/images/banner.png" alt="Agentic Software Engineering: A Practical Guide for the AI-Native Engineer" />
 </div>
 
 <h1 align="center">Agentic Software Engineering<br><sub>A Practical Guide for the AI-Native Engineer</sub></h1>
@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://awsm-research.github.io/agentic-swe-book/"><strong>Read the Book →</strong></a>
+  <a href="http://book.agentic-swe.dev/"><strong>Read the Book →</strong></a>
 </p>
 
 ---
