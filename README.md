@@ -1,8 +1,8 @@
 <div align="center">
-  <img src="src/cover.svg" alt="Agentic Software Engineering: Specify, Generate, Verify, Refine" width="340"/>
+  <img src="src/cover.svg" alt="Agentic Software Engineering: A Practical Guide for the AI-Native Engineer" width="340"/>
 </div>
 
-<h1 align="center">Agentic Software Engineering<br><sub>Specify, Generate, Verify, Refine</sub></h1>
+<h1 align="center">Agentic Software Engineering<br><sub>A Practical Guide for the AI-Native Engineer</sub></h1>
 
 <p align="center">
   <strong>Kla Tantithamthavorn</strong><br>
@@ -10,39 +10,41 @@
 </p>
 
 <p align="center">
-  <a href="https://awsm-research.github.io/ai-native-engineer/"><strong>Read the Book →</strong></a>
+  <a href="https://awsm-research.github.io/agentic-swe-book/"><strong>Read the Book →</strong></a>
 </p>
 
 ---
 
 ## About
 
-*Agentic Software Engineering* is a 12-week textbook and online course for training the next generation of software engineers. It covers the full stack of modern software development — from classical software engineering foundations to prompt engineering, evaluation-driven development, agentic systems, security, ethics, and team productivity — through the lens of AI-native practice.
+The bottleneck in software development is moving. AI agents can now write syntactically correct, contextually relevant code from a natural language description. What remains irreducibly human is everything around implementation: understanding the problem deeply, specifying intent precisely, verifying that what was produced is actually correct, and refining until it is truly right.
 
-The book is built around a single running project (a Task Management API) that grows chapter by chapter, giving readers a concrete, end-to-end illustration of every concept.
+*Agentic Software Engineering* is a 12-week textbook for engineers making that transition. It teaches the new loop — **Specify → Generate → Verify → Refine** — not as a workflow of AI tools, but as a set of skills that compound and do not expire when the next model is released: problem decomposition, system thinking, critical verification, and judgment under uncertainty.
+
+The book is built around a single running project (a Task Management API) that grows chapter by chapter, from a scope statement to a complete AI-native system — giving readers a concrete, end-to-end illustration of every concept.
 
 ## Contents
 
-### Part I: SE Foundations
+### Part I: SE Fundamentals
 | Week | Chapter |
 |------|---------|
-| 1 | Software Engineering in the Age of AI |
-| 2 | Requirements Engineering and Specification |
+| 1 | Software Engineering Fundamentals |
+| 2 | Requirements Engineering |
 | 3 | Software Design, Architecture, and Patterns |
-| 4 | Testing, Quality, and CI/CD |
+| 4 | Software Testing, Code Quality, Code Review, and CI/CD |
+| 5 | Software Security |
 
-### Part II: AI-Native Engineering
+### Part II: Agentic Software Engineering
 | Week | Chapter |
 |------|---------|
-| 5 | The AI-Native Development Paradigm |
-| 6 | Prompt Engineering and Context Design |
-| 7 | Evaluation-Driven Development |
-| 8 | Agentic Systems and Multi-Agent Workflows |
+| 6 | Agentic Software Engineering: A New Paradigm |
+| 7 | Agentic SWE in SDLC: Hands-on Activities |
+| 8 | Emerging Security Concerns in Agentic Software Engineering |
+| 9 | Configuring the Agent's World — Context, Skills, and Tools |
 
-### Part III: Governance and Practice
+### Part III: Engineering with Responsibility
 | Week | Chapter |
 |------|---------|
-| 9  | AI Security Risks and Threat Modeling |
 | 10 | Licenses, Ethics, and Responsible AI |
 | 11 | Developer Productivity and Team Practices |
 | 12 | The Future of AI-Native Engineering |
@@ -55,11 +57,10 @@ The book is built around a single running project (a Task Management API) that g
 
 ## Key Concepts
 
-- **Spec → Generate → Evaluate → Refine** — the AI-native SDLC
-- **Evaluation-Driven Development (EDD)** — treat AI-generated code as a hypothesis
-- **Agentic workflows** — ReAct agents, tool use, multi-agent orchestration
-- **AI security** — prompt injection, STRIDE threat modelling, AI-generated vulnerabilities
-- **Responsible AI** — licensing, GDPR, EU AI Act, accountability
+- **Specify → Generate → Verify → Refine** — the AI-native SDLC
+- **Agentic workflows** — agent paradigm, tool use, multi-agent orchestration
+- **AI security** — prompt injection, emerging threats in agentic systems
+- **Responsible AI** — licensing, ethics, GDPR, EU AI Act, accountability
 
 ## About the Author
 
