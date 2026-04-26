@@ -36,6 +36,22 @@ This book teaches that move. It is not a book about which AI tools to use or how
 
 ---
 
+## Why This Book
+
+Software engineering education has not kept pace with the shift it is supposed to prepare students for.
+
+Most curricula still centre on coding: write the function, pass the tests, ship the feature. That focus made sense when writing code was the hard part. It makes less sense when an AI agent can produce a working implementation in seconds from a plain-language description (or vibe coding).
+
+What current education largely overlooks is everything *around* the code — the skills that determine whether what gets generated is actually the right thing, built correctly, for the right reasons. How to decompose a vague problem into a specification an agent can act on. How to evaluate generated output with the same rigour you would apply to code you wrote yourself. How to know when to trust the agent and when to override it. These are teachable skills, and they are not yet being taught systematically.
+
+This book is an attempt to close that gap. It emerged from teaching software engineering at the graduate level and watching students who were technically capable nonetheless struggle when AI entered their workflow — not because the tools were too hard to use, but because the underlying engineering judgment had not been developed. They could prompt. They could not yet verify.
+
+The book is the primary learning material for two courses at Monash University: **FIT5136**, a twelve-week on-campus unit within the Master of Information Technology, and **ITO5136**, a six-week online unit within the Master of Computer Science. Both courses target students who arrive with programming foundations but limited exposure to the full software engineering lifecycle — and zero reason to assume that lifecycle looks the same as it did five years ago.
+
+The goal is not to produce students who are good at using today's AI tools. It is to produce engineers who understand *why* the new loop works, so that when the tools change — and they will — the underlying mental model transfers.
+
+---
+
 ## Who This Book Is For
 
 **Primary readers:**
@@ -151,11 +167,13 @@ For updates on regulatory changes (EU AI Act, etc.) and new tool guidance, check
 
 This book is a living document. Errors, outdated examples, and gaps in explanation are inevitable — and fixable.
 
-If you spot a mistake, have a suggestion, or want to contribute an example, case study, or exercise, you are warmly welcome to do so. The source is open and maintained at [github.com/awsm-research/agentic-swe-book](https://github.com/awsm-research/agentic-swe-book).
+The source is open and maintained at [github.com/awsm-research/agentic-swe-book](https://github.com/awsm-research/agentic-swe-book). There are three ways to engage:
 
-- **Report issues** — open a GitHub issue with the chapter and page reference
-- **Suggest improvements** — submit a pull request with a clear description of the change and why it helps readers
-- **Share your project** — if you build something interesting using the techniques in this book, open a discussion thread; the best examples may be featured in future editions
+- **Questions and discussion** — use [GitHub Discussions](https://github.com/awsm-research/agentic-swe-book/discussions) for questions about the material, chapter reactions, and conversations with other readers. This is the right place for anything that is not a concrete error.
+- **Errors and corrections** — open a GitHub Issue with the chapter reference and a brief description of the problem. Reserve issues for specific, actionable mistakes: wrong code, broken links, factual errors.
+- **Direct contributions** — submit a pull request with a clear description of the change and why it helps readers. Examples, exercises, and case studies are especially welcome.
+
+If you prefer not to use GitHub, please email chakkrit@monash.edu.
 
 All contributions are credited. No contribution is too small.
 
