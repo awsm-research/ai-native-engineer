@@ -722,8 +722,6 @@ Whenever a student enrols in a course, the system charges the student via Stripe
 
 ---
 
-### Part 1 — Diagram Creation (25 min)
-
 Read the scenario below and draw all four UML diagram types covered in Section 3.2. Each diagram must be consistent with the others — the same actors, classes, and components should appear across all four.
 
 
@@ -738,6 +736,300 @@ Read the scenario below and draw all four UML diagram types covered in Section 3
 4. **(Component Diagram)** Draw a component diagram showing all internal components and their dependencies, including the three external services. Show the auth layer explicitly.
 
 **After completing all four diagrams:** Check that the participants in your sequence diagram match classes in your class diagram, and that the components in your component diagram correspond to the layers implied by your class diagram. Note any inconsistencies and explain how you would resolve them.
+
+<details>
+<summary>Click to reveal sample answer.</summary>
+
+**Diagram 1 — Use Case Diagram**
+
+> Mermaid has no native use-case diagram type; the flowchart below encodes the same information using rounded shapes for actors, rectangles for use cases inside the system boundary, and labelled arrows for `«include»` relationships.
+
+```mermaid
+flowchart LR
+    Student(["👤 Student"])
+    Instructor(["👤 Instructor"])
+    Admin(["👤 Admin"])
+    PayGateway(["⚙️ Payment Gateway\n(Stripe)"])
+    VideoStorage(["⚙️ Video Storage\n(AWS S3)"])
+    NotifSvc(["⚙️ Notification Service\n(SendGrid)"])
+
+    subgraph sys ["Online Learning Platform"]
+        UC_BROWSE(["Browse Courses"])
+        UC_ENROL(["Enrol in Course"])
+        UC_WATCH(["Watch Lecture"])
+        UC_QUIZ(["Submit Quiz"])
+        UC_PROGRESS(["Track Progress"])
+        UC_DISCUSS(["Post Discussion"])
+        UC_PAY(["Process Payment"])
+        UC_NOTIFY(["Send Notification"])
+        UC_GRADE(["Auto-grade Quiz"])
+        UC_CREATE(["Create Course"])
+        UC_UPLOAD(["Upload Lecture"])
+        UC_PUBLISH(["Publish / Unpublish Course"])
+        UC_ADD_QUIZ(["Add Quiz to Lecture"])
+        UC_ANALYTICS(["View Analytics"])
+        UC_MANAGE(["Manage User Accounts"])
+        UC_APPROVE(["Approve / Reject Course"])
+        UC_REPORT(["Generate Revenue Report"])
+    end
+
+    Student --- UC_BROWSE
+    Student --- UC_ENROL
+    Student --- UC_WATCH
+    Student --- UC_QUIZ
+    Student --- UC_PROGRESS
+    Student --- UC_DISCUSS
+
+    Instructor --- UC_CREATE
+    Instructor --- UC_UPLOAD
+    Instructor --- UC_PUBLISH
+    Instructor --- UC_ADD_QUIZ
+    Instructor --- UC_ANALYTICS
+
+    Admin --- UC_MANAGE
+    Admin --- UC_APPROVE
+    Admin --- UC_REPORT
+
+    UC_ENROL -->|"«include»"| UC_PAY
+    UC_ENROL -->|"«include»"| UC_NOTIFY
+    UC_QUIZ  -->|"«include»"| UC_GRADE
+    UC_GRADE -->|"«include»"| UC_PROGRESS
+
+    UC_PAY    --- PayGateway
+    UC_UPLOAD --- VideoStorage
+    UC_NOTIFY --- NotifSvc
+```
+
+**Relationship justifications:**
+- `Enrol in Course` **«include»** `Process Payment`: every enrolment unconditionally triggers a Stripe charge — payment is mandatory, not optional.
+- `Enrol in Course` **«include»** `Send Notification`: on every enrolment outcome (success or failure) a SendGrid email is sent — notification is part of the enrolment contract.
+- `Submit Quiz` **«include»** `Auto-grade Quiz`: every quiz submission unconditionally triggers automatic grading — students always receive their result immediately.
+- `Auto-grade Quiz` **«include»** `Track Progress`: every graded quiz unconditionally updates the student's progress percentage — progress is always recalculated after a quiz result.
+
+---
+
+**Diagram 2 — Class Diagram**
+
+```mermaid
+classDiagram
+    class User {
+        +id: UUID
+        +email: str
+        +password_hash: str
+        +name: str
+        +created_at: datetime
+        +login(email: str, password: str) bool
+        +update_profile(data: dict) void
+    }
+    class Student {
+        +preferred_language: str
+        +billing_address: str
+        +quiz_attempts: int
+        +last_active_at: datetime
+        +enrol(course_id: UUID) Enrolment
+        +submit_quiz(quiz_id: UUID, answers: list) QuizResult
+        +watch_lecture(lecture_id: UUID) void
+        +get_progress(course_id: UUID) float
+    }
+    class Instructor {
+        +bio: str
+        +rating: float
+        +bank_account_id: str
+        +total_students: int
+        +create_course(title: str, description: str, price: float) Course
+        +upload_lecture(course_id: UUID, file: bytes) Lecture
+        +publish_course(course_id: UUID) void
+        +view_analytics(course_id: UUID) dict
+    }
+    class Admin {
+        +department: str
+        +permissions: list~str~
+        +actions_logged: int
+        +last_login_at: datetime
+        +approve_course(course_id: UUID) void
+        +reject_course(course_id: UUID, reason: str) void
+        +manage_user(user_id: UUID, action: str) void
+        +generate_revenue_report(period: str) dict
+    }
+    class Course {
+        +id: UUID
+        +title: str
+        +description: str
+        +price: float
+        +is_published: bool
+        +created_at: datetime
+        +publish() void
+        +unpublish() void
+        +get_enrolment_count() int
+        +get_completion_rate() float
+    }
+    class Lecture {
+        +id: UUID
+        +title: str
+        +video_url: str
+        +duration_seconds: int
+        +order_index: int
+        +is_free_preview: bool
+        +get_video_url() str
+        +mark_watched(student_id: UUID) void
+    }
+    class Quiz {
+        +id: UUID
+        +title: str
+        +pass_mark: int
+        +max_score: int
+        +required: bool
+        +time_limit_seconds: int
+        +grade(answers: list) QuizResult
+        +add_question(question: dict) void
+        +get_pass_rate() float
+        +remove_question(question_id: UUID) void
+    }
+    class Enrolment {
+        +id: UUID
+        +enrolled_at: datetime
+        +status: Enum
+        +progress_percent: float
+        +completed_at: datetime
+        +certificate_url: str
+        +cancel() void
+        +update_progress(lecture_id: UUID) void
+        +is_completed() bool
+        +get_certificate() str
+    }
+    class Payment {
+        +id: UUID
+        +amount: float
+        +currency: str
+        +status: Enum
+        +gateway_ref: str
+        +paid_at: datetime
+        +charge() bool
+        +refund() bool
+        +get_receipt() dict
+        +is_successful() bool
+    }
+
+    User <|-- Student : inheritance
+    User <|-- Instructor : inheritance
+    User <|-- Admin : inheritance
+
+    Instructor "1" --> "0..*" Course : creates
+    Course "1" *-- "1..*" Lecture : composition (Lecture cannot exist without Course)
+    Lecture "1" *-- "0..*" Quiz : composition (Quiz cannot exist without Lecture)
+    Student "1" --> "0..*" Enrolment : has
+    Course "1" --> "0..*" Enrolment : receives
+    Enrolment "1" *-- "1" Payment : composition (Payment belongs to Enrolment)
+```
+
+---
+
+**Diagram 3 — Sequence Diagram: Enrol in Course**
+
+```mermaid
+sequenceDiagram
+    actor Student
+    participant Auth as Auth Middleware (OAuth 2.0)
+    participant EnrolSvc as EnrolmentService
+    participant PaySvc as PaymentService
+    participant NtfSvc as NotificationService
+    participant DB as PostgreSQL
+    participant Stripe as Stripe (Payment Gateway)
+    participant SendGrid as SendGrid (Notification)
+
+    Student->>Auth: POST /courses/{id}/enrol (Bearer token)
+    Auth->>Auth: Validate OAuth 2.0 token
+    Auth->>EnrolSvc: enrol(student_id, course_id)
+    EnrolSvc->>DB: SELECT * FROM enrolments WHERE student=X AND course=Y
+    DB-->>EnrolSvc: [] (not enrolled)
+    EnrolSvc->>DB: SELECT price FROM courses WHERE id=Y
+    DB-->>EnrolSvc: price=49.99
+    EnrolSvc->>PaySvc: charge(student_id, amount=49.99)
+    PaySvc->>Stripe: POST /v1/charges {amount, currency, customer}
+
+    alt Payment succeeds
+        Stripe-->>PaySvc: 200 OK {id: "ch_xxx", status: "succeeded"}
+        PaySvc-->>EnrolSvc: Payment(status=SUCCESS, gateway_ref="ch_xxx")
+        EnrolSvc->>DB: INSERT INTO enrolments (status=ACTIVE)
+        EnrolSvc->>DB: INSERT INTO payments (status=SUCCESS)
+        EnrolSvc->>DB: INSERT INTO progress (progress_percent=0.0)
+        DB-->>EnrolSvc: OK
+        EnrolSvc->>NtfSvc: notify(student_id, "Enrolment confirmed")
+        NtfSvc->>SendGrid: POST /v3/mail/send (to: student)
+        SendGrid-->>NtfSvc: 202 Accepted
+        NtfSvc->>SendGrid: POST /v3/mail/send (to: instructor)
+        SendGrid-->>NtfSvc: 202 Accepted
+        EnrolSvc-->>Auth: Enrolment{id, status=ACTIVE}
+        Auth-->>Student: 201 Created {enrolment}
+    else Payment fails
+        Stripe-->>PaySvc: 402 {error: "card_declined"}
+        PaySvc-->>EnrolSvc: Payment(status=FAILED)
+        EnrolSvc->>DB: INSERT INTO payments (status=FAILED)
+        DB-->>EnrolSvc: OK
+        EnrolSvc->>NtfSvc: notify(student_id, "Payment failed, enrolment cancelled")
+        NtfSvc->>SendGrid: POST /v3/mail/send (to: student)
+        SendGrid-->>NtfSvc: 202 Accepted
+        EnrolSvc-->>Auth: EnrolmentError(PAYMENT_FAILED)
+        Auth-->>Student: 402 Payment Required
+    end
+```
+
+---
+
+**Diagram 4 — Component Diagram**
+
+```mermaid
+flowchart TB
+    subgraph Client ["Client"]
+        CLI["Web / Mobile Client"]
+    end
+
+    subgraph API ["API Layer (FastAPI)"]
+        AUTH["OAuth 2.0\nAuth Middleware"]
+        ROUTER["REST Router"]
+    end
+
+    subgraph Services ["Service Layer"]
+        CRS["Course Service"]
+        ENS["Enrolment Service"]
+        PAY["Payment Service"]
+        QZS["Quiz Service"]
+        URS["User Service"]
+        NTF["Notification Service"]
+        ANA["Analytics Service"]
+    end
+
+    subgraph Data ["Data Layer"]
+        DB[("PostgreSQL")]
+    end
+
+    subgraph External ["External Services"]
+        STRIPE["Stripe\n(Payment Gateway)"]
+        S3["AWS S3\n(Video Storage)"]
+        SENDGRID["SendGrid\n(Email)"]
+    end
+
+    CLI -->|HTTPS REST| AUTH
+    AUTH -->|JWT validated| ROUTER
+    ROUTER --> CRS & ENS & QZS & URS & ANA
+    ENS --> PAY
+    ENS --> NTF
+    QZS --> NTF
+
+    CRS --> DB
+    ENS --> DB
+    QZS --> DB
+    URS --> DB
+    ANA --> DB
+
+    PAY --> STRIPE
+    CRS --> S3
+    NTF --> SENDGRID
+```
+
+---
+
+</details>
 
 ---
 
@@ -755,8 +1047,8 @@ Once you have written your justifications, compare with another group. Where you
 
 > **Hint:** There is no single correct answer for every scenario, but some choices are much harder to defend than others.
 
-<!-- <details>
-<summary>Suggested answers (instructor only — do not open until after discussion)</summary>
+<details>
+<summary>Click to reveal sample answer.</summary>
 
 **Scenario A → Monolith**
 Small team, tight deadline, no existing infrastructure. A monolith is simple to develop, test, and deploy in a single step. Microservices or event-driven would introduce operational complexity — service discovery, distributed tracing, network latency — that a 2-person team cannot absorb. Apply the "Monolith First" principle from Section 3.3.5.
@@ -772,7 +1064,7 @@ High-throughput fan-out to multiple consumers (email, SMS, audit log) is the tex
 - Scenario B: A layered monolith can be defended if teams are co-located and domains are not truly independent, but it is the harder argument.
 - Scenario C: Microservices with synchronous APIs would require queueing infrastructure to handle this throughput — which is effectively event-driven anyway.
 
-</details> -->
+</details>
 
 ---
 
@@ -813,7 +1105,8 @@ class TaskService:
 
 Replace each `(?)` marker with the name of the violation (e.g., *SRP violation*, *DIP violation*, *poor naming*).
 
-<!-- **Expected findings:**
+<details>
+<summary>Click to reveal sample answer.</summary>
 
 | Marker | Violation |
 |---|---|
@@ -825,7 +1118,8 @@ Replace each `(?)` marker with the name of the violation (e.g., *SRP violation*,
 | Line 17 | Clean Code — `if f == True` should be `if f` |
 | Lines 20–23 | OCP + Strategy — sorting logic is hardcoded; new sort orders require modifying this class. Also, the duplicate method name silently shadows the first `process` method |
 
-**Sub-task (15 min):** Rewrite `__init__` and the first `process` method to fix the DIP, SRP, and naming violations. You do not need a full working implementation — correct method signatures, type annotations, and injected dependencies are sufficient. -->
+**Sub-task (15 min):** Rewrite `__init__` and the first `process` method to fix the DIP, SRP, and naming violations. You do not need a full working implementation — correct method signatures, type annotations, and injected dependencies are sufficient. 
+</detail>
 
 ---
 
